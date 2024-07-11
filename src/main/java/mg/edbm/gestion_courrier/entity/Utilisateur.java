@@ -1,4 +1,4 @@
-package mg.edbm.gestion_courrier.entity.core;
+package mg.edbm.gestion_courrier.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,10 +15,13 @@ import java.util.*;
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur implements UserDetails {
+    @Transient
+    public static final Integer STATUT_ACTIF = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
-    private UUID id;
+    private UUID id = UUID.randomUUID();
 
     @Column(name = "nom", nullable = false)
     private String nom;
@@ -26,37 +29,43 @@ public class Utilisateur implements UserDetails {
     @Column(name = "prenom", nullable = false)
     private String prenom;
 
-    @Column(name = "email", unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "mot_de_passe")
+    @Column(name = "mot_de_passe", nullable = false)
     private String motDePasse;
 
     @Column(name = "contact")
     private String contact;
 
     @Column(name = "statut", nullable = false)
-    private Integer statut = 0;
+    private Integer statut = STATUT_ACTIF;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "utilisateur_id", nullable = false)
+    @JoinTable(name = "utilisateur_role",
+            joinColumns = @JoinColumn(name = "utilisateur_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new LinkedHashSet<>();
 
 
     @Column(name = "creation_le", nullable = false)
     private LocalDateTime creationLe = LocalDateTime.now();
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "creation_par_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "creation_par_id")
     private Utilisateur creationPar;
 
+    public boolean estValide() {
+        return statut.equals(STATUT_ACTIF);
+    }
+
+    public String[] getRolesCode() {
+        return roles.stream().map(Role::getCode).toArray(String[]::new);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        final List<GrantedAuthority> authorities = new ArrayList<>();
-        final Set<Role> roles = getRoles();
-        roles.forEach(role -> authorities.add(new SimpleGrantedAuthority("ROLE_"+role.getCode())));
-        return authorities;
+        return Arrays.stream(getRolesCode()).map(SimpleGrantedAuthority::new).toList();
     }
 
     @Override
@@ -66,26 +75,6 @@ public class Utilisateur implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        throw new UnsupportedOperationException("Use getEmail instead");
     }
 }

@@ -1,4 +1,4 @@
-package mg.edbm.gestion_courrier.entity.core;
+package mg.edbm.gestion_courrier.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,30 +9,35 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "historique_fichier")
-public class HistoriqueFichier {
+@Table(name = "historique_utilisateur")
+public class HistoriqueUtilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "fichier_id", nullable = false)
-    private Fichier fichier;
+    @JoinColumn(name = "utilisateur_id", nullable = false)
+    private Utilisateur utilisateur;
 
 
     @Column(name = "nom", nullable = false)
     private String nom;
 
-    @Column(name = "type", nullable = false)
-    private String type;
+    @Column(name = "prenom", nullable = false)
+    private String prenom;
 
-    @Column(name = "chemin", nullable = false)
-    private String chemin;
+    @Column(name = "email")
+    private String email;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "courrier_id", nullable = false)
-    private Courrier courrier;
+    @Column(name = "mot_de_passe")
+    private String motDePasse;
+
+    @Column(name = "contact")
+    private String contact;
+
+    @Column(name = "statut", nullable = false)
+    private Integer statut = 0;
 
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
@@ -48,5 +53,4 @@ public class HistoriqueFichier {
 
     @Column(name = "suppression_le")
     private LocalDateTime suppressionLe;
-
 }

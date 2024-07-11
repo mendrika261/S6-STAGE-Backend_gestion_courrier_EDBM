@@ -1,4 +1,4 @@
-package mg.edbm.gestion_courrier.entity.core;
+package mg.edbm.gestion_courrier.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
