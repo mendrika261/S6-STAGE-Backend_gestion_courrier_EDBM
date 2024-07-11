@@ -1,8 +1,10 @@
 package mg.edbm.gestion_courrier.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import mg.edbm.gestion_courrier.entity.Utilisateur;
+import mg.edbm.gestion_courrier.exception.AuthentificationException;
 import mg.edbm.gestion_courrier.repository.UtilisateurRepository;
-import mg.edbm.gestion_courrier.security.JwtService;
+import mg.edbm.gestion_courrier.dto.Token;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,31 +15,32 @@ import java.util.Optional;
 public class UtilisateurService {
     private final UtilisateurRepository utilisateurRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final JwtService jwtService;
+    private final TokenService tokenService;
 
     public UtilisateurService(UtilisateurRepository utilisateurRepository,
                               BCryptPasswordEncoder passwordEncoder,
-                              JwtService jwtService) {
+                              TokenService tokenService) {
         this.utilisateurRepository = utilisateurRepository;
         this.passwordEncoder = passwordEncoder;
-        this.jwtService = jwtService;
+        this.tokenService = tokenService;
     }
 
-    public Utilisateur verifierUtilisateur(String email, String motDePasse) {
+    public Utilisateur verifierUtilisateur(String email, String motDePasse) throws AuthentificationException {
         final Optional<Utilisateur> utilisateur = utilisateurRepository.findByEmail(email);
         if(utilisateur.isPresent()) {
             final Utilisateur utilisateurActuel = utilisateur.get();
             if(passwordEncoder.matches(motDePasse, utilisateurActuel.getMotDePasse()) && utilisateurActuel.estValide()) {
                 return utilisateurActuel;
             } else {
-                throw new UsernameNotFoundException("Mot de passe incorrect");
+                throw new AuthentificationException("Mot de passe incorrect");
             }
         }
-        throw new UsernameNotFoundException("Utilisateur non trouvé");
+        throw new AuthentificationException("Utilisateur non trouvé");
     }
 
-    public String authentifier(String email, String motDePasse) {
+    public Token authentifier(String email, String motDePasse, HttpServletRequest request)
+            throws AuthentificationException {
         final Utilisateur utilisateur = verifierUtilisateur(email, motDePasse);
-        return jwtService.nouveauToken(utilisateur);
+        return tokenService.nouveauToken(utilisateur, request);
     }
 }
