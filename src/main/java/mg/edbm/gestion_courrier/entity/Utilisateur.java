@@ -16,7 +16,11 @@ import java.util.*;
 @Table(name = "utilisateur")
 public class Utilisateur implements UserDetails {
     @Transient
-    public static final Integer STATUT_ACTIF = 0;
+    public static final Integer STATUT_BLOQUE = -10;
+    @Transient
+    public static final Integer STATUT_NOUVEAU_COMPTE = 0;
+    @Transient
+    public static final Integer STATUT_ACTIF = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

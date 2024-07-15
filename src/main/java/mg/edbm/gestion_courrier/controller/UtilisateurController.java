@@ -1,9 +1,11 @@
 package mg.edbm.gestion_courrier.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import mg.edbm.gestion_courrier.config.SecurityConfig;
-import mg.edbm.gestion_courrier.dto.Reponse;
-import mg.edbm.gestion_courrier.dto.Token;
+import mg.edbm.gestion_courrier.dto.request.AuthentificationRequest;
+import mg.edbm.gestion_courrier.dto.response.Reponse;
+import mg.edbm.gestion_courrier.dto.response.TokenResponse;
 import mg.edbm.gestion_courrier.exception.AuthentificationException;
 import mg.edbm.gestion_courrier.service.UtilisateurService;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,10 @@ public class UtilisateurController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<Reponse<Token>> authentifier(String email, String motDePasse, HttpServletRequest request)
-            throws AuthentificationException {
-        return Reponse.envoyer(utilisateurService.authentifier(email, motDePasse, request));
+    public ResponseEntity<Reponse<TokenResponse>> authentifier(@Valid AuthentificationRequest authentificationRequest,
+                                                               HttpServletRequest request) throws AuthentificationException {
+        return Reponse.envoyer(utilisateurService.authentifierAvecMotDePasseOuJeton(authentificationRequest.getEmail(),
+                authentificationRequest.getMotDePasse(), request));
     }
 
     @Secured(SecurityConfig.ROLE_ADMIN)

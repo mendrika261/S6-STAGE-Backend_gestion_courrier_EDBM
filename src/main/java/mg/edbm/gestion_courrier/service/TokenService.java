@@ -4,7 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.AeadAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
-import mg.edbm.gestion_courrier.dto.Token;
+import mg.edbm.gestion_courrier.dto.response.TokenResponse;
 import mg.edbm.gestion_courrier.entity.Utilisateur;
 import mg.edbm.gestion_courrier.exception.AuthentificationException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +22,7 @@ public class TokenService {
     private final SecretKey CLE_SECRET = ENC.key().build();
     private final long VALIDITE_TOKEN = 30 * 60 * 1000; // 30 minutes
 
-    public Token nouveauToken(Utilisateur utilisateur, HttpServletRequest request) {
+    public TokenResponse nouveauToken(Utilisateur utilisateur, HttpServletRequest request) {
         final Map<String, Object> claims = new HashMap<>();
         claims.put("roles", utilisateur.getRolesCode());
         claims.put("ip", request.getRemoteAddr());
@@ -31,7 +31,7 @@ public class TokenService {
         final Date dateActuelle = new Date(System.currentTimeMillis());
         final Date dateExpiration = new Date(System.currentTimeMillis() + VALIDITE_TOKEN);
 
-        return new Token(Jwts.builder()
+        return new TokenResponse(Jwts.builder()
                     .claims(claims)
                     .subject(utilisateur.getId().toString())
                     .issuedAt(dateActuelle)
@@ -42,7 +42,6 @@ public class TokenService {
     }
 
     public void authentifierUtilisateur(HttpServletRequest request) {
-        //final String authorizationHeader = request.getHeader("Authorization");
         final Claims claims = extractClaims(request);
         if(claims == null) return;
 

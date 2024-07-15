@@ -1,4 +1,4 @@
-package mg.edbm.gestion_courrier.dto;
+package mg.edbm.gestion_courrier.dto.response;
 
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
@@ -6,10 +6,11 @@ import org.springframework.http.ResponseEntity;
 @Data
 public class Reponse<T> {
     public final static int OK = 200;
+    public final static int ERREUR = 400;
     public final static int INTROUVABLE = 404;
     public final static int NON_AUTHENTIFIE = 401;
     public final static int ACCES_INTERDIT = 403;
-    public final static int ERREUR = 500;
+    public final static int ERREUR_SERVEUR = 500;
     private String message = null;
     private String dataType = null;
     private T data = null;
