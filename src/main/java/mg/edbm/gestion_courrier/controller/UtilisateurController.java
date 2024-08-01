@@ -4,10 +4,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import mg.edbm.gestion_courrier.config.SecurityConfig;
 import mg.edbm.gestion_courrier.dto.request.AuthentificationRequest;
+import mg.edbm.gestion_courrier.dto.response.MessageType;
 import mg.edbm.gestion_courrier.dto.response.Reponse;
 import mg.edbm.gestion_courrier.dto.response.TokenResponse;
 import mg.edbm.gestion_courrier.exception.AuthentificationException;
 import mg.edbm.gestion_courrier.service.UtilisateurService;
+import mg.edbm.gestion_courrier.utils.Token;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +25,16 @@ public class UtilisateurController {
     }
 
     @PostMapping("/auth")
-    public ResponseEntity<Reponse<TokenResponse>> authentifier(@Valid AuthentificationRequest authentificationRequest,
-                                                               HttpServletRequest request) throws AuthentificationException {
-        return Reponse.envoyer(utilisateurService.authentifierAvecMotDePasseOuJeton(authentificationRequest.getEmail(),
-                authentificationRequest.getMotDePasse(), request));
+    public ResponseEntity<Reponse<TokenResponse>> authentifierAvecMotDePasse(
+            @Valid AuthentificationRequest authentificationRequest,
+            HttpServletRequest request
+    ) throws AuthentificationException {
+        final Token token = utilisateurService.authentifierAvecMotDePasse(
+                authentificationRequest.getEmail(),
+                authentificationRequest.getMotDePasse(),
+                request
+        );
+        return Reponse.envoyer("Authentification réussie", MessageType.success, new TokenResponse(token));
     }
 
     @Secured(SecurityConfig.ROLE_ADMIN)

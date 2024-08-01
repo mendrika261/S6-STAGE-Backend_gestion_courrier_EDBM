@@ -24,6 +24,7 @@ class GestionCourrierApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 		Utilisateur utilisateur = new Utilisateur();
 		utilisateur.setNom("Rakoto");
 		utilisateur.setPrenom("Toto");
@@ -37,6 +38,7 @@ class GestionCourrierApplicationTests {
 		role.setCode("ADMIN");
 		roleRepository.saveAndFlush(role);
 
+		//System.out.println(passwordEncoder.encode("test"));
 	}
 
 }

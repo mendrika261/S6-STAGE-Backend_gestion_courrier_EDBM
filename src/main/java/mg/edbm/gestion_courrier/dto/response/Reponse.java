@@ -12,14 +12,13 @@ public class Reponse<T> {
     public final static int ACCES_INTERDIT = 403;
     public final static int ERREUR_SERVEUR = 500;
     private String message = null;
-    private String dataType = null;
+    private MessageType messageType = MessageType.info;
     private T data = null;
 
-    public Reponse(String message, T data) {
+    public Reponse(String message, MessageType messageType, T data) {
         setData(data);
         setMessage(message);
-        if(getData()!=null)
-            setDataType(getData().getClass().getSimpleName());
+        setMessageType(messageType);
     }
 
     public static <T> ResponseEntity<Reponse<T>> envoyer(int status, Reponse<T> data) {
@@ -30,19 +29,19 @@ public class Reponse<T> {
         return ResponseEntity.status(OK).body(data);
     }
 
-    public static <T> ResponseEntity<Reponse<T>> envoyer(int status, String message, T data) {
-        return ResponseEntity.status(status).body(new Reponse<T>(message, data));
+    public static <T> ResponseEntity<Reponse<T>> envoyer(int status, String message, MessageType messageType, T data) {
+        return ResponseEntity.status(status).body(new Reponse<T>(message, messageType, data));
     }
 
-    public static <T> ResponseEntity<Reponse<T>> envoyer(String message, T data) {
-        return ResponseEntity.status(OK).body(new Reponse<T>(message, data));
+    public static <T> ResponseEntity<Reponse<T>> envoyer(String message, MessageType messageType, T data) {
+        return ResponseEntity.status(OK).body(new Reponse<T>(message, messageType, data));
     }
 
-    public static <T> ResponseEntity<Reponse<T>> envoyer(int status, T data) {
-        return ResponseEntity.status(status).body(new Reponse<T>(null, data));
+    public static <T> ResponseEntity<Reponse<T>> envoyer(int status, MessageType messageType, T data) {
+        return ResponseEntity.status(status).body(new Reponse<T>(null, messageType, data));
     }
 
-    public static <T> ResponseEntity<Reponse<T>> envoyer(T data) {
-        return ResponseEntity.status(OK).body(new Reponse<T>(null, data));
+    public static <T> ResponseEntity<Reponse<T>> envoyer(MessageType messageType, T data) {
+        return ResponseEntity.status(OK).body(new Reponse<T>(null, messageType, data));
     }
 }

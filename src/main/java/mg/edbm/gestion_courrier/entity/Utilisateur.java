@@ -3,7 +3,7 @@ package mg.edbm.gestion_courrier.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
+import mg.edbm.gestion_courrier.entity.statut.StatutUtilisateur;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,13 +15,6 @@ import java.util.*;
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur implements UserDetails {
-    @Transient
-    public static final Integer STATUT_BLOQUE = -10;
-    @Transient
-    public static final Integer STATUT_NOUVEAU_COMPTE = 0;
-    @Transient
-    public static final Integer STATUT_ACTIF = 10;
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)
@@ -42,10 +35,11 @@ public class Utilisateur implements UserDetails {
     @Column(name = "contact")
     private String contact;
 
+    @Enumerated
     @Column(name = "statut", nullable = false)
-    private Integer statut = STATUT_ACTIF;
+    private StatutUtilisateur statut = StatutUtilisateur.ACTIF;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinTable(name = "utilisateur_role",
             joinColumns = @JoinColumn(name = "utilisateur_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -60,7 +54,7 @@ public class Utilisateur implements UserDetails {
     private Utilisateur creationPar;
 
     public boolean estValide() {
-        return statut.equals(STATUT_ACTIF);
+        return statut.equals(StatutUtilisateur.ACTIF);
     }
 
     public String[] getRolesCode() {
@@ -68,7 +62,7 @@ public class Utilisateur implements UserDetails {
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<SimpleGrantedAuthority> getAuthorities() {
         return Arrays.stream(getRolesCode()).map(SimpleGrantedAuthority::new).toList();
     }
 
@@ -79,6 +73,6 @@ public class Utilisateur implements UserDetails {
 
     @Override
     public String getUsername() {
-        throw new UnsupportedOperationException("Use getEmail instead");
+        return getEmail();
     }
 }

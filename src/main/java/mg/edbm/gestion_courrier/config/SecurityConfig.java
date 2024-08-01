@@ -5,9 +5,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.Setter;
+import mg.edbm.gestion_courrier.dto.response.MessageType;
 import mg.edbm.gestion_courrier.dto.response.RaisonResponse;
 import mg.edbm.gestion_courrier.dto.response.Reponse;
 import mg.edbm.gestion_courrier.filter.TokenRequestFilter;
+import mg.edbm.gestion_courrier.repository.UtilisateurRepository;
 import mg.edbm.gestion_courrier.service.TokenService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -37,12 +39,17 @@ public class SecurityConfig {
     @Value("${app.cors.allowedOrigins}")
     private String[] allowedOrigins;
     public static final String ROLE_ADMIN = "ADMIN";
+    private final UtilisateurRepository utilisateurRepository;
+
+    public SecurityConfig(UtilisateurRepository utilisateurRepository) {
+        this.utilisateurRepository = utilisateurRepository;
+    }
 
     public void handleAuthentificationException(HttpServletRequest request,
                                                 HttpServletResponse response,
                                                 Exception authException) throws IOException {
         final ObjectMapper objectMapper = new ObjectMapper();
-        final Reponse<RaisonResponse> raison = new Reponse<>("Authentification requise", null);
+        final Reponse<RaisonResponse> raison = new Reponse<>("Authentification requise", MessageType.error, null);
         response.setStatus(Reponse.NON_AUTHENTIFIE);
         response.setContentType("application/json;charset=UTF-8");
         response.setHeader("WWW-Authenticate", "Bearer (token-ici)");
@@ -56,7 +63,7 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(List.of(getAllowedOrigins()));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
-        configuration.setAllowCredentials(true); // cookies ...
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

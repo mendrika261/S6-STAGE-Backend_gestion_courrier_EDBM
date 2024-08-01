@@ -3,6 +3,9 @@ package mg.edbm.gestion_courrier.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import mg.edbm.gestion_courrier.entity.statut.ConfidentialiteCourrier;
+import mg.edbm.gestion_courrier.entity.statut.StatutCourrier;
+import mg.edbm.gestion_courrier.entity.statut.UrgenceCourrier;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -24,14 +27,17 @@ public class Courrier {
     @Column(name = "objet", nullable = false)
     private String objet;
 
+    @Enumerated
     @Column(name = "confidentialite", nullable = false)
-    private Integer confidentialite = 0;
+    private ConfidentialiteCourrier confidentialite = ConfidentialiteCourrier.PRIVE;
 
+    @Enumerated
     @Column(name = "urgence", nullable = false)
-    private Integer urgence = 0;
+    private UrgenceCourrier urgence = UrgenceCourrier.NORMAL;
 
+    @Enumerated
     @Column(name = "statut", nullable = false)
-    private Integer statut = 0;
+    private StatutCourrier statut = StatutCourrier.EN_ATTENTE;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(name = "depart_id", nullable = false)

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthentificationException extends Exception {
+public class AuthentificationException extends RuntimeException {
     public AuthentificationException(String message) {
         super(message);
     }

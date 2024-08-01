@@ -3,6 +3,7 @@ package mg.edbm.gestion_courrier.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import mg.edbm.gestion_courrier.entity.statut.StatutUtilisateur;
 
 import java.time.LocalDateTime;
 
@@ -36,8 +37,9 @@ public class HistoriqueUtilisateur {
     @Column(name = "contact")
     private String contact;
 
+    @Enumerated
     @Column(name = "statut", nullable = false)
-    private Integer statut = 0;
+    private StatutUtilisateur statut = StatutUtilisateur.ACTIF;
 
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)

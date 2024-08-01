@@ -1,110 +1,94 @@
 package mg.edbm.gestion_courrier.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.AeadAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
-import mg.edbm.gestion_courrier.dto.response.TokenResponse;
+import lombok.RequiredArgsConstructor;
+import mg.edbm.gestion_courrier.entity.Session;
 import mg.edbm.gestion_courrier.entity.Utilisateur;
+import mg.edbm.gestion_courrier.entity.statut.StatutSession;
 import mg.edbm.gestion_courrier.exception.AuthentificationException;
+import mg.edbm.gestion_courrier.utils.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import javax.crypto.SecretKey;
+import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class TokenService {
-    private final AeadAlgorithm ENC = Jwts.ENC.A256GCM;
-    private final SecretKey CLE_SECRET = ENC.key().build();
-    private final long VALIDITE_TOKEN = 30 * 60 * 1000; // 30 minutes
+    public final String JETON_TYPE = "Bearer";
+    private final SessionService sessionService;
+    private static final Logger logger = LoggerFactory.getLogger(TokenService.class);
 
-    public TokenResponse nouveauToken(Utilisateur utilisateur, HttpServletRequest request) {
-        final Map<String, Object> claims = new HashMap<>();
-        claims.put("roles", utilisateur.getRolesCode());
-        claims.put("ip", request.getRemoteAddr());
-        claims.put("userAgent", request.getHeader("User-Agent"));
-
-        final Date dateActuelle = new Date(System.currentTimeMillis());
-        final Date dateExpiration = new Date(System.currentTimeMillis() + VALIDITE_TOKEN);
-
-        return new TokenResponse(Jwts.builder()
-                    .claims(claims)
-                    .subject(utilisateur.getId().toString())
-                    .issuedAt(dateActuelle)
-                    .expiration(dateExpiration)
-                    .encryptWith(CLE_SECRET, ENC)
-                    .compact(),
-                dateExpiration);
+    public Token genererToken(HttpServletRequest request, Utilisateur utilisateur) {
+        final Token token = new Token(request.getRemoteAddr(), request.getHeader("User-Agent"), utilisateur);
+        final Session session = sessionService.getSession(utilisateur, request);
+        if(session == null || session.getValeurToken() == null) {
+            sessionService.creerSession(token);
+        } else {
+            token.setValeur(session.getValeurToken());
+            sessionService.actualiserSession(session, token);
+        }
+        return token;
     }
 
-    public void authentifierUtilisateur(HttpServletRequest request) {
-        final Claims claims = extractClaims(request);
-        if(claims == null) return;
-
-        final Collection<SimpleGrantedAuthority> authorities = extractRoles(claims);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(claims.getSubject(), null, authorities);
-
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-    }
-
-    public String extractJwtString(String authorizationHeader) {
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            final String jwtString = authorizationHeader.substring(7);
-            if (!jwtString.isEmpty()) {
-                return jwtString;
+    public String extractToken(HttpServletRequest request) {
+        final String authorizationHeader = request.getHeader("Authorization");
+        if(authorizationHeader != null && authorizationHeader.startsWith(JETON_TYPE)) {
+            final String token = authorizationHeader.substring(7);
+            if (!token.isEmpty()) {
+                return token;
             }
         }
         return null;
     }
 
-    private Claims extractClaims(HttpServletRequest request) {
-        final String authorizationHeader = request.getHeader("Authorization");
-        final String jwtString = extractJwtString(authorizationHeader);
-        if(jwtString != null) {
-            try {
-                final Claims claims = Jwts.parser()
-                        .decryptWith(CLE_SECRET)
-                        .build()
-                        .parseEncryptedClaims(jwtString)
-                        .getPayload();
-                return valideClaims(claims, request);
-            } catch (Exception ignored) {}
+    public void authentifierUtilisateur(HttpServletRequest request) throws AuthentificationException {
+        final String valeurToken = extractToken(request);
+        final Session session = sessionService.getSession(valeurToken);
+        final Token token;
+
+        try {
+            token = verifierToken(session, request);
+        } catch (AuthentificationException silenced) {
+            logger.error(silenced.getMessage());
+            return;
         }
-        return null;
+
+        final Collection<SimpleGrantedAuthority> authorities = session.getCreationPar().getAuthorities();
+        final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                new UsernamePasswordAuthenticationToken(session.getCreationPar(), null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+
+        sessionService.actualiserSession(session, token);
     }
 
-    public Claims valideClaims(Claims claims, HttpServletRequest request) throws AuthentificationException {
-        if (claims == null || claims.getExpiration() == null || claims.getSubject() == null) {
-            throw new AuthentificationException("Jeton d'authentification invalide");
+    public Token verifierToken(Session session, HttpServletRequest request) throws AuthentificationException {
+        if (session == null) {
+            throw new AuthentificationException("Token d'authentification invalide: " + request.getHeader("Authorization"));
         }
-        if(claims.get("roles", List.class) == null) {
-            throw new AuthentificationException("Jeton d'authentification sans rôles");
+        if (!session.getAdresseIp().equals(request.getRemoteAddr())) {
+            throw new AuthentificationException("Adresse IP non autorisée: " + request.getRemoteAddr());
         }
-        if (!claims.get("ip", String.class).equals(request.getRemoteAddr())) {
-            throw new AuthentificationException("Adresse IP non autorisée");
+        if (!session.getUserAgent().equals(request.getHeader("User-Agent"))) {
+            throw new AuthentificationException("Utilisateur du token non autorisé: " + request.getHeader("User-Agent"));
         }
-        if (!claims.get("userAgent", String.class).equals(request.getHeader("User-Agent"))) {
-            throw new AuthentificationException("Utilisateur du jeton non autorisé");
+        if (!session.getStatut().equals(StatutSession.ACTIVE)) {
+            throw new AuthentificationException("Token d'authentification inactif: " + request.getHeader("Authorization"));
         }
-        if (tokenEstExpire(claims)) {
-            throw new AuthentificationException("Jeton d'authentification expiré");
+        if (session.getDateHeureExpiration().isBefore(LocalDateTime.now())) {
+            session.setStatut(StatutSession.FINIE);
+            throw new AuthentificationException("Token d'authentification expiré: " + request.getHeader("Authorization"));
         }
-        return claims;
-    }
 
-    private Boolean tokenEstExpire(Claims claims) {
-        return claims.getExpiration().before(new Date());
-    }
-
-    private Collection<SimpleGrantedAuthority> extractRoles(Claims claims) {
-        return Arrays.stream((Object[]) claims.get("roles", List.class).toArray())
-                .map(Object::toString)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        return new Token(
+                session.getAdresseIp(),
+                session.getUserAgent(),
+                session.getCreationPar()
+        );
     }
 }
