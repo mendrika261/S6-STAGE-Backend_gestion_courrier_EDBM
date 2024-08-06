@@ -1,0 +1,35 @@
+package mg.edbm.mail.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import mg.edbm.mail.entity.Role;
+import org.hibernate.validator.constraints.Length;
+
+@Data
+@NoArgsConstructor
+public class RoleDto {
+    private Long id;
+    @NotBlank(message = "Le nom du role est obligatoire")
+    @Length(max = 255, message = "Le lastName du role ne doit pas dépasser 255 caractères")
+    private String name;
+    @NotBlank(message = "Le code du role est obligatoire")
+    @Length(max = 255, message = "Le code du role ne doit pas dépasser 255 caractères")
+    @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "Le code du role ne doit contenir que des lettres, des chiffres et des underscores")
+    private String code;
+
+    public RoleDto(Role role) {
+        setId(role.getId());
+        setName(role.getName());
+        setCode(role.getCode());
+    }
+
+    public void setName(String name) {
+        this.name = name.trim().toLowerCase();
+    }
+
+    public void setCode(String code) {
+        this.code = code.trim().toUpperCase();
+    }
+}

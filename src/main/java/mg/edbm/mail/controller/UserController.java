@@ -1,0 +1,34 @@
+package mg.edbm.mail.controller;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import mg.edbm.mail.dto.request.AuthenticationRequest;
+import mg.edbm.mail.dto.TokenDto;
+import mg.edbm.mail.exception.AuthenticationException;
+import mg.edbm.mail.service.UserService;
+import mg.edbm.mail.entity.type.Token;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequiredArgsConstructor
+public class UserController {
+    private final UserService userService;
+
+    @Transactional
+    @PostMapping("/auth")
+    public ResponseEntity<TokenDto> authenticateWithPassword(
+            @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request
+    ) throws AuthenticationException {
+        final Token token = userService.authenticateWithPassword(
+                authenticationRequest.getEmail(),
+                authenticationRequest.getPassword(),
+                request
+        );
+        final TokenDto tokenDto = new TokenDto(token);
+        return ResponseEntity.ok(tokenDto);
+    }
+}
