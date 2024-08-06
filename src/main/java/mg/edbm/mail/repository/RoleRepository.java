@@ -21,9 +21,9 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
 
     @Override
     @NonNull
-    @Query("SELECT r FROM Role r WHERE r.id = :id AND r.removedAt IS NULL")
+    @Query("SELECT r FROM Role r WHERE r.id = :id AND r.removedAt IS NULL ORDER BY r.createdAt DESC LIMIT 1")
     Optional<Role> findById(@NonNull Long id);
 
-    @Query("SELECT r FROM Role r WHERE r.code = :code AND r.removedAt IS NOT NULL")
+    @Query("SELECT r FROM Role r WHERE r.code = :code AND r.removedAt IS NOT NULL ORDER BY r.removedAt DESC LIMIT 1")
     Optional<Role> findIfRemoved(String code);
 }

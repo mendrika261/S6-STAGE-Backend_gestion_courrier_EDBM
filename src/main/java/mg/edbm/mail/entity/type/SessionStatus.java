@@ -7,7 +7,8 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum SessionStatus {
-    INTRUSION(-20),
+    INTRUSION(-30),
+    TENTATIVE(-20),
     EXPIRED(-10),
     WORKING(0),
     FINISHED(10);

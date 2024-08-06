@@ -18,7 +18,7 @@ public class FormResponse {
     }
 
     public FormResponse(ValidationException validationException) {
-        setGlobalMessages(new String[]{validationException.getMessage()});
+        setGlobalMessages(validationException.getMessage());
         for (final String field : validationException.getFields()) {
             getFieldsMessages().put(field, new String[]{validationException.getMessage()});
         }

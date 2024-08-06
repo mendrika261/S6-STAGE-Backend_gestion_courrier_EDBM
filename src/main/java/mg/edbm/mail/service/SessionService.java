@@ -17,8 +17,8 @@ import java.util.Optional;
 public class SessionService {
     private final SessionRepository sessionRepository;
 
-    public void save(Session session) {
-        sessionRepository.save(session);
+    public Session save(Session session) {
+        return sessionRepository.save(session);
     }
 
     public void create(Token token) {
@@ -34,9 +34,7 @@ public class SessionService {
     }
 
     public void extend(Session session, Token token) {
-        session.setStatus(SessionStatus.WORKING);
-        session.setLastActivityAt(LocalDateTime.now());
-        session.setExpiredAt(token.getExpiredAt());
+        session.extend(token);
         save(session);
     }
 
@@ -62,22 +60,51 @@ public class SessionService {
         );
     }
 
-    public void createIntrusionSession(Session session, HttpServletRequest request) {
+    public Session createIntrusionSession(Session session, HttpServletRequest request) {
         final Optional<Session> intrusionSessionOptional = getExistingIntrusionSession(session.getUser(), request);
         if(intrusionSessionOptional.isPresent()) {
             final Session existingIntrusionSession = intrusionSessionOptional.get();
             existingIntrusionSession.setLastActivityAt(LocalDateTime.now());
-            save(existingIntrusionSession);
-        } else {
-            final Session intrusionSession = new Session(
-                    session.getTokenValue(),
-                    SessionStatus.INTRUSION,
-                    request.getHeader("User-Agent"),
-                    request.getRemoteAddr(),
-                    session.getUser(),
-                    session.getExpiredAt()
-            );
-            save(intrusionSession);
+            return save(existingIntrusionSession);
         }
+        final Session intrusionSession = new Session(
+                session.getTokenValue(),
+                SessionStatus.INTRUSION,
+                request.getHeader("User-Agent"),
+                request.getRemoteAddr(),
+                session.getUser(),
+                session.getExpiredAt()
+        );
+        return save(intrusionSession);
+    }
+
+    public Optional<Session> getExistingTentativeSession(User user, HttpServletRequest request) {
+        final Optional<Session> lastSessionOptional = sessionRepository.findLastSession(
+                user,
+                request.getRemoteAddr(),
+                request.getHeader("User-Agent")
+        );
+        if(lastSessionOptional.isPresent() && lastSessionOptional.get().getStatus() == SessionStatus.TENTATIVE)
+            return lastSessionOptional;
+        return Optional.empty();
+    }
+
+    public void createTentativeSession(User user, HttpServletRequest request) {
+        final Optional<Session> tentativeSessionOptional = getExistingTentativeSession(user, request);
+        if(tentativeSessionOptional.isPresent()) {
+            final Session existingTentativeSession = tentativeSessionOptional.get();
+            existingTentativeSession.refresh();
+            save(existingTentativeSession);
+            return;
+        }
+        final Session session = new Session(
+                null,
+                SessionStatus.TENTATIVE,
+                request.getHeader("User-Agent"),
+                request.getRemoteAddr(),
+                user,
+                LocalDateTime.now()
+        );
+        save(session);
     }
 }

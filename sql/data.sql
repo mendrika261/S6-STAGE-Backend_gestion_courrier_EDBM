@@ -6,7 +6,7 @@ VALUES
 INSERT INTO public.system_user
     (id, phone_number, created_at, email, password, last_name, first_name, status)
 VALUES
-    ('51161df7-a5c1-41a5-87c5-c18cff313349', '0321093828', '2024-07-31 21:18:11.912663', 'test@test.com', '$2a$10$8mcUad.31YdHPy2omUd30.YkPCr8njdv.mRXB5Muspc0d8hxxwudO', 'Rakoto', 'Toto', 0);
+    ('51161df7-a5c1-41a5-87c5-c18cff313349', '0321093828', '2024-07-31 21:18:11.912663', 'test@test.com', '$2a$10$8mcUad.31YdHPy2omUd30.YkPCr8njdv.mRXB5Muspc0d8hxxwudO', 'Rakoto', 'Toto', 'WORKING');
 
 INSERT INTO public.system_user_roles
     (user_id, roles_id)

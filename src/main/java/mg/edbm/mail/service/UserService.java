@@ -1,7 +1,6 @@
 package mg.edbm.mail.service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.exception.AuthenticationException;
@@ -10,6 +9,7 @@ import mg.edbm.mail.utils.UserUtils;
 import mg.edbm.mail.entity.type.Token;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -19,9 +19,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final TokenService tokenService;
+    private final SessionService sessionService;
     // TODO verify repository
+    // TODO tentative
 
-    public User verifyUser(String email, String password) throws AuthenticationException {
+    public User verifyUser(String email, String password, HttpServletRequest request) throws AuthenticationException {
         final Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()) {
             final User authenticatedUser = user.get();
@@ -29,6 +31,7 @@ public class UserService {
                 final boolean isPasswordValid = passwordEncoder.matches(password, authenticatedUser.getPassword());
                 if(isPasswordValid)
                     return authenticatedUser;
+                sessionService.createTentativeSession(authenticatedUser, request);
                 throw new AuthenticationException("Votre mot de passe est incorrect");
             } else {
                 throw new AuthenticationException("Votre compte est désactivé");
@@ -39,7 +42,7 @@ public class UserService {
 
     public Token authenticateWithPassword(String email, String password, HttpServletRequest request)
             throws AuthenticationException {
-        final User user = verifyUser(email, password);
+        final User user = verifyUser(email, password, request);
         return tokenService.generateToken(request, user);
     }
 

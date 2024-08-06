@@ -32,15 +32,15 @@ public class MailHistory {
     @Column(nullable = false)
     private String object;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MailConfidentiality mailConfidentiality = MailConfidentiality.PRIVATE;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MailPriority priority = MailPriority.NORMAL;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private MailStatus status = MailStatus.WAITING;
 

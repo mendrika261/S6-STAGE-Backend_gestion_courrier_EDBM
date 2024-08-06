@@ -26,6 +26,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<FormResponse> handleAuthentificationExceptions(AuthenticationException ex) {
         final FormResponse formResponse = new FormResponse(ex.getMessage());
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(formResponse);
     }
 

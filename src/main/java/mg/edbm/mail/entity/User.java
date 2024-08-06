@@ -34,7 +34,7 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserStatus status = UserStatus.WORKING;
 

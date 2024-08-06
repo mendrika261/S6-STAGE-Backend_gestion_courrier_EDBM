@@ -70,7 +70,6 @@ public class TokenService {
     }
 
     public Token validateToken(Session session, HttpServletRequest request) throws AuthenticationException {
-        // TODO tentative
         final String authorizationHeader = request.getHeader("Authorization");
         final String ipAddress = request.getRemoteAddr();
         final String userAgent = request.getHeader("User-Agent");
@@ -85,8 +84,8 @@ public class TokenService {
             throw new AuthenticationException("Token invalid: " + session);
         }
         if (!session.getIpAddress().equals(ipAddress) || !session.getUserAgent().equals(userAgent)) {
-            sessionService.createIntrusionSession(session, request);
-            throw new AuthenticationException("Token invalid: " + session);
+            final Session intrusionSession = sessionService.createIntrusionSession(session, request);
+            throw new AuthenticationException("Token intrusion: " + intrusionSession);
         }
 
         return new Token(session.getIpAddress(), session.getUserAgent(), session.getUser());

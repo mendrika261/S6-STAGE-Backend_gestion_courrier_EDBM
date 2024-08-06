@@ -34,7 +34,7 @@ public class UserHistory {
 
     private String phoneNumber;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserStatus status = UserStatus.WORKING;
 
