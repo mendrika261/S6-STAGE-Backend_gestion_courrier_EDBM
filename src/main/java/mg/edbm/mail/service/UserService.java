@@ -47,7 +47,7 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    public User getAuthenticatedUser() {
+    public User getAuthenticatedUser() throws AuthenticationException {
         return getUser(UserUtils.getAuthenticatedUserId());
     }
 }

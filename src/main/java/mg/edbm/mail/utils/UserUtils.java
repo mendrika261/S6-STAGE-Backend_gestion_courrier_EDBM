@@ -7,7 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import java.util.UUID;
 
 public class UserUtils {
-    public static UUID getAuthenticatedUserId() {
+    public static UUID getAuthenticatedUserId() throws AuthenticationException {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof User)
             return ((User) principal).getId();

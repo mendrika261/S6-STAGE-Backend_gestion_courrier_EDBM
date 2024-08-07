@@ -2,11 +2,14 @@ package mg.edbm.mail.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.entity.Session;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.SessionStatus;
 import mg.edbm.mail.repository.SessionRepository;
 import mg.edbm.mail.entity.type.Token;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,6 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class SessionService {
     private final SessionRepository sessionRepository;
 
@@ -30,11 +34,13 @@ public class SessionService {
                 token.getUser(),
                 token.getExpiredAt()
         );
+        log.info("New session created: {}", session);
         save(session);
     }
 
     public void extend(Session session, Token token) {
         session.extend(token);
+        log.info("Session extended: {}", session);
         save(session);
     }
 
@@ -65,6 +71,7 @@ public class SessionService {
         if(intrusionSessionOptional.isPresent()) {
             final Session existingIntrusionSession = intrusionSessionOptional.get();
             existingIntrusionSession.setLastActivityAt(LocalDateTime.now());
+            log.error("Multiple intrusion detected: {}", existingIntrusionSession);
             return save(existingIntrusionSession);
         }
         final Session intrusionSession = new Session(
@@ -75,6 +82,7 @@ public class SessionService {
                 session.getUser(),
                 session.getExpiredAt()
         );
+        log.error("Intrusion tentative detected: {}", intrusionSession);
         return save(intrusionSession);
     }
 
@@ -95,6 +103,7 @@ public class SessionService {
             final Session existingTentativeSession = tentativeSessionOptional.get();
             existingTentativeSession.refresh();
             save(existingTentativeSession);
+            log.error("Multiple authentication tentative detected: {}", existingTentativeSession);
             return;
         }
         final Session session = new Session(
@@ -105,6 +114,7 @@ public class SessionService {
                 user,
                 LocalDateTime.now()
         );
+        log.warn("Authentication tentative failed: {}", session);
         save(session);
     }
 }

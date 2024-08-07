@@ -60,12 +60,13 @@ public class Session {
     }
 
     public void extend(Token token) {
+        refresh();
         setStatus(SessionStatus.ACTIVE);
         setExpiredAt(token.getExpiredAt());
-        refresh();
     }
 
     public void refresh() {
+        setExpiredAt(LocalDateTime.now());
         setLastActivityAt(LocalDateTime.now());
         incrementQueryCount();
     }
@@ -76,9 +77,9 @@ public class Session {
 
     @Override
     public String toString() {
-        return "(%s) [%s] for user: %s using %s at %s, last activity at: %s and expired at: %s".formatted(
-                getTokenValue(), getStatus(), getUser().getUsername(), getIpAddress(),
-                getUserAgent(), getLastActivityAt(), getExpiredAt()
+        return "[%s @ %s] (%s) for user: %s from %s using %s | Query count: %s".formatted(
+                getStatus(), getExpiredAt(), getTokenValue(), getUser(), getIpAddress(), getUserAgent(),
+                getQueryCount()
         );
     }
 }

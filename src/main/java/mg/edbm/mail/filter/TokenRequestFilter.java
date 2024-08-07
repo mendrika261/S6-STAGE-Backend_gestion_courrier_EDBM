@@ -4,6 +4,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.service.TokenService;
 import org.springframework.lang.NonNull;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -21,9 +22,9 @@ public class TokenRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            FilterChain chain
+            @NonNull FilterChain chain
     ) throws ServletException, IOException {
-        tokenService.authentifierUtilisateur(request);
+        tokenService.authenticateUser(request);
         chain.doFilter(request, response);
     }
 }

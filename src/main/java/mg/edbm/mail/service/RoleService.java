@@ -1,6 +1,7 @@
 package mg.edbm.mail.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.dto.request.PaginationRequest;
 import mg.edbm.mail.dto.RoleDto;
 import mg.edbm.mail.entity.Role;
@@ -19,6 +20,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class RoleService {
     private final RoleRepository roleRepository;
 
@@ -33,8 +35,10 @@ public class RoleService {
             final Role removed = removedRole.get();
             removed.update(roleDto, author);
             removed.restore(author);
+            log.info("{} restored {}", author, removed);
             return save(removed);
         }
+        log.info("{} created {}", author, role);
         return save(role);
     }
 
@@ -46,19 +50,21 @@ public class RoleService {
 
     public Role getRole(Long id) throws NotFoundException {
         return roleRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Le rôle n'existe pas")
+                () -> new NotFoundException("Le rôle #" + id + " n'existe pas")
         );
     }
 
     public Role update(Long id, RoleDto roleDto, User author) throws NotFoundException {
         final Role role = getRole(id);
         role.update(roleDto, author);
+        log.info("{} updated {}", author, role);
         return save(role);
     }
 
     public Role remove(Long id, User user) throws NotFoundException {
         final Role role = getRole(id);
         role.remove(user);
+        log.info("{} removed {}", user, role);
         return save(role);
     }
 }

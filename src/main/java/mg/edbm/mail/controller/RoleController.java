@@ -6,6 +6,7 @@ import mg.edbm.mail.config.DatabaseConfig;
 import mg.edbm.mail.dto.request.PaginationRequest;
 import mg.edbm.mail.dto.RoleDto;
 import mg.edbm.mail.dto.response.FormResponse;
+import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.entity.Role;
 import mg.edbm.mail.service.RoleService;
@@ -29,7 +30,7 @@ public class RoleController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<RoleDto> create(@Valid RoleDto roleDto) {
+    public ResponseEntity<RoleDto> create(@Valid RoleDto roleDto) throws AuthenticationException {
         final Role role = roleService.create(roleDto, userService.getAuthenticatedUser());
         final RoleDto mappedRoleDto = new RoleDto(role);
         return ResponseEntity.ok(mappedRoleDto);
@@ -52,7 +53,8 @@ public class RoleController {
 
     @Transactional
     @PutMapping("/{id}")
-    public ResponseEntity<RoleDto> update(@PathVariable Long id, @Valid RoleDto roleDto) throws NotFoundException {
+    public ResponseEntity<RoleDto> update(@PathVariable Long id, @Valid RoleDto roleDto) throws NotFoundException,
+            AuthenticationException {
         final Role role = roleService.update(id, roleDto, userService.getAuthenticatedUser());
         final RoleDto mappedRoleDto = new RoleDto(role);
         return ResponseEntity.ok(mappedRoleDto);
@@ -60,7 +62,7 @@ public class RoleController {
 
     @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity<RoleDto> remove(@PathVariable Long id) throws NotFoundException {
+    public ResponseEntity<RoleDto> remove(@PathVariable Long id) throws NotFoundException, AuthenticationException {
         final Role role = roleService.remove(id, userService.getAuthenticatedUser());
         final RoleDto mappedRoleDto = new RoleDto(role);
         return ResponseEntity.ok(mappedRoleDto);

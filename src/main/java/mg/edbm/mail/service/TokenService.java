@@ -9,6 +9,7 @@ import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.SessionStatus;
 import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.entity.type.Token;
+import mg.edbm.mail.exception.type.LogType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,9 +23,9 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
+    private static final Logger log = LoggerFactory.getLogger(TokenService.class);
     private final TokenProperties tokenProperties;
     private final SessionService sessionService;
-    private static final Logger logger = LoggerFactory.getLogger(TokenService.class);
 
     public Token generateToken(HttpServletRequest request, User user) {
         final Token token = new Token(
@@ -54,13 +55,11 @@ public class TokenService {
     }
 
     @Transactional
-    public void authentifierUtilisateur(HttpServletRequest request) throws AuthenticationException {
+    public void authenticateUser(HttpServletRequest request) {
         final String tokenValue = extractToken(request);
         final Session session = sessionService.getSession(tokenValue);
-        Token token;
-
         try {
-            token = validateToken(session, request);
+            final Token token = validateToken(session, request);
 
             final Collection<SimpleGrantedAuthority> authorities = session.getUser().getAuthorities();
             final UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
@@ -68,9 +67,7 @@ public class TokenService {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
             sessionService.extend(session, token);
-        } catch (AuthenticationException e) {
-            logger.error(e.getMessage());
-        }
+        } catch (AuthenticationException ignored) {}
     }
 
     public Token validateToken(Session session, HttpServletRequest request) throws AuthenticationException {
@@ -78,14 +75,17 @@ public class TokenService {
         final String ipAddress = request.getRemoteAddr();
         final String userAgent = request.getHeader("User-Agent");
         if (session == null) {
-            throw new AuthenticationException("Token does not exist or in invalid format [%s]".formatted(authorizationHeader));
+            throw new AuthenticationException(
+                    "Token does not exist or in invalid format [%s]".formatted(authorizationHeader),
+                    LogType.WARN
+            );
         }
         if (session.getExpiredAt().isBefore(LocalDateTime.now())) {
             session.setStatus(SessionStatus.EXPIRED);
-            throw new AuthenticationException("Token expired: " + session);
+            throw new AuthenticationException("Token expired: " + session, LogType.WARN);
         }
         if(!session.getStatus().equals(SessionStatus.ACTIVE)) {
-            throw new AuthenticationException("Token invalid: " + session);
+            throw new AuthenticationException("Token revoked: " + session, LogType.ERROR);
         }
         if (!session.getIpAddress().equals(ipAddress) || !session.getUserAgent().equals(userAgent)) {
             final Session intrusionSession = sessionService.createIntrusionSession(session, request);
