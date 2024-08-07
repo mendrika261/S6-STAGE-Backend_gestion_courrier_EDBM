@@ -10,7 +10,7 @@ public enum SessionStatus {
     INTRUSION(-30),
     TENTATIVE(-20),
     EXPIRED(-10),
-    WORKING(0),
+    ACTIVE(0),
     FINISHED(10);
 
     private final Integer code;

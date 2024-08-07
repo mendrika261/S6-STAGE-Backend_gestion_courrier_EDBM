@@ -28,7 +28,7 @@ public class Session {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private SessionStatus status = SessionStatus.WORKING;
+    private SessionStatus status = SessionStatus.ACTIVE;
 
     @Column(nullable = false)
     private LocalDateTime lastActivityAt = LocalDateTime.now();
@@ -60,7 +60,7 @@ public class Session {
     }
 
     public void extend(Token token) {
-        setStatus(SessionStatus.WORKING);
+        setStatus(SessionStatus.ACTIVE);
         setExpiredAt(token.getExpiredAt());
         refresh();
     }

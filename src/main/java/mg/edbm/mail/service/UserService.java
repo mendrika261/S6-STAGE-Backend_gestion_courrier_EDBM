@@ -9,7 +9,6 @@ import mg.edbm.mail.utils.UserUtils;
 import mg.edbm.mail.entity.type.Token;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -20,8 +19,6 @@ public class UserService {
     private final BCryptPasswordEncoder passwordEncoder;
     private final TokenService tokenService;
     private final SessionService sessionService;
-    // TODO verify repository
-    // TODO tentative
 
     public User verifyUser(String email, String password, HttpServletRequest request) throws AuthenticationException {
         final Optional<User> user = userRepository.findByEmail(email);

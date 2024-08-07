@@ -1,11 +1,9 @@
 package mg.edbm.mail.entity.type;
 
 import lombok.Data;
-import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.entity.User;
 
 import java.security.SecureRandom;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Base64;
 
@@ -18,18 +16,18 @@ public class Token {
     private LocalDateTime expiredAt;
     private String value;
 
-    public Token(String ipAddress, String userAgent, User user) {
+    public Token(String ipAddress, String userAgent, User user, Long durationMinutes, Integer tokenLength) {
         setIpAddress(ipAddress);
         setUserAgent(userAgent);
         setUser(user);
-        setExpiredAt(getCreatedAt().plus(Duration.ofMillis(SecurityConfig.TOKEN_EXPIRATION_TIME)));
-        generateValue();
+        setExpiredAt(getCreatedAt().plusMinutes(durationMinutes));
+        generateValue(tokenLength);
     }
 
-    public void generateValue() {
+    public void generateValue(Integer tokenLength) {
         final SecureRandom random = new SecureRandom();
         final Base64.Encoder base64Encoder = Base64.getUrlEncoder();
-        final byte[] bytes = new byte[SecurityConfig.TOKEN_SIZE];
+        final byte[] bytes = new byte[tokenLength];
         random.nextBytes(bytes);
         setValue(base64Encoder.encodeToString(bytes));
     }

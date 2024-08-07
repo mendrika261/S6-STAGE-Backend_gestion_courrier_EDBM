@@ -36,7 +36,7 @@ public class UserHistory {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserStatus status = UserStatus.WORKING;
+    private UserStatus status = UserStatus.ACTIVE;
 
 
     @JoinColumn(nullable = false)

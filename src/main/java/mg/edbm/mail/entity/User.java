@@ -36,7 +36,7 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private UserStatus status = UserStatus.WORKING;
+    private UserStatus status = UserStatus.ACTIVE;
 
     @JoinTable
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -51,7 +51,7 @@ public class User implements UserDetails {
     private User createdBy;
 
     public boolean isActive() {
-        return getStatus().equals(UserStatus.WORKING);
+        return getStatus().equals(UserStatus.ACTIVE);
     }
 
     public String[] getRolesCode() {

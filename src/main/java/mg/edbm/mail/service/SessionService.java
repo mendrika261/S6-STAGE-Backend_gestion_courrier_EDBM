@@ -24,7 +24,7 @@ public class SessionService {
     public void create(Token token) {
         final Session session = new Session(
                 token.getValue(),
-                SessionStatus.WORKING,
+                SessionStatus.ACTIVE,
                 token.getUserAgent(),
                 token.getIpAddress(),
                 token.getUser(),
@@ -42,12 +42,12 @@ public class SessionService {
         return sessionRepository.findByTokenValue(tokenValue);
     }
 
-    public Optional<Session> getExistingWorkingSession(User user, HttpServletRequest request) {
+    public Optional<Session> getExistingActiveSession(User user, HttpServletRequest request) {
         return sessionRepository.findExistingSession(
                 user,
                 request.getRemoteAddr(),
                 request.getHeader("User-Agent"),
-                SessionStatus.WORKING
+                SessionStatus.ACTIVE
         );
     }
 
@@ -68,7 +68,7 @@ public class SessionService {
             return save(existingIntrusionSession);
         }
         final Session intrusionSession = new Session(
-                session.getTokenValue(),
+                null,
                 SessionStatus.INTRUSION,
                 request.getHeader("User-Agent"),
                 request.getRemoteAddr(),

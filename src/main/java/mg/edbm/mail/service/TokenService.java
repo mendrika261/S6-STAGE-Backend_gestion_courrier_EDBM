@@ -3,7 +3,7 @@ package mg.edbm.mail.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import mg.edbm.mail.config.SecurityConfig;
+import mg.edbm.mail.config.properties.TokenProperties;
 import mg.edbm.mail.entity.Session;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.SessionStatus;
@@ -22,12 +22,16 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
+    private final TokenProperties tokenProperties;
     private final SessionService sessionService;
     private static final Logger logger = LoggerFactory.getLogger(TokenService.class);
 
     public Token generateToken(HttpServletRequest request, User user) {
-        final Token token = new Token(request.getRemoteAddr(), request.getHeader("User-Agent"), user);
-        final Optional<Session> sessionOptional = sessionService.getExistingWorkingSession(user, request);
+        final Token token = new Token(
+                request.getRemoteAddr(), request.getHeader("User-Agent"), user,
+                tokenProperties.TOKEN_DURATION_MINUTES, tokenProperties.TOKEN_LENGTH
+        );
+        final Optional<Session> sessionOptional = sessionService.getExistingActiveSession(user, request);
         if(sessionOptional.isPresent()) {
             final Session session = sessionOptional.get();
             token.setValue(session.getTokenValue());
@@ -40,7 +44,7 @@ public class TokenService {
 
     public String extractToken(HttpServletRequest request) {
         final String authorizationHeader = request.getHeader("Authorization");
-        if(authorizationHeader != null && authorizationHeader.startsWith(SecurityConfig.TOKEN_TYPE)) {
+        if(authorizationHeader != null && authorizationHeader.startsWith(tokenProperties.TOKEN_TYPE)) {
             final String token = authorizationHeader.substring(7);
             if (!token.isEmpty()) {
                 return token;
@@ -80,7 +84,7 @@ public class TokenService {
             session.setStatus(SessionStatus.EXPIRED);
             throw new AuthenticationException("Token expired: " + session);
         }
-        if(!session.getStatus().equals(SessionStatus.WORKING)) {
+        if(!session.getStatus().equals(SessionStatus.ACTIVE)) {
             throw new AuthenticationException("Token invalid: " + session);
         }
         if (!session.getIpAddress().equals(ipAddress) || !session.getUserAgent().equals(userAgent)) {
@@ -88,6 +92,9 @@ public class TokenService {
             throw new AuthenticationException("Token intrusion: " + intrusionSession);
         }
 
-        return new Token(session.getIpAddress(), session.getUserAgent(), session.getUser());
+        return new Token(
+                session.getIpAddress(), session.getUserAgent(), session.getUser(),
+                tokenProperties.TOKEN_DURATION_MINUTES, tokenProperties.TOKEN_LENGTH
+        );
     }
 }
