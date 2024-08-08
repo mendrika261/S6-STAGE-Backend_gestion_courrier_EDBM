@@ -20,13 +20,13 @@ class GestionCourrierApplicationTests {
 	@Test
 	void contextLoads() {
 
-		/*User utilisateur = new User();
-		utilisateur.setNom("Rakoto");
-		utilisateur.setPrenom("Toto");
-		utilisateur.setEmail("toto@rakoto.com");
-		utilisateur.setMotDePasse(passwordEncoder.encode("test"));
-		utilisateur.setPhoneNumber("0321093828");
-		utilisateurRepository.saveAndFlush(utilisateur);
+		/*User user = new User();
+		user.setNom("Rakoto");
+		user.setPrenom("Toto");
+		user.setEmail("toto@rakoto.com");
+		user.setMotDePasse(passwordEncoder.encode("test"));
+		user.setPhoneNumber("0321093828");
+		userRepository.saveAndFlush(user);
 
 		Role role = new Role();
 		role.setNom("Administrateur");

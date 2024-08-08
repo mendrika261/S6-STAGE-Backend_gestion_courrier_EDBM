@@ -23,10 +23,6 @@ public class SpecificationImpl<T> implements Specification<T> {
         getCriteriaList().addAll(criteriaList);
     }
 
-    public void add(SearchCriteria criteria) {
-        getCriteriaList().add(criteria);
-    }
-
     @Override
     public Predicate toPredicate(@NonNull Root<T> root,
                                  @NonNull CriteriaQuery<?> query,
@@ -54,10 +50,14 @@ public class SpecificationImpl<T> implements Specification<T> {
     }
 
     private Predicate getEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
+        if (criteria.getValue() == null)
+            return builder.isNull(root.get(criteria.getKey()));
         return builder.equal(root.get(criteria.getKey()), criteria.getValue());
     }
 
     private Predicate getNotEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
+        if (criteria.getValue() == null)
+            return builder.isNotNull(root.get(criteria.getKey()));
         return builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
     }
 

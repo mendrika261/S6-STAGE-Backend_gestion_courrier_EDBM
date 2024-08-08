@@ -1,34 +1,48 @@
 package mg.edbm.mail.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import mg.edbm.mail.dto.request.AuthenticationRequest;
-import mg.edbm.mail.dto.TokenDto;
+import mg.edbm.mail.config.DatabaseConfig;
+import mg.edbm.mail.dto.response.UserDtoResponse;
+import mg.edbm.mail.dto.request.ListRequest;
+import mg.edbm.mail.dto.request.UserDtoRequest;
+import mg.edbm.mail.dto.response.FormResponse;
+import mg.edbm.mail.entity.User;
 import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.service.UserService;
-import mg.edbm.mail.entity.type.Token;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/auth")
-    @Transactional(noRollbackFor = AuthenticationException.class)
-    public ResponseEntity<TokenDto> authenticateWithPassword(
-            @Valid AuthenticationRequest authenticationRequest, HttpServletRequest request
-    ) throws AuthenticationException {
-        final Token token = userService.authenticateWithPassword(
-                authenticationRequest.getEmail(),
-                authenticationRequest.getPassword(),
-                request
-        );
-        final TokenDto tokenDto = new TokenDto(token);
-        return ResponseEntity.ok(tokenDto);
+    @PostMapping
+    @Transactional
+    public ResponseEntity<UserDtoResponse> create(@Valid UserDtoRequest userDtoRequest) throws AuthenticationException {
+        final User user = userService.create(userDtoRequest, userService.getAuthenticatedUser());
+        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user, true);
+        return ResponseEntity.ok(mappedUserDtoResponse);
+    }
+
+    @GetMapping
+    @Transactional
+    public ResponseEntity<Page<UserDtoResponse>> list(@Valid ListRequest listRequest) {
+        final Page<User> users = userService.list(listRequest);
+        final Page<UserDtoResponse> mappedUserDtoList = users.map(UserDtoResponse::new);
+        return ResponseEntity.ok(mappedUserDtoList);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<FormResponse> handleDataIntegrityException(DataIntegrityViolationException ex) {
+        final FormResponse formResponse = new FormResponse();
+        if(ex.getMessage().contains(DatabaseConfig.UNIQUE_ERROR_CONSTRAINT))
+            formResponse.addFieldErrors("email", "Cette adresse email est déjà utilisée");
+        return ResponseEntity.badRequest().body(formResponse);
     }
 }

@@ -12,10 +12,10 @@ import org.hibernate.validator.constraints.Length;
 public class RoleDto {
     private Long id;
     @NotBlank(message = "Le nom du role est obligatoire")
-    @Length(max = 255, message = "Le lastName du role ne doit pas dépasser 255 caractères")
+    @Length(min = 1, max = 255, message = "Le nom du role doit être compris entre 1 et 255 caractères")
     private String name;
     @NotBlank(message = "Le code du role est obligatoire")
-    @Length(max = 255, message = "Le code du role ne doit pas dépasser 255 caractères")
+    @Length(min = 1, max = 255, message = "Le code du role doit être compris entre 1 et 255 caractères")
     @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "Le code du role ne doit contenir que des lettres, des chiffres et des underscores")
     private String code;
 

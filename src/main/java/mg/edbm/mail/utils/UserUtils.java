@@ -11,6 +11,6 @@ public class UserUtils {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof User)
             return ((User) principal).getId();
-        throw new AuthenticationException("Impossible de récupérer l'identifiant de l'utilisateur connecté");
+        throw new AuthenticationException("Impossible de récupérer l'identifiant de l'user connecté");
     }
 }

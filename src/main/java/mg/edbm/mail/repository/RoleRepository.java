@@ -10,13 +10,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
     @Override
     @NonNull
-    @Query("SELECT r FROM Role r WHERE r.removedAt IS NULL")
     Page<Role> findAll(@NonNull Specification<Role> spec, @NonNull Pageable pageable);
 
     @Override
@@ -26,4 +27,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
 
     @Query("SELECT r FROM Role r WHERE r.code = :code AND r.removedAt IS NOT NULL ORDER BY r.removedAt DESC LIMIT 1")
     Optional<Role> findIfRemoved(String code);
+
+    @Query("SELECT r FROM Role r WHERE r.id IN :ids AND r.removedAt IS NULL")
+    Set<Role> findAllByIdIn(List<Long> ids);
 }

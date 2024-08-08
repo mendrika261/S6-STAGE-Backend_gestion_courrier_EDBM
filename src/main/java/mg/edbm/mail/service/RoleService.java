@@ -2,13 +2,14 @@ package mg.edbm.mail.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import mg.edbm.mail.dto.request.PaginationRequest;
+import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.RoleDto;
+import mg.edbm.mail.dto.request.filter.SearchCriteria;
+import mg.edbm.mail.dto.request.type.OperationType;
 import mg.edbm.mail.entity.Role;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.RoleRepository;
-import mg.edbm.mail.dto.request.filter.SearchCriteria;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +44,10 @@ public class RoleService {
         return save(role);
     }
 
-    public Page<Role> list(List<SearchCriteria> params, PaginationRequest paginationRequest) {
-        final Pageable pageable = paginationRequest.toPageable();
-        final Specification<Role> specification = new SpecificationImpl<>(params);
+    public Page<Role> list(ListRequest listRequest) {
+        listRequest.addCriteria(new SearchCriteria("removedAt", OperationType.EQUAL, null));
+        final Pageable pageable = listRequest.toPageable();
+        final Specification<Role> specification = new SpecificationImpl<>(listRequest.getCriteria());
         return roleRepository.findAll(specification, pageable);
     }
 
@@ -66,5 +69,9 @@ public class RoleService {
         role.remove(user);
         log.info("{} removed {}", user, role);
         return save(role);
+    }
+
+    public Set<Role> getRolesFromId(List<Long> roles) {
+        return roleRepository.findAllByIdIn(roles);
     }
 }

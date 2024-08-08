@@ -1,5 +1,7 @@
 package mg.edbm.mail.config;
 import lombok.RequiredArgsConstructor;
+import mg.edbm.mail.dto.request.converter.StringToLongListConverter;
+import mg.edbm.mail.dto.request.converter.StringToSearchCriteriaListConverter;
 import mg.edbm.mail.dto.request.converter.StringToHashMapConverter;
 import mg.edbm.mail.dto.request.converter.StringToOrderConverter;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +17,14 @@ import static org.springframework.data.web.config.EnableSpringDataWebSupport.Pag
 public class WebConfig implements WebMvcConfigurer {
     private final StringToHashMapConverter stringToHashMapConverter;
     private final StringToOrderConverter stringToOrderConverter;
+    private final StringToSearchCriteriaListConverter stringToSearchCriteriaListConverter;
+    private final StringToLongListConverter stringToLongListConverter;
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(stringToHashMapConverter);
         registry.addConverter(stringToOrderConverter);
+        registry.addConverter(stringToSearchCriteriaListConverter);
+        registry.addConverter(stringToLongListConverter);
     }
 }

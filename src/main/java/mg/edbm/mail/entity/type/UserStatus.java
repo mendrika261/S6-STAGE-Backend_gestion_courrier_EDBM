@@ -8,7 +8,9 @@ import lombok.Getter;
 public enum UserStatus {
     DISABLE(-20),
     SUSPENDED(-10),
-    ACTIVE(0);
+    CREATED(0),
+    PENDING(10),
+    ACTIVE(20);
 
     private final Integer code;
 }
