@@ -16,14 +16,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@Transactional
 public class UserController {
     private final UserService userService;
 
     @PostMapping
-    @Transactional
     public ResponseEntity<UserDtoResponse> create(@Valid UserDtoRequest userDtoRequest) throws AuthenticationException {
         final User user = userService.create(userDtoRequest, userService.getAuthenticatedUser());
         final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user, true);
@@ -31,11 +33,17 @@ public class UserController {
     }
 
     @GetMapping
-    @Transactional
     public ResponseEntity<Page<UserDtoResponse>> list(@Valid ListRequest listRequest) {
         final Page<User> users = userService.list(listRequest);
         final Page<UserDtoResponse> mappedUserDtoList = users.map(UserDtoResponse::new);
         return ResponseEntity.ok(mappedUserDtoList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDtoResponse> get(@PathVariable UUID id) {
+        final User user = userService.getUser(id);
+        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
+        return ResponseEntity.ok(mappedUserDtoResponse);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

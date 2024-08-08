@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import mg.edbm.mail.entity.Role;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.entity.type.UserStatus;
 
 @Data
 public class UserDtoResponse {
@@ -15,6 +16,7 @@ public class UserDtoResponse {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String password;
     private String[] roles;
+    private UserStatus status;
 
     public UserDtoResponse(User user) {
         setId(user.getId().toString());
@@ -23,6 +25,7 @@ public class UserDtoResponse {
         setEmail(user.getEmail());
         setPhoneNumber(user.getPhoneNumber());
         setRoles(user.getRoles().stream().map(Role::getCode).toArray(String[]::new));
+        setStatus(user.getStatus());
     }
 
     public UserDtoResponse(User user, boolean withPassword) {

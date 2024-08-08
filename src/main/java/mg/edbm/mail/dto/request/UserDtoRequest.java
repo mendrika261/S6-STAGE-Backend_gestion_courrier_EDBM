@@ -2,7 +2,6 @@ package mg.edbm.mail.dto.request;
 
 import jakarta.validation.constraints.*;
 import lombok.Data;
-import mg.edbm.mail.entity.User;
 import org.hibernate.validator.constraints.Length;
 
 import java.util.List;
@@ -30,6 +29,8 @@ public class UserDtoRequest {
     @NotEmpty(message = "Le rôle est obligatoire")
     private List<Long> roles;
 
+    private Boolean notifyCreation;
+
     public void setLastName(String lastName) {
         this.lastName = lastName.trim().toLowerCase();
     }
@@ -44,5 +45,10 @@ public class UserDtoRequest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber.trim().toLowerCase();
+    }
+
+    public Boolean getNotifyCreation() {
+        if (notifyCreation == null) return false;
+        return notifyCreation;
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -26,12 +27,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<FormResponse> handleAuthentificationExceptions(AuthenticationException ex) {
         final FormResponse formResponse = new FormResponse(ex.getMessage());
-
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(formResponse);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<MessageResponse> handleAccessDeniedExceptions(AccessDeniedException ex) {
+    public ResponseEntity<MessageResponse> handleAccessDeniedExceptions() {
         final MessageResponse messageResponse = new MessageResponse("403: Access denied");
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(messageResponse);
     }
@@ -48,8 +48,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(formResponse);
     }
 
-    @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<MessageResponse> handleNoSuchElementExceptions(NotFoundException ex) {
+    @ExceptionHandler({NotFoundException.class, NoResourceFoundException.class})
+    public ResponseEntity<MessageResponse> handleNoSuchElementExceptions() {
         final MessageResponse messageResponse = new MessageResponse("404: Not found");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageResponse);
     }

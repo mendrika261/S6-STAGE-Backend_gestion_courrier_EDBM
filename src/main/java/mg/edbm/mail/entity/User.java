@@ -61,6 +61,19 @@ public class User implements UserDetails {
         setCreatedBy(authenticatedUser);
     }
 
+    public User(User user) {
+        setId(user.getId());
+        setEmail(user.getEmail());
+        setLastName(user.getLastName());
+        setFirstName(user.getFirstName());
+        setPhoneNumber(user.getPhoneNumber());
+        setPassword(user.getPassword());
+        setStatus(user.getStatus());
+        setRoles(user.getRoles());
+        setCreatedAt(user.getCreatedAt());
+        setCreatedBy(user.getCreatedBy());
+    }
+
     public boolean isActive() {
         return getStatus().equals(UserStatus.ACTIVE);
     }

@@ -51,21 +51,21 @@ public class RoleService {
         return roleRepository.findAll(specification, pageable);
     }
 
-    public Role getRole(Long id) throws NotFoundException {
+    public Role get(Long id) throws NotFoundException {
         return roleRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Le rôle #" + id + " n'existe pas")
         );
     }
 
     public Role update(Long id, RoleDto roleDto, User author) throws NotFoundException {
-        final Role role = getRole(id);
+        final Role role = get(id);
         role.update(roleDto, author);
         log.info("{} updated {}", author, role);
         return save(role);
     }
 
     public Role remove(Long id, User user) throws NotFoundException {
-        final Role role = getRole(id);
+        final Role role = get(id);
         role.remove(user);
         log.info("{} removed {}", user, role);
         return save(role);

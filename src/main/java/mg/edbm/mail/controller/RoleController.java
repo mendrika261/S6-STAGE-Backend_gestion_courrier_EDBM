@@ -41,7 +41,7 @@ public class RoleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<RoleDto> get(@PathVariable Long id) throws NotFoundException {
-        final Role role = roleService.getRole(id);
+        final Role role = roleService.get(id);
         final RoleDto roleDto = new RoleDto(role);
         return ResponseEntity.ok(roleDto);
     }

@@ -8,6 +8,7 @@ import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.UserStatus;
 import mg.edbm.mail.exception.AuthenticationException;
+import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.UserRepository;
 import mg.edbm.mail.utils.UserUtils;
 import mg.edbm.mail.entity.type.Token;
@@ -80,16 +81,17 @@ public class UserService {
     }
 
     private User initializeUserCreation(UserDtoRequest userDtoRequest, String plainPassword, User authenticatedUser) {
-        final String encryptedPassword = passwordEncoder.encode(plainPassword);
+        final String hashedPassword = passwordEncoder.encode(plainPassword);
         User user = new User(userDtoRequest, authenticatedUser);
-        user.setPassword(encryptedPassword);
+        user.setPassword(hashedPassword);
         user.setRoles(roleService.getRolesFromId(userDtoRequest.getRoles()));
         return save(user);
     }
 
     private void notifyUserCreation(User user, String plainPassword) {
-        user.setPassword(plainPassword);
-        emailService.sendNewUserEmail(user);
+        User userWithPlainPassword = new User(user);
+        userWithPlainPassword.setPassword(plainPassword);
+        emailService.sendNewUserEmail(userWithPlainPassword);
         user.setStatus(UserStatus.PENDING);
         save(user);
     }
@@ -97,8 +99,14 @@ public class UserService {
     public User create(UserDtoRequest userDtoRequest, User authenticatedUser) {
         final String plainPassword = generatePassword();
         User user = initializeUserCreation(userDtoRequest, plainPassword, authenticatedUser);
-        notifyUserCreation(user, plainPassword);
+        if(userDtoRequest.getNotifyCreation()) notifyUserCreation(user, plainPassword);
         log.info("{} created {}", authenticatedUser, user);
         return user;
+    }
+
+    public User get(UUID uuid) throws NotFoundException {
+        return userRepository.findById(uuid).orElseThrow(
+                () -> new NotFoundException("L'utilisateur #" + uuid + " n'existe pas")
+        );
     }
 }
