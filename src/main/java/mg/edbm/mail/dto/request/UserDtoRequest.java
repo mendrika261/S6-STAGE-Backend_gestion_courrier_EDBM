@@ -25,11 +25,11 @@ public class UserDtoRequest {
     @Pattern(regexp = "^(03[234789]\\d{7}|020(22|26)\\d{5})$",
             message = "Le numéro de téléphone doit être au format 03[234789]XXXXXXX ou 020(22|26)XXXXXX")
     private String phoneNumber;
-    private String password;
     @NotEmpty(message = "Le rôle est obligatoire")
     private List<Long> roles;
 
-    private Boolean notifyCreation;
+    private String password = "";
+    private Boolean passwordGenerated = false;
 
     public void setLastName(String lastName) {
         this.lastName = lastName.trim().toLowerCase();
@@ -45,10 +45,5 @@ public class UserDtoRequest {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber.trim().toLowerCase();
-    }
-
-    public Boolean getNotifyCreation() {
-        if (notifyCreation == null) return false;
-        return notifyCreation;
     }
 }

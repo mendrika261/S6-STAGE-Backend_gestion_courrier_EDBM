@@ -9,6 +9,8 @@ import mg.edbm.mail.dto.request.UserDtoRequest;
 import mg.edbm.mail.dto.response.FormResponse;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.exception.AuthenticationException;
+import mg.edbm.mail.exception.NotFoundException;
+import mg.edbm.mail.exception.ValidationException;
 import mg.edbm.mail.service.UserService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -28,7 +30,7 @@ public class UserController {
     @PostMapping
     public ResponseEntity<UserDtoResponse> create(@Valid UserDtoRequest userDtoRequest) throws AuthenticationException {
         final User user = userService.create(userDtoRequest, userService.getAuthenticatedUser());
-        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user, true);
+        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
         return ResponseEntity.ok(mappedUserDtoResponse);
     }
 
@@ -42,6 +44,13 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserDtoResponse> get(@PathVariable UUID id) {
         final User user = userService.getUser(id);
+        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
+        return ResponseEntity.ok(mappedUserDtoResponse);
+    }
+
+    @GetMapping("/{id}/reset-password")
+    public ResponseEntity<UserDtoResponse> resetPassword(@PathVariable UUID id) throws ValidationException, NotFoundException {
+        final User user = userService.resetPassword(id);
         final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
         return ResponseEntity.ok(mappedUserDtoResponse);
     }

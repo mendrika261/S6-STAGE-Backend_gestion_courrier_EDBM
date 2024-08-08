@@ -31,14 +31,14 @@ public class EmailService {
         }
     }
 
-    public void sendNewUserEmail(User user) {
-        final String templateName = "new-user-email";
+    public void sendResetPasswordEmail(User user, Boolean isNewUser) {
+        final String templateName = isNewUser ? "new-user-email" : "reset-password-email";
         final Context context = new Context();
         context.setVariable("fullName", StringCustomUtils.titleCase(user.getFullName()));
         context.setVariable("email", user.getEmail());
         context.setVariable("password", user.getPassword());
-        sendEmail(user.getEmail(), "Bienvenue sur EDBM Courrier", templateName, context);
-        log.info("New user email sent to {}", user.getEmail());
+        sendEmail(user.getEmail(), "Vos identifiants EDBM Courrier", templateName, context);
+        log.info("Password reset email sent to {}", user.getEmail());
     }
 
 }

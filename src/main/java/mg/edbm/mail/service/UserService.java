@@ -74,32 +74,37 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String generatePassword() {
-        final String password = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
-        log.info("Generated password: {}", password);
-        return password;
+    public String generateSecurityCode() {
+        return UUID.randomUUID().toString().replace("-", "").substring(0, 8);
     }
 
-    private User initializeUserCreation(UserDtoRequest userDtoRequest, String plainPassword, User authenticatedUser) {
-        final String hashedPassword = passwordEncoder.encode(plainPassword);
+    private User initializeUserCreation(UserDtoRequest userDtoRequest, User authenticatedUser) {
         User user = new User(userDtoRequest, authenticatedUser);
-        user.setPassword(hashedPassword);
+        user.setPassword(passwordEncoder.encode(userDtoRequest.getPassword())); // todo check
         user.setRoles(roleService.getRolesFromId(userDtoRequest.getRoles()));
         return save(user);
     }
 
-    private void notifyUserCreation(User user, String plainPassword) {
-        User userWithPlainPassword = new User(user);
-        userWithPlainPassword.setPassword(plainPassword);
-        emailService.sendNewUserEmail(userWithPlainPassword);
+    private User resetPassword(User user, Boolean isNewUser) {
+        final String securityCode = generateSecurityCode();
+        user.setPassword(securityCode);
+        emailService.sendResetPasswordEmail(user, isNewUser);
+
+        final String hashedPassword = passwordEncoder.encode(securityCode);
         user.setStatus(UserStatus.PENDING);
-        save(user);
+        user.setPassword(hashedPassword);
+        return save(user);
+    }
+
+    public User resetPassword(UUID uuid) throws NotFoundException {
+        final User user = get(uuid);
+        final Boolean isNewUser = user.getStatus() == UserStatus.CREATED;
+        return resetPassword(user, isNewUser);
     }
 
     public User create(UserDtoRequest userDtoRequest, User authenticatedUser) {
-        final String plainPassword = generatePassword();
-        User user = initializeUserCreation(userDtoRequest, plainPassword, authenticatedUser);
-        if(userDtoRequest.getNotifyCreation()) notifyUserCreation(user, plainPassword);
+        User user = initializeUserCreation(userDtoRequest, authenticatedUser);
+        if(userDtoRequest.getPasswordGenerated()) resetPassword(user, true);
         log.info("{} created {}", authenticatedUser, user);
         return user;
     }
