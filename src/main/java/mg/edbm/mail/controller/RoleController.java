@@ -20,23 +20,22 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/roles")
 @RequiredArgsConstructor
+@Transactional
 public class RoleController {
     private final RoleService roleService;
     private final UserService userService;
 
-    @Transactional
     @PostMapping
     public ResponseEntity<RoleDto> create(@Valid RoleDto roleDto) throws AuthenticationException {
-        final Role role = roleService.create(roleDto, userService.getAuthenticatedUser());
+        final Role role = roleService.createOrRestore(roleDto, userService.getAuthenticatedUser());
         final RoleDto mappedRoleDto = new RoleDto(role);
         return ResponseEntity.ok(mappedRoleDto);
     }
 
     @GetMapping
     public ResponseEntity<Page<RoleDto>> list(@Valid ListRequest listRequest) {
-        final Page<Role> roles = roleService.list(listRequest);
-        final Page<RoleDto> mappedRoleDtoList = roles.map(RoleDto::new);
-        return ResponseEntity.ok(mappedRoleDtoList);
+        final Page<RoleDto> roles = roleService.list(listRequest).map(RoleDto::new);
+        return ResponseEntity.ok(roles);
     }
 
     @GetMapping("/{id}")
@@ -46,7 +45,6 @@ public class RoleController {
         return ResponseEntity.ok(roleDto);
     }
 
-    @Transactional
     @PutMapping("/{id}")
     public ResponseEntity<RoleDto> update(@PathVariable Long id, @Valid RoleDto roleDto) throws NotFoundException,
             AuthenticationException {
@@ -55,7 +53,6 @@ public class RoleController {
         return ResponseEntity.ok(mappedRoleDto);
     }
 
-    @Transactional
     @DeleteMapping("/{id}")
     public ResponseEntity<RoleDto> remove(@PathVariable Long id) throws NotFoundException, AuthenticationException {
         final Role role = roleService.remove(id, userService.getAuthenticatedUser());

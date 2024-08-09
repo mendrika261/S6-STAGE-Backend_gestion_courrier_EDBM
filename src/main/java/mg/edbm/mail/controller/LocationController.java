@@ -1,0 +1,58 @@
+package mg.edbm.mail.controller;
+
+import lombok.RequiredArgsConstructor;
+import mg.edbm.mail.dto.LocationDto;
+import mg.edbm.mail.dto.request.ListRequest;
+import mg.edbm.mail.entity.Location;
+import mg.edbm.mail.exception.AuthenticationException;
+import mg.edbm.mail.exception.NotFoundException;
+import mg.edbm.mail.service.LocationService;
+import mg.edbm.mail.service.UserService;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@Transactional
+@RequiredArgsConstructor
+@RequestMapping("/locations")
+public class LocationController {
+    private final LocationService locationService;
+    private final UserService userService;
+
+    @PostMapping
+    public ResponseEntity<LocationDto> create(LocationDto locationDto) throws AuthenticationException {
+        final Location location = locationService.createOrRestore(locationDto, userService.getAuthenticatedUser());
+        final LocationDto mappedLocationDto = new LocationDto(location);
+        return ResponseEntity.ok(mappedLocationDto);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<LocationDto>> list(ListRequest listRequest) {
+        final Page<LocationDto> locations = locationService.list(listRequest).map(LocationDto::new);
+        return ResponseEntity.ok(locations);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<LocationDto> get(@PathVariable Long id) throws NotFoundException {
+        final Location location = locationService.get(id);
+        final LocationDto locationDto = new LocationDto(location);
+        return ResponseEntity.ok(locationDto);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<LocationDto> update(@PathVariable Long id, LocationDto locationDto) throws NotFoundException,
+            AuthenticationException {
+        final Location location = locationService.update(id, locationDto, userService.getAuthenticatedUser());
+        final LocationDto mappedLocationDto = new LocationDto(location);
+        return ResponseEntity.ok(mappedLocationDto);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<LocationDto> remove(@PathVariable Long id) throws NotFoundException, AuthenticationException {
+        final Location location = locationService.remove(id, userService.getAuthenticatedUser());
+        final LocationDto mappedLocationDto = new LocationDto(location);
+        return ResponseEntity.ok(mappedLocationDto);
+    }
+}

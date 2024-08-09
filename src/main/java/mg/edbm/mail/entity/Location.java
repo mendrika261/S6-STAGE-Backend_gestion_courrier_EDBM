@@ -2,7 +2,9 @@ package mg.edbm.mail.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mg.edbm.mail.dto.LocationDto;
 
 import java.time.LocalDateTime;
 
@@ -12,6 +14,7 @@ import java.time.LocalDateTime;
 @Table(uniqueConstraints = {
     @UniqueConstraint(columnNames = {"latitude", "longitude"})
 })
+@NoArgsConstructor
 public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -46,4 +49,31 @@ public class Location {
     private User removedBy;
 
     private LocalDateTime removedAt;
+
+    public Location(LocationDto locationDto, User author) {
+        setName(locationDto.getName());
+        setLatitude(locationDto.getLatitude());
+        setLongitude(locationDto.getLongitude());
+        setCreatedBy(author);
+    }
+
+    public void update(LocationDto locationDto, User author) {
+        setName(locationDto.getName());
+        setLatitude(locationDto.getLatitude());
+        setLongitude(locationDto.getLongitude());
+        setUpdatedBy(author);
+        setUpdatedAt(LocalDateTime.now());
+    }
+
+    public void restore(User author) {
+        setRemovedBy(null);
+        setRemovedAt(null);
+        setUpdatedBy(author);
+        setUpdatedAt(LocalDateTime.now());
+    }
+
+    public void remove(User authenticatedUser) {
+        setRemovedBy(authenticatedUser);
+        setRemovedAt(LocalDateTime.now());
+    }
 }

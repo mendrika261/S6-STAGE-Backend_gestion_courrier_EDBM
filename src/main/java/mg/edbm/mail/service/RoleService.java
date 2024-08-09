@@ -26,11 +26,7 @@ import java.util.Set;
 public class RoleService {
     private final RoleRepository roleRepository;
 
-    public Role save(Role role) {
-        return roleRepository.save(role);
-    }
-
-    public Role create(RoleDto roleDto, User author) {
+    public Role createOrRestore(RoleDto roleDto, User author) {
         final Role role = new Role(roleDto, author);
         final Optional<Role> removedRole = roleRepository.findIfRemoved(role.getCode());
         if(removedRole.isPresent()) {
@@ -38,10 +34,10 @@ public class RoleService {
             removed.update(roleDto, author);
             removed.restore(author);
             log.info("{} restored {}", author, removed);
-            return save(removed);
+            return roleRepository.save(removed);
         }
         log.info("{} created {}", author, role);
-        return save(role);
+        return roleRepository.save(role);
     }
 
     public Page<Role> list(ListRequest listRequest) {
@@ -61,14 +57,14 @@ public class RoleService {
         final Role role = get(id);
         role.update(roleDto, author);
         log.info("{} updated {}", author, role);
-        return save(role);
+        return roleRepository.save(role);
     }
 
     public Role remove(Long id, User user) throws NotFoundException {
         final Role role = get(id);
         role.remove(user);
         log.info("{} removed {}", user, role);
-        return save(role);
+        return roleRepository.save(role);
     }
 
     public Set<Role> getRolesFromId(List<Long> roles) {
