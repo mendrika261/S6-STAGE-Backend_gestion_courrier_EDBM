@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mg.edbm.mail.dto.request.PasswordDtoRequest;
 import mg.edbm.mail.dto.request.UserDtoRequest;
 import mg.edbm.mail.entity.type.UserStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -82,6 +83,11 @@ public class User implements UserDetails {
         setCreatedBy(authenticatedUser);
     }
 
+    public void updatePassword(PasswordDtoRequest passwordDtoRequest, User authenticatedUser) {
+        setPassword(passwordDtoRequest.getPassword());
+        setCreatedBy(authenticatedUser);
+    }
+
     public boolean isActive() {
         return getStatus().equals(UserStatus.ACTIVE);
     }
@@ -108,5 +114,4 @@ public class User implements UserDetails {
     public String getFullName() {
         return getFirstName() + " " + getLastName();
     }
-
 }

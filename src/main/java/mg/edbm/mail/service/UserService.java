@@ -3,6 +3,7 @@ package mg.edbm.mail.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.dto.request.ListRequest;
+import mg.edbm.mail.dto.request.PasswordDtoRequest;
 import mg.edbm.mail.dto.request.UserDtoRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import mg.edbm.mail.entity.User;
@@ -122,6 +123,13 @@ public class UserService {
         final User user = get(id);
         user.updateWithoutPassword(userDtoRequest, authenticatedUser);
         log.info("{} updated {}", authenticatedUser, user);
+        return save(user);
+    }
+
+    public User updatePassword(UUID id, PasswordDtoRequest passwordDtoRequest, User authenticatedUser) throws NotFoundException {
+        final User user = get(id);
+        user.updatePassword(passwordDtoRequest, authenticatedUser);
+        log.info("{} updated password for {}", authenticatedUser, user);
         return save(user);
     }
 }

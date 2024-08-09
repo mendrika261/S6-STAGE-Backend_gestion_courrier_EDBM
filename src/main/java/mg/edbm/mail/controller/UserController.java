@@ -3,6 +3,7 @@ package mg.edbm.mail.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.config.DatabaseConfig;
+import mg.edbm.mail.dto.request.PasswordDtoRequest;
 import mg.edbm.mail.dto.response.UserDtoResponse;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.UserDtoRequest;
@@ -59,6 +60,14 @@ public class UserController {
     public ResponseEntity<UserDtoResponse> update(@PathVariable UUID id, @Valid UserDtoRequest userDtoRequest)
             throws NotFoundException, AuthenticationException {
         final User user = userService.updateWithoutPassword(id, userDtoRequest, userService.getAuthenticatedUser());
+        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
+        return ResponseEntity.ok(mappedUserDtoResponse);
+    }
+
+    @PutMapping("/{id}/password")
+    public ResponseEntity<UserDtoResponse> updatePassword(@PathVariable UUID id, @Valid PasswordDtoRequest passwordDtoRequest)
+            throws NotFoundException, AuthenticationException {
+        final User user = userService.updatePassword(id, passwordDtoRequest, userService.getAuthenticatedUser());
         final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
         return ResponseEntity.ok(mappedUserDtoResponse);
     }
