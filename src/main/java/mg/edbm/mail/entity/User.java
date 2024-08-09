@@ -4,8 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import mg.edbm.mail.dto.request.PasswordDtoRequest;
-import mg.edbm.mail.dto.request.UserDtoRequest;
+import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.entity.type.UserStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +37,10 @@ public class User implements UserDetails {
 
     private String phoneNumber;
 
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(nullable = false)
+    private Location location;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserStatus status = UserStatus.CREATED;
@@ -53,12 +56,12 @@ public class User implements UserDetails {
     @ManyToOne(cascade = CascadeType.ALL)
     private User createdBy;
 
-    public User(UserDtoRequest userDtoRequest, User authenticatedUser) {
-        setEmail(userDtoRequest.getEmail());
-        setLastName(userDtoRequest.getLastName());
-        setFirstName(userDtoRequest.getFirstName());
-        setPhoneNumber(userDtoRequest.getPhoneNumber());
-        setPassword(userDtoRequest.getPassword());
+    public User(UserRequest userRequest, User authenticatedUser) {
+        setEmail(userRequest.getEmail());
+        setLastName(userRequest.getLastName());
+        setFirstName(userRequest.getFirstName());
+        setPhoneNumber(userRequest.getPhoneNumber());
+        setPassword(userRequest.getPassword());
         setCreatedBy(authenticatedUser);
     }
 
@@ -75,11 +78,11 @@ public class User implements UserDetails {
         setCreatedBy(user.getCreatedBy());
     }
 
-    public void updateWithoutPassword(UserDtoRequest userDtoRequest, User authenticatedUser) {
-        setEmail(userDtoRequest.getEmail());
-        setLastName(userDtoRequest.getLastName());
-        setFirstName(userDtoRequest.getFirstName());
-        setPhoneNumber(userDtoRequest.getPhoneNumber());
+    public void updateWithoutPassword(UserRequest userRequest, User authenticatedUser) {
+        setEmail(userRequest.getEmail());
+        setLastName(userRequest.getLastName());
+        setFirstName(userRequest.getFirstName());
+        setPhoneNumber(userRequest.getPhoneNumber());
         setCreatedBy(authenticatedUser);
     }
 

@@ -4,11 +4,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.config.DatabaseConfig;
 import mg.edbm.mail.config.SecurityConfig;
-import mg.edbm.mail.dto.MailDto;
-import mg.edbm.mail.dto.request.PasswordDtoRequest;
-import mg.edbm.mail.dto.response.UserDtoResponse;
+import mg.edbm.mail.dto.response.MailResponse;
+import mg.edbm.mail.dto.request.MailOutgoingRequest;
+import mg.edbm.mail.dto.request.PasswordRequest;
+import mg.edbm.mail.dto.request.type.MailType;
+import mg.edbm.mail.dto.response.UserResponse;
 import mg.edbm.mail.dto.request.ListRequest;
-import mg.edbm.mail.dto.request.UserDtoRequest;
+import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.dto.response.FormResponse;
 import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.User;
@@ -17,6 +19,7 @@ import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.exception.ValidationException;
 import mg.edbm.mail.security.AdminOrSelf;
+import mg.edbm.mail.security.Self;
 import mg.edbm.mail.service.MailService;
 import mg.edbm.mail.service.UserService;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -38,70 +41,81 @@ public class UserController {
 
     @PostMapping
     @Secured(SecurityConfig.ROLE_ADMIN)
-    public ResponseEntity<UserDtoResponse> create(@Valid UserDtoRequest userDtoRequest) throws AuthenticationException, ValidationException {
-        final User user = userService.create(userDtoRequest, userService.getAuthenticatedUser());
-        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
-        return ResponseEntity.ok(mappedUserDtoResponse);
+    public ResponseEntity<UserResponse> create(@Valid UserRequest userRequest)
+            throws AuthenticationException, ValidationException, NotFoundException {
+        final User user = userService.create(userRequest, userService.getAuthenticatedUser());
+        final UserResponse mappedUserResponse = new UserResponse(user);
+        return ResponseEntity.ok(mappedUserResponse);
     }
 
     @GetMapping
     @Secured(SecurityConfig.ROLE_ADMIN)
-    public ResponseEntity<Page<UserDtoResponse>> list(@Valid ListRequest listRequest) {
+    public ResponseEntity<Page<UserResponse>> list(@Valid ListRequest listRequest) {
         final Page<User> users = userService.list(listRequest);
-        final Page<UserDtoResponse> mappedUserDtoList = users.map(UserDtoResponse::new);
+        final Page<UserResponse> mappedUserDtoList = users.map(UserResponse::new);
         return ResponseEntity.ok(mappedUserDtoList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserDtoResponse> get(@PathVariable UUID id) {
+    public ResponseEntity<UserResponse> get(@PathVariable UUID id) {
         final User user = userService.getUser(id);
-        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
-        return ResponseEntity.ok(mappedUserDtoResponse);
+        final UserResponse mappedUserResponse = new UserResponse(user);
+        return ResponseEntity.ok(mappedUserResponse);
     }
 
     @GetMapping("/{id}/password")
     @AdminOrSelf
-    public ResponseEntity<UserDtoResponse> resetPassword(@PathVariable UUID id) throws NotFoundException, ValidationException {
+    public ResponseEntity<UserResponse> resetPassword(@PathVariable UUID id) throws NotFoundException, ValidationException {
         final User user = userService.resetPassword(id);
-        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
-        return ResponseEntity.ok(mappedUserDtoResponse);
+        final UserResponse mappedUserResponse = new UserResponse(user);
+        return ResponseEntity.ok(mappedUserResponse);
     }
 
     @PutMapping("/{id}")
     @AdminOrSelf
-    public ResponseEntity<UserDtoResponse> update(@PathVariable UUID id, @Valid UserDtoRequest userDtoRequest)
+    public ResponseEntity<UserResponse> update(@PathVariable UUID id, @Valid UserRequest userRequest)
             throws NotFoundException, AuthenticationException {
-        final User user = userService.updateWithoutPassword(id, userDtoRequest, userService.getAuthenticatedUser());
-        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
-        return ResponseEntity.ok(mappedUserDtoResponse);
+        final User user = userService.updateWithoutPassword(id, userRequest, userService.getAuthenticatedUser());
+        final UserResponse mappedUserResponse = new UserResponse(user);
+        return ResponseEntity.ok(mappedUserResponse);
     }
 
     @PutMapping("/{id}/password")
     @AdminOrSelf
-    public ResponseEntity<UserDtoResponse> updatePassword(@PathVariable UUID id, @Valid PasswordDtoRequest passwordDtoRequest)
+    public ResponseEntity<UserResponse> updatePassword(@PathVariable UUID id, @Valid PasswordRequest passwordRequest)
             throws NotFoundException, AuthenticationException, ValidationException {
-        final User user = userService.updatePassword(id, passwordDtoRequest, userService.getAuthenticatedUser());
-        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
-        return ResponseEntity.ok(mappedUserDtoResponse);
+        final User user = userService.updatePassword(id, passwordRequest, userService.getAuthenticatedUser());
+        final UserResponse mappedUserResponse = new UserResponse(user);
+        return ResponseEntity.ok(mappedUserResponse);
     }
 
     @PutMapping("/{id}/status")
     @Secured(SecurityConfig.ROLE_ADMIN)
-    public ResponseEntity<UserDtoResponse> updateStatus(@PathVariable UUID id,
-                                                        UserStatus status)
+    public ResponseEntity<UserResponse> updateStatus(@PathVariable UUID id,
+                                                     UserStatus status)
             throws NotFoundException, AuthenticationException, ValidationException {
         final User user = userService.updateStatus(id, status, userService.getAuthenticatedUser());
-        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
-        return ResponseEntity.ok(mappedUserDtoResponse);
+        final UserResponse mappedUserResponse = new UserResponse(user);
+        return ResponseEntity.ok(mappedUserResponse);
     }
 
     @GetMapping("{id}/mails")
     @AdminOrSelf
-    public ResponseEntity<Page<MailDto>> getMailByUser(@PathVariable UUID id,  @Valid ListRequest listRequest)
+    public ResponseEntity<Page<MailResponse>> getMailByUser(@PathVariable UUID id, @Valid MailType type, @Valid ListRequest listRequest)
             throws NotFoundException {
-        final Page<Mail> mails = mailService.getMailByUser(id, listRequest);
-        final Page<MailDto> mappedMailDtoList = mails.map(MailDto::new);
+        final Page<Mail> mails = mailService.getMailByUser(id, type, listRequest);
+        final Page<MailResponse> mappedMailDtoList = mails.map(MailResponse::new);
         return ResponseEntity.ok(mappedMailDtoList);
+    }
+
+    @PostMapping("{id}/mails")
+    @Secured(SecurityConfig.ROLE_USER)
+    @Self
+    public ResponseEntity<MailResponse> createOutgoingMail(@PathVariable UUID id, @Valid MailOutgoingRequest mailOutgoingRequest)
+            throws AuthenticationException, NotFoundException {
+        final Mail createdMail = mailService.createOutgoingMail(id, mailOutgoingRequest, userService.getAuthenticatedUser());
+        final MailResponse mappedMailResponse = new MailResponse(createdMail);
+        return ResponseEntity.ok(mappedMailResponse);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

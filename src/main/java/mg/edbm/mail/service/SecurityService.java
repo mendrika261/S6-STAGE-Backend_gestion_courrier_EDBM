@@ -19,4 +19,9 @@ public class SecurityService {
         return Arrays.stream(authenticatedUser.getRolesCode()).toList().contains(SecurityConfig.ROLE_ADMIN) ||
                 authenticatedUser.getId().equals(id);
     }
+
+    public boolean isSelf(UUID id) throws AuthenticationException {
+        User authenticatedUser = userService.getAuthenticatedUser();
+        return authenticatedUser.getId().equals(id);
+    }
 }

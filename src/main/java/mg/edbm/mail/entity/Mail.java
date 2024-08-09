@@ -2,7 +2,9 @@ package mg.edbm.mail.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mg.edbm.mail.dto.request.MailOutgoingRequest;
 import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.MailPriority;
@@ -16,6 +18,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table
+@NoArgsConstructor
 public class Mail {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,21 +41,29 @@ public class Mail {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private MailStatus status = MailStatus.WAITING;
+    private MailStatus status = MailStatus.DRAFT;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private Location senderLocation;
 
-    @Column(nullable = false)
+    @Column
     private String sender;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn( nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private User senderUser;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private Location receiverLocation;
 
-    @Column(nullable = false)
+    @Column
     private String receiver;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private User receiverUser;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<File> files = new LinkedHashSet<>();
@@ -66,6 +77,16 @@ public class Mail {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn( nullable = false)
+    @JoinColumn(nullable = false)
     private User createdBy;
+
+    public Mail(MailOutgoingRequest mailOutgoingRequest, User senderUser, User author) {
+        setObject(mailOutgoingRequest.getObject());
+        setConfidentiality(mailOutgoingRequest.getConfidentiality());
+        setPriority(mailOutgoingRequest.getMailPriority());
+        setNoteForMessenger(mailOutgoingRequest.getNoteForMessenger());
+        setDescription(mailOutgoingRequest.getDescription());
+        setSenderUser(senderUser);
+        setCreatedBy(author);
+    }
 }

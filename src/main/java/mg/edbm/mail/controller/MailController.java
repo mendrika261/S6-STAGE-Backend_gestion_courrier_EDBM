@@ -10,4 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MailController {
     private final MailService mailService;
+
+    /*@PostMapping
+    @Secured({SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_RECEPTIONIST})
+    public ResponseEntity<MailDto> create(@Valid MailDto mailDto) {
+        final MailDto createdMail = mailService.create(mailDto);
+        return ResponseEntity.ok(createdMail);
+    }*/
 }

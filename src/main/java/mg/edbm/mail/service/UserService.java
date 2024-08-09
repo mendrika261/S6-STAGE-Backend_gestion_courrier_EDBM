@@ -3,8 +3,8 @@ package mg.edbm.mail.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.dto.request.ListRequest;
-import mg.edbm.mail.dto.request.PasswordDtoRequest;
-import mg.edbm.mail.dto.request.UserDtoRequest;
+import mg.edbm.mail.dto.request.PasswordRequest;
+import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.UserStatus;
@@ -34,6 +34,7 @@ public class UserService {
     private final SessionService sessionService;
     private final RoleService roleService;
     private final EmailService emailService;
+    private final LocationService locationService;
 
     public User verifyUser(String email, String password, HttpServletRequest request) throws AuthenticationException {
         final Optional<User> user = userRepository.findByEmail(email);
@@ -80,10 +81,11 @@ public class UserService {
         return UUID.randomUUID().toString().replace("-", "").substring(0, 8);
     }
 
-    private User initializeUserCreation(UserDtoRequest userDtoRequest, User authenticatedUser) {
-        User user = new User(userDtoRequest, authenticatedUser);
-        user.setPassword(passwordEncoder.encode(userDtoRequest.getPassword())); // todo check
-        user.setRoles(roleService.getRolesFromId(userDtoRequest.getRoles()));
+    private User initializeUserCreation(UserRequest userRequest, User authenticatedUser) throws NotFoundException {
+        User user = new User(userRequest, authenticatedUser);
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+        user.setRoles(roleService.getRolesFromId(userRequest.getRoles()));
+        user.setLocation(locationService.get(userRequest.getLocationId()));
         return save(user);
     }
 
@@ -105,9 +107,9 @@ public class UserService {
         return resetPassword(user, isNewUser);
     }
 
-    public User create(UserDtoRequest userDtoRequest, User authenticatedUser) throws ValidationException {
-        User user = initializeUserCreation(userDtoRequest, authenticatedUser);
-        if(userDtoRequest.getPasswordGenerated()) resetPassword(user, true);
+    public User create(UserRequest userRequest, User authenticatedUser) throws ValidationException, NotFoundException {
+        User user = initializeUserCreation(userRequest, authenticatedUser);
+        if(userRequest.getPasswordGenerated()) resetPassword(user, true);
         log.info("{} created {}", authenticatedUser, user);
         return user;
     }
@@ -123,18 +125,20 @@ public class UserService {
         return save(user);
     }
 
-    public User updateWithoutPassword(UUID id, UserDtoRequest userDtoRequest, User authenticatedUser)
+    public User updateWithoutPassword(UUID id, UserRequest userRequest, User authenticatedUser)
             throws NotFoundException {
         final User user = get(id);
-        user.updateWithoutPassword(userDtoRequest, authenticatedUser);
+        user.updateWithoutPassword(userRequest, authenticatedUser);
+        user.setRoles(roleService.getRolesFromId(userRequest.getRoles()));
+        user.setLocation(locationService.get(userRequest.getLocationId()));
         return update(user, authenticatedUser);
     }
 
-    public User updatePassword(UUID id, PasswordDtoRequest passwordDtoRequest, User authenticatedUser) throws NotFoundException, ValidationException {
+    public User updatePassword(UUID id, PasswordRequest passwordRequest, User authenticatedUser) throws NotFoundException, ValidationException {
         final User user = get(id);
-        if(!passwordEncoder.matches(passwordDtoRequest.getOldPassword(), user.getPassword()))
+        if(!passwordEncoder.matches(passwordRequest.getOldPassword(), user.getPassword()))
             throw new ValidationException("Le code de sécurité est incorrect");
-        final String hashedPassword = passwordEncoder.encode(passwordDtoRequest.getPassword());
+        final String hashedPassword = passwordEncoder.encode(passwordRequest.getPassword());
         user.updatePassword(hashedPassword, authenticatedUser);
         return update(user, authenticatedUser);
     }

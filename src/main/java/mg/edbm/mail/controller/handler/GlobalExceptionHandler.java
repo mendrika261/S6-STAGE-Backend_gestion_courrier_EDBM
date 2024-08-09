@@ -57,8 +57,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler({NotFoundException.class, NoResourceFoundException.class})
-    public ResponseEntity<MessageResponse> handleNoSuchElementExceptions() {
-        final MessageResponse messageResponse = new MessageResponse("404: Not found");
+    public ResponseEntity<MessageResponse> handleNoSuchElementExceptions(Exception e) {
+        final MessageResponse messageResponse = new MessageResponse("404: Not found - " + e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(messageResponse);
     }
 }

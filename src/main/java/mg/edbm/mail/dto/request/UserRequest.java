@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-public class UserDtoRequest {
+public class UserRequest {
     private UUID id;
     @NotBlank(message = "Le nom est obligatoire")
     @Length(min = 2, max = 255, message = "Le nom doit contenir entre 2 et 255 caractères")
@@ -27,6 +27,8 @@ public class UserDtoRequest {
     private String phoneNumber;
     @NotEmpty(message = "Le rôle est obligatoire")
     private List<Long> roles;
+    @NotNull(message = "La localisation est obligatoire")
+    private Long locationId;
 
     private String password = "";
     private Boolean passwordGenerated = false;

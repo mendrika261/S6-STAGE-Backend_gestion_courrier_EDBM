@@ -31,8 +31,8 @@ public class Location {
     private Double longitude;
 
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn
     private User createdBy;
 
     @Column(nullable = false)

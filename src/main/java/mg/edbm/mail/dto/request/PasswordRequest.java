@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Data
 @PasswordMatches
-public class PasswordDtoRequest {
+public class PasswordRequest {
     @NotBlank(message = "L'ancien mot de passe est obligatoire")
     @Length(min = 8, max = 255, message = "L'ancien mot de passe doit contenir au moins 8 caractères")
     private String oldPassword = "";

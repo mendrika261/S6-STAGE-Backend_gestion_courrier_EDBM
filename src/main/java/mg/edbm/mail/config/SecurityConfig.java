@@ -38,6 +38,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class SecurityConfig {
     public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_RECEPTIONIST = "RECEPTIONIST";
+    public static final String ROLE_MESSENGER = "MESSENGER";
+    public static final String ROLE_USER = "USER";
 
     private final UserRepository userRepository;
     private final ServerProperties serverProperties;

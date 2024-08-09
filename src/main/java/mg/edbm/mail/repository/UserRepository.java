@@ -17,6 +17,6 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
 
     @Override
     @NonNull
-    @EntityGraph(attributePaths = "roles")
+    @EntityGraph(attributePaths = {"roles"})
     Optional<User> findById(@NonNull UUID uuid);
 }
