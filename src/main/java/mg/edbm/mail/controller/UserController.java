@@ -28,7 +28,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping
-    public ResponseEntity<UserDtoResponse> create(@Valid UserDtoRequest userDtoRequest) throws AuthenticationException {
+    public ResponseEntity<UserDtoResponse> create(@Valid UserDtoRequest userDtoRequest) throws AuthenticationException, ValidationException {
         final User user = userService.create(userDtoRequest, userService.getAuthenticatedUser());
         final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
         return ResponseEntity.ok(mappedUserDtoResponse);
@@ -48,9 +48,17 @@ public class UserController {
         return ResponseEntity.ok(mappedUserDtoResponse);
     }
 
-    @GetMapping("/{id}/reset-password")
-    public ResponseEntity<UserDtoResponse> resetPassword(@PathVariable UUID id) throws ValidationException, NotFoundException {
+    @GetMapping("/{id}/password")
+    public ResponseEntity<UserDtoResponse> resetPassword(@PathVariable UUID id) throws NotFoundException, ValidationException {
         final User user = userService.resetPassword(id);
+        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
+        return ResponseEntity.ok(mappedUserDtoResponse);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDtoResponse> update(@PathVariable UUID id, @Valid UserDtoRequest userDtoRequest)
+            throws NotFoundException, AuthenticationException {
+        final User user = userService.updateWithoutPassword(id, userDtoRequest, userService.getAuthenticatedUser());
         final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
         return ResponseEntity.ok(mappedUserDtoResponse);
     }

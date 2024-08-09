@@ -74,6 +74,14 @@ public class User implements UserDetails {
         setCreatedBy(user.getCreatedBy());
     }
 
+    public void updateWithoutPassword(UserDtoRequest userDtoRequest, User authenticatedUser) {
+        setEmail(userDtoRequest.getEmail());
+        setLastName(userDtoRequest.getLastName());
+        setFirstName(userDtoRequest.getFirstName());
+        setPhoneNumber(userDtoRequest.getPhoneNumber());
+        setCreatedBy(authenticatedUser);
+    }
+
     public boolean isActive() {
         return getStatus().equals(UserStatus.ACTIVE);
     }
@@ -100,4 +108,5 @@ public class User implements UserDetails {
     public String getFullName() {
         return getFirstName() + " " + getLastName();
     }
+
 }

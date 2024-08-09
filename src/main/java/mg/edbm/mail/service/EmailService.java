@@ -4,6 +4,7 @@ import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.exception.ValidationException;
 import mg.edbm.mail.utils.StringCustomUtils;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class EmailService {
     private final TemplateEngine templateEngine;
     private final JavaMailSender emailSender;
 
-    public void sendEmail(String to, String subject, String templateName, Context context) {
+    public void sendEmail(String to, String subject, String templateName, Context context) throws ValidationException {
         final String message = templateEngine.process(templateName, context);
         final MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
@@ -27,11 +28,12 @@ public class EmailService {
             log.info("Sending email to {}", to);
             emailSender.send(mimeMessage);
         } catch (Exception e) {
-            log.error("Error while sending email to {}", to, e);
+            log.error("Error while sending email to {}", to);
+            throw new ValidationException("Veuillez réessayer plus tard ou contacter directement le service informatique");
         }
     }
 
-    public void sendResetPasswordEmail(User user, Boolean isNewUser) {
+    public void sendResetPasswordEmail(User user, Boolean isNewUser) throws ValidationException {
         final String templateName = isNewUser ? "new-user-email" : "reset-password-email";
         final Context context = new Context();
         context.setVariable("fullName", StringCustomUtils.titleCase(user.getFullName()));

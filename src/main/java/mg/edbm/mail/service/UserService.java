@@ -9,6 +9,7 @@ import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.UserStatus;
 import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
+import mg.edbm.mail.exception.ValidationException;
 import mg.edbm.mail.repository.UserRepository;
 import mg.edbm.mail.utils.UserUtils;
 import mg.edbm.mail.entity.type.Token;
@@ -85,7 +86,7 @@ public class UserService {
         return save(user);
     }
 
-    private User resetPassword(User user, Boolean isNewUser) {
+    private User resetPassword(User user, Boolean isNewUser) throws ValidationException {
         final String securityCode = generateSecurityCode();
         user.setPassword(securityCode);
         emailService.sendResetPasswordEmail(user, isNewUser);
@@ -93,16 +94,17 @@ public class UserService {
         final String hashedPassword = passwordEncoder.encode(securityCode);
         user.setStatus(UserStatus.PENDING);
         user.setPassword(hashedPassword);
+        log.info("Password reset for {}", user);
         return save(user);
     }
 
-    public User resetPassword(UUID uuid) throws NotFoundException {
+    public User resetPassword(UUID uuid) throws NotFoundException, ValidationException {
         final User user = get(uuid);
         final Boolean isNewUser = user.getStatus() == UserStatus.CREATED;
         return resetPassword(user, isNewUser);
     }
 
-    public User create(UserDtoRequest userDtoRequest, User authenticatedUser) {
+    public User create(UserDtoRequest userDtoRequest, User authenticatedUser) throws ValidationException {
         User user = initializeUserCreation(userDtoRequest, authenticatedUser);
         if(userDtoRequest.getPasswordGenerated()) resetPassword(user, true);
         log.info("{} created {}", authenticatedUser, user);
@@ -113,5 +115,13 @@ public class UserService {
         return userRepository.findById(uuid).orElseThrow(
                 () -> new NotFoundException("L'utilisateur #" + uuid + " n'existe pas")
         );
+    }
+
+    public User updateWithoutPassword(UUID id, UserDtoRequest userDtoRequest, User authenticatedUser)
+            throws NotFoundException {
+        final User user = get(id);
+        user.updateWithoutPassword(userDtoRequest, authenticatedUser);
+        log.info("{} updated {}", authenticatedUser, user);
+        return save(user);
     }
 }
