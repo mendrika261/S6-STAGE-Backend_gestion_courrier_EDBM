@@ -13,6 +13,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
@@ -46,6 +47,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<FormResponse> handleValidationExceptions(ValidationException ex) {
         final FormResponse formResponse = new FormResponse(ex.getMessage());
         return ResponseEntity.badRequest().body(formResponse);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<MessageResponse> handleMethodArgumentTypeMismatchExceptions() {
+        final MessageResponse messageResponse = new MessageResponse("400: Type mismatched request");
+        return ResponseEntity.badRequest().body(messageResponse);
     }
 
     @ExceptionHandler({NotFoundException.class, NoResourceFoundException.class})

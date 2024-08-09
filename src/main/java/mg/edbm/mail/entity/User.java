@@ -83,8 +83,8 @@ public class User implements UserDetails {
         setCreatedBy(authenticatedUser);
     }
 
-    public void updatePassword(PasswordDtoRequest passwordDtoRequest, User authenticatedUser) {
-        setPassword(passwordDtoRequest.getPassword());
+    public void updatePassword(String hashedPassword, User authenticatedUser) {
+        setPassword(hashedPassword);
         setCreatedBy(authenticatedUser);
     }
 

@@ -9,6 +9,7 @@ import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.UserDtoRequest;
 import mg.edbm.mail.dto.response.FormResponse;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.entity.type.UserStatus;
 import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.exception.ValidationException;
@@ -68,6 +69,15 @@ public class UserController {
     public ResponseEntity<UserDtoResponse> updatePassword(@PathVariable UUID id, @Valid PasswordDtoRequest passwordDtoRequest)
             throws NotFoundException, AuthenticationException {
         final User user = userService.updatePassword(id, passwordDtoRequest, userService.getAuthenticatedUser());
+        final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
+        return ResponseEntity.ok(mappedUserDtoResponse);
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<UserDtoResponse> updateStatus(@PathVariable UUID id,
+                                                        UserStatus status)
+            throws NotFoundException, AuthenticationException, ValidationException {
+        final User user = userService.updateStatus(id, status, userService.getAuthenticatedUser());
         final UserDtoResponse mappedUserDtoResponse = new UserDtoResponse(user);
         return ResponseEntity.ok(mappedUserDtoResponse);
     }

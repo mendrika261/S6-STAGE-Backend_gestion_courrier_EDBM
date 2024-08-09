@@ -72,7 +72,7 @@ public class UserService {
         return userRepository.findAll(specification, pageable);
     }
 
-    public User save(User user) {
+    private User save(User user) {
         return userRepository.save(user);
     }
 
@@ -118,18 +118,29 @@ public class UserService {
         );
     }
 
-    public User updateWithoutPassword(UUID id, UserDtoRequest userDtoRequest, User authenticatedUser)
-            throws NotFoundException {
-        final User user = get(id);
-        user.updateWithoutPassword(userDtoRequest, authenticatedUser);
+    private User update(User user, User authenticatedUser) {
         log.info("{} updated {}", authenticatedUser, user);
         return save(user);
     }
 
+    public User updateWithoutPassword(UUID id, UserDtoRequest userDtoRequest, User authenticatedUser)
+            throws NotFoundException {
+        final User user = get(id);
+        user.updateWithoutPassword(userDtoRequest, authenticatedUser);
+        return update(user, authenticatedUser);
+    }
+
     public User updatePassword(UUID id, PasswordDtoRequest passwordDtoRequest, User authenticatedUser) throws NotFoundException {
         final User user = get(id);
-        user.updatePassword(passwordDtoRequest, authenticatedUser);
-        log.info("{} updated password for {}", authenticatedUser, user);
-        return save(user);
+        final String hashedPassword = passwordEncoder.encode(passwordDtoRequest.getPassword());
+        user.updatePassword(hashedPassword, authenticatedUser);
+        return update(user, authenticatedUser);
+    }
+
+    public User updateStatus(UUID id, UserStatus status, User authenticatedUser) throws NotFoundException, ValidationException {
+        if(status == null) throw new ValidationException("Le statut ne peut pas être vide");
+        final User user = get(id);
+        user.setStatus(status);
+        return update(user, authenticatedUser);
     }
 }
