@@ -46,4 +46,8 @@ public class ListRequest {
     public void addCriteria(SearchCriteria searchCriteria) {
         getCriteria().add(searchCriteria);
     }
+
+    public void addCriteria(String key, OperationType operation, Object value) {
+        addCriteria(new SearchCriteria(key, operation, value));
+    }
 }

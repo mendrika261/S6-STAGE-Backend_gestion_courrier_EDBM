@@ -130,8 +130,10 @@ public class UserService {
         return update(user, authenticatedUser);
     }
 
-    public User updatePassword(UUID id, PasswordDtoRequest passwordDtoRequest, User authenticatedUser) throws NotFoundException {
+    public User updatePassword(UUID id, PasswordDtoRequest passwordDtoRequest, User authenticatedUser) throws NotFoundException, ValidationException {
         final User user = get(id);
+        if(!passwordEncoder.matches(passwordDtoRequest.getOldPassword(), user.getPassword()))
+            throw new ValidationException("Le code de sécurité est incorrect");
         final String hashedPassword = passwordEncoder.encode(passwordDtoRequest.getPassword());
         user.updatePassword(hashedPassword, authenticatedUser);
         return update(user, authenticatedUser);

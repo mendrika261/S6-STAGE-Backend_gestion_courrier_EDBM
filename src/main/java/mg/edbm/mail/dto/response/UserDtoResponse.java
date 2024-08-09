@@ -6,9 +6,11 @@ import mg.edbm.mail.entity.Role;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.UserStatus;
 
+import java.util.UUID;
+
 @Data
 public class UserDtoResponse {
-    private String id;
+    private UUID id;
     private String lastName;
     private String firstName;
     private String email;
@@ -19,7 +21,7 @@ public class UserDtoResponse {
     private UserStatus status;
 
     public UserDtoResponse(User user) {
-        setId(user.getId().toString());
+        setId(user.getId());
         setLastName(user.getLastName());
         setFirstName(user.getFirstName());
         setEmail(user.getEmail());

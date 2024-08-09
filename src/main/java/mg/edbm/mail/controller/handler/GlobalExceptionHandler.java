@@ -51,7 +51,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<MessageResponse> handleMethodArgumentTypeMismatchExceptions() {
-        final MessageResponse messageResponse = new MessageResponse("400: Type mismatched request");
+        final MessageResponse messageResponse = new MessageResponse("Veuillez vérifier les paramètres de la requête, " +
+                "les valeurs fournies ne sont pas celles attendues");
         return ResponseEntity.badRequest().body(messageResponse);
     }
 
