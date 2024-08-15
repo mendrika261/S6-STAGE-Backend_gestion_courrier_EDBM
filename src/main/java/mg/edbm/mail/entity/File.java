@@ -2,8 +2,11 @@ package mg.edbm.mail.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.proxy.HibernateProxy;
+import org.springframework.core.io.Resource;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -13,8 +16,9 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"path", "name", "type"})
+    @UniqueConstraint(columnNames = {"path", "name", "size", "type"})
 })
+@NoArgsConstructor
 public class File {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,11 +32,18 @@ public class File {
     private String type;
 
     @Column(nullable = false)
+    private Long size;
+
+    @Column(nullable = false)
     private String path;
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(nullable = false)
     private Mail mail;
+
+
+    @Transient
+    private Resource resource;
 
 
     @Column(nullable = false)
@@ -41,6 +52,14 @@ public class File {
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(nullable = false)
     private User createdBy;
+
+    public File(MultipartFile file, Mail mail, User createdBy) {
+        setName(file.getOriginalFilename());
+        setType(file.getContentType());
+        setMail(mail);
+        setCreatedBy(createdBy);
+        setSize(file.getSize());
+    }
 
     @Override
     public final boolean equals(Object o) {

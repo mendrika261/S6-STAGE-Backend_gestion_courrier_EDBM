@@ -25,8 +25,8 @@ public class UserRequest {
     @Pattern(regexp = "^(03[234789]\\d{7}|020(22|26)\\d{5})$",
             message = "Le numéro de téléphone doit être au format 03[234789]XXXXXXX ou 020(22|26)XXXXXX")
     private String phoneNumber;
-    @NotEmpty(message = "Le rôle est obligatoire")
-    private List<Long> roles;
+    @NotEmpty(message = "Un utilisateur doit avoir au moins un rôle")
+    private List<String> roles;
     @NotNull(message = "La localisation est obligatoire")
     private Long locationId;
 

@@ -42,26 +42,26 @@ public class RoleController {
         return ResponseEntity.ok(roles);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<RoleDto> get(@PathVariable Long id) throws NotFoundException {
-        final Role role = roleService.get(id);
+    @GetMapping("/{roleId}")
+    public ResponseEntity<RoleDto> get(@PathVariable Long roleId) throws NotFoundException {
+        final Role role = roleService.get(roleId);
         final RoleDto roleDto = new RoleDto(role);
         return ResponseEntity.ok(roleDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{roleId}")
     @Secured(SecurityConfig.ROLE_ADMIN)
-    public ResponseEntity<RoleDto> update(@PathVariable Long id, @Valid RoleDto roleDto) throws NotFoundException,
+    public ResponseEntity<RoleDto> update(@PathVariable Long roleId, @Valid RoleDto roleDto) throws NotFoundException,
             AuthenticationException {
-        final Role role = roleService.update(id, roleDto, userService.getAuthenticatedUser());
+        final Role role = roleService.update(roleId, roleDto, userService.getAuthenticatedUser());
         final RoleDto mappedRoleDto = new RoleDto(role);
         return ResponseEntity.ok(mappedRoleDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{roleId}")
     @Secured(SecurityConfig.ROLE_ADMIN)
-    public ResponseEntity<RoleDto> remove(@PathVariable Long id) throws NotFoundException, AuthenticationException {
-        final Role role = roleService.remove(id, userService.getAuthenticatedUser());
+    public ResponseEntity<RoleDto> remove(@PathVariable Long roleId) throws NotFoundException, AuthenticationException {
+        final Role role = roleService.remove(roleId, userService.getAuthenticatedUser());
         final RoleDto mappedRoleDto = new RoleDto(role);
         return ResponseEntity.ok(mappedRoleDto);
     }

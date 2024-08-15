@@ -23,7 +23,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class TokenService {
-    private static final Logger log = LoggerFactory.getLogger(TokenService.class);
     private final TokenProperties tokenProperties;
     private final SessionService sessionService;
 

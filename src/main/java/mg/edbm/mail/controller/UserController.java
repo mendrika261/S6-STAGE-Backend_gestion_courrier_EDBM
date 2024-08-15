@@ -56,64 +56,63 @@ public class UserController {
         return ResponseEntity.ok(mappedUserDtoList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserResponse> get(@PathVariable UUID id) {
-        final User user = userService.getUser(id);
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserResponse> get(@PathVariable UUID userId) {
+        final User user = userService.getUser(userId);
         final UserResponse mappedUserResponse = new UserResponse(user);
         return ResponseEntity.ok(mappedUserResponse);
     }
 
-    @GetMapping("/{id}/password")
+    @GetMapping("/{userId}/password")
     @AdminOrSelf
-    public ResponseEntity<UserResponse> resetPassword(@PathVariable UUID id) throws NotFoundException, ValidationException {
-        final User user = userService.resetPassword(id);
+    public ResponseEntity<UserResponse> resetPassword(@PathVariable UUID userId) throws NotFoundException, ValidationException {
+        final User user = userService.resetPassword(userId);
         final UserResponse mappedUserResponse = new UserResponse(user);
         return ResponseEntity.ok(mappedUserResponse);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{userId}")
     @AdminOrSelf
-    public ResponseEntity<UserResponse> update(@PathVariable UUID id, @Valid UserRequest userRequest)
+    public ResponseEntity<UserResponse> update(@PathVariable UUID userId, @Valid UserRequest userRequest)
             throws NotFoundException, AuthenticationException {
-        final User user = userService.updateWithoutPassword(id, userRequest, userService.getAuthenticatedUser());
+        final User user = userService.updateWithoutPassword(userId, userRequest, userService.getAuthenticatedUser());
         final UserResponse mappedUserResponse = new UserResponse(user);
         return ResponseEntity.ok(mappedUserResponse);
     }
 
-    @PutMapping("/{id}/password")
+    @PutMapping("/{userId}/password")
     @AdminOrSelf
-    public ResponseEntity<UserResponse> updatePassword(@PathVariable UUID id, @Valid PasswordRequest passwordRequest)
+    public ResponseEntity<UserResponse> updatePassword(@PathVariable UUID userId, @Valid PasswordRequest passwordRequest)
             throws NotFoundException, AuthenticationException, ValidationException {
-        final User user = userService.updatePassword(id, passwordRequest, userService.getAuthenticatedUser());
+        final User user = userService.updatePassword(userId, passwordRequest, userService.getAuthenticatedUser());
         final UserResponse mappedUserResponse = new UserResponse(user);
         return ResponseEntity.ok(mappedUserResponse);
     }
 
-    @PutMapping("/{id}/status")
+    @PutMapping("/{userId}/status")
     @Secured(SecurityConfig.ROLE_ADMIN)
-    public ResponseEntity<UserResponse> updateStatus(@PathVariable UUID id,
-                                                     UserStatus status)
+    public ResponseEntity<UserResponse> updateStatus(@PathVariable UUID userId, UserStatus status)
             throws NotFoundException, AuthenticationException, ValidationException {
-        final User user = userService.updateStatus(id, status, userService.getAuthenticatedUser());
+        final User user = userService.updateStatus(userId, status, userService.getAuthenticatedUser());
         final UserResponse mappedUserResponse = new UserResponse(user);
         return ResponseEntity.ok(mappedUserResponse);
     }
 
-    @GetMapping("{id}/mails")
+    @GetMapping("{userId}/mails")
     @AdminOrSelf
-    public ResponseEntity<Page<MailResponse>> getMailByUser(@PathVariable UUID id, @Valid MailType type, @Valid ListRequest listRequest)
+    public ResponseEntity<Page<MailResponse>> getMailByUser(@PathVariable UUID userId, @Valid MailType type, @Valid ListRequest listRequest)
             throws NotFoundException {
-        final Page<Mail> mails = mailService.getMailByUser(id, type, listRequest);
+        final Page<Mail> mails = mailService.getMailByUser(userId, type, listRequest);
         final Page<MailResponse> mappedMailDtoList = mails.map(MailResponse::new);
         return ResponseEntity.ok(mappedMailDtoList);
     }
 
-    @PostMapping("{id}/mails")
+    @PostMapping("{userId}/mails")
     @Secured(SecurityConfig.ROLE_USER)
     @Self
-    public ResponseEntity<MailResponse> createOutgoingMail(@PathVariable UUID id, @Valid MailOutgoingRequest mailOutgoingRequest)
+    public ResponseEntity<MailResponse> createOutgoingMail(@PathVariable UUID userId, @Valid MailOutgoingRequest mailOutgoingRequest)
             throws AuthenticationException, NotFoundException {
-        final Mail createdMail = mailService.createOutgoingMail(id, mailOutgoingRequest, userService.getAuthenticatedUser());
+        final Mail createdMail = mailService.createOutgoingMail(userId, mailOutgoingRequest, userService.getAuthenticatedUser());
         final MailResponse mappedMailResponse = new MailResponse(createdMail);
         return ResponseEntity.ok(mappedMailResponse);
     }

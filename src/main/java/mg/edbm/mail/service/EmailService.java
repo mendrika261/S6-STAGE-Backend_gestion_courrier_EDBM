@@ -28,7 +28,7 @@ public class EmailService {
             log.info("Sending email to {}", to);
             emailSender.send(mimeMessage);
         } catch (Exception e) {
-            log.error("Error while sending email to {}", to);
+            log.error("Error while sending email to {}", to, e);
             throw new ValidationException("Veuillez réessayer plus tard ou contacter directement le service informatique");
         }
     }

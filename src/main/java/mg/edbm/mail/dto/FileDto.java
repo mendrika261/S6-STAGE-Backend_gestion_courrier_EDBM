@@ -12,12 +12,14 @@ public class FileDto {
     private UUID id;
     private String name;
     private String type;
+    private Long size;
     private String path;
 
     public FileDto(File file) {
         setId(file.getId());
         setName(file.getName());
         setType(file.getType());
-        setPath(file.getPath());
+        setSize(file.getSize());
+        setPath("files/" + file.getId().toString());
     }
 }

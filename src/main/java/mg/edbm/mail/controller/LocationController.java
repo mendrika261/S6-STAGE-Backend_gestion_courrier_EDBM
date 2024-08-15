@@ -36,26 +36,26 @@ public class LocationController {
         return ResponseEntity.ok(locations);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<LocationDto> get(@PathVariable Long id) throws NotFoundException {
-        final Location location = locationService.get(id);
+    @GetMapping("/{locationId}")
+    public ResponseEntity<LocationDto> get(@PathVariable Long locationId) throws NotFoundException {
+        final Location location = locationService.get(locationId);
         final LocationDto locationDto = new LocationDto(location);
         return ResponseEntity.ok(locationDto);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{locationId}")
     @Secured(SecurityConfig.ROLE_ADMIN)
-    public ResponseEntity<LocationDto> update(@PathVariable Long id, LocationDto locationDto) throws NotFoundException,
+    public ResponseEntity<LocationDto> update(@PathVariable Long locationId, LocationDto locationDto) throws NotFoundException,
             AuthenticationException {
-        final Location location = locationService.update(id, locationDto, userService.getAuthenticatedUser());
+        final Location location = locationService.update(locationId, locationDto, userService.getAuthenticatedUser());
         final LocationDto mappedLocationDto = new LocationDto(location);
         return ResponseEntity.ok(mappedLocationDto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{locationId}")
     @Secured(SecurityConfig.ROLE_ADMIN)
-    public ResponseEntity<LocationDto> remove(@PathVariable Long id) throws NotFoundException, AuthenticationException {
-        final Location location = locationService.remove(id, userService.getAuthenticatedUser());
+    public ResponseEntity<LocationDto> remove(@PathVariable Long locationId) throws NotFoundException, AuthenticationException {
+        final Location location = locationService.remove(locationId, userService.getAuthenticatedUser());
         final LocationDto mappedLocationDto = new LocationDto(location);
         return ResponseEntity.ok(mappedLocationDto);
     }

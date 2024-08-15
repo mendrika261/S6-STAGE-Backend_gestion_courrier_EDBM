@@ -46,42 +46,62 @@ public class SpecificationImpl<T> implements Specification<T> {
             case NOT_LIKE -> getNotLikePredicate(root, criteria, builder);
             case GREATER_THAN_OR_EQUAL -> getGreaterThanOrEqualPredicate(root, criteria, builder);
             case LESS_THAN_OR_EQUAL -> getLessThanOrEqualPredicate(root, criteria, builder);
+            case STARTS_WITH -> getStartsWithPredicate(root, criteria, builder);
+            case ENDS_WITH -> getEndsWithPredicate(root, criteria, builder);
+            case IS_NULL -> getIsNullPredicate(root, criteria, builder);
+            case IS_NOT_NULL -> getIsNotNullPredicate(root, criteria, builder);
         };
     }
 
     private Predicate getEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
         if (criteria.getValue() == null)
             return builder.isNull(root.get(criteria.getKey()));
-        return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+        return builder.equal(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
     }
 
     private Predicate getNotEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
         if (criteria.getValue() == null)
             return builder.isNotNull(root.get(criteria.getKey()));
-        return builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
+        return builder.notEqual(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
     }
 
     private Predicate getGreaterThanPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.greaterThan(root.get(criteria.getKey()), criteria.getValue().toString());
+        return builder.greaterThan(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
     }
 
     private Predicate getLessThanPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.lessThan(root.get(criteria.getKey()), criteria.getValue().toString());
+        return builder.lessThan(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
     }
 
     private Predicate getLikePredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.like(root.get(criteria.getKey()), "%" + criteria.getValue() + "%");
+        return builder.like(builder.lower(root.get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase() + "%");
     }
 
     private Predicate getNotLikePredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.notLike(root.get(criteria.getKey()), "%" + criteria.getValue() + "%");
+        return builder.notLike(builder.lower(root.get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase() + "%");
     }
 
     private Predicate getGreaterThanOrEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
+        return builder.greaterThanOrEqualTo(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
     }
 
     private Predicate getLessThanOrEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.lessThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString());
+        return builder.lessThanOrEqualTo(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+    }
+
+    private Predicate getStartsWithPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
+        return builder.like(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase() + "%");
+    }
+
+    private Predicate getEndsWithPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
+        return builder.like(builder.lower(root.get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase());
+    }
+
+    private Predicate getIsNullPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
+        return builder.isNull(root.get(criteria.getKey()));
+    }
+
+    private Predicate getIsNotNullPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
+        return builder.isNotNull(root.get(criteria.getKey()));
     }
 }

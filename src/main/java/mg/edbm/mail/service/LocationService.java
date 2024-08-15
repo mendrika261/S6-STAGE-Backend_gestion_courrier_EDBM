@@ -45,9 +45,9 @@ public class LocationService {
         return locationRepository.findAll(specification, pageable);
     }
 
-    public Location get(Long id) throws NotFoundException {
-        return locationRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("La localisation #" + id + " n'existe pas")
+    public Location get(Long locationId) throws NotFoundException {
+        return locationRepository.findById(locationId).orElseThrow(
+                () -> new NotFoundException("La localisation #" + locationId + " n'existe pas")
         );
     }
 
@@ -58,8 +58,8 @@ public class LocationService {
         return locationRepository.save(location);
     }
 
-    public Location remove(Long id, User authenticatedUser) throws NotFoundException {
-        final Location location = get(id);
+    public Location remove(Long locationId, User authenticatedUser) throws NotFoundException {
+        final Location location = get(locationId);
         location.remove(authenticatedUser);
         log.info("{} removed {}", authenticatedUser, location);
         return locationRepository.save(location);

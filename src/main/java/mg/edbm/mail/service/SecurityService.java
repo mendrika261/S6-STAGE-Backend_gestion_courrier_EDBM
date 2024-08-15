@@ -14,14 +14,14 @@ import java.util.UUID;
 public class SecurityService {
     private final UserService userService;
 
-    public boolean hasAdminRoleOrIsSelf(UUID id) throws AuthenticationException {
+    public boolean hasAdminRoleOrIsSelf(UUID userId) throws AuthenticationException {
         User authenticatedUser = userService.getAuthenticatedUser();
         return Arrays.stream(authenticatedUser.getRolesCode()).toList().contains(SecurityConfig.ROLE_ADMIN) ||
-                authenticatedUser.getId().equals(id);
+                authenticatedUser.getId().equals(userId);
     }
 
-    public boolean isSelf(UUID id) throws AuthenticationException {
+    public boolean isSelf(UUID userId) throws AuthenticationException {
         User authenticatedUser = userService.getAuthenticatedUser();
-        return authenticatedUser.getId().equals(id);
+        return authenticatedUser.getId().equals(userId);
     }
 }

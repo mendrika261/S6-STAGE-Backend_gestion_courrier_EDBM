@@ -2,6 +2,7 @@ package mg.edbm.mail.service;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.PasswordRequest;
 import mg.edbm.mail.dto.request.UserRequest;
@@ -14,8 +15,6 @@ import mg.edbm.mail.exception.ValidationException;
 import mg.edbm.mail.repository.UserRepository;
 import mg.edbm.mail.utils.UserUtils;
 import mg.edbm.mail.entity.type.Token;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -26,8 +25,8 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class UserService {
-    private static final Logger log = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
     private final TokenService tokenService;
@@ -59,8 +58,8 @@ public class UserService {
         return tokenService.generateToken(request, user);
     }
 
-    public User getUser(UUID id) {
-        return userRepository.findById(id).orElse(null);
+    public User getUser(UUID userId) {
+        return userRepository.findById(userId).orElse(null);
     }
 
     public User getAuthenticatedUser() throws AuthenticationException {
@@ -84,7 +83,7 @@ public class UserService {
     private User initializeUserCreation(UserRequest userRequest, User authenticatedUser) throws NotFoundException {
         User user = new User(userRequest, authenticatedUser);
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-        user.setRoles(roleService.getRolesFromId(userRequest.getRoles()));
+        user.setRoles(roleService.getRolesFromCodes(userRequest.getRoles()));
         user.setLocation(locationService.get(userRequest.getLocationId()));
         return save(user);
     }
@@ -92,17 +91,17 @@ public class UserService {
     private User resetPassword(User user, Boolean isNewUser) throws ValidationException {
         final String securityCode = generateSecurityCode();
         user.setPassword(securityCode);
+        user.setStatus(UserStatus.PENDING);
         emailService.sendResetPasswordEmail(user, isNewUser);
 
         final String hashedPassword = passwordEncoder.encode(securityCode);
-        user.setStatus(UserStatus.PENDING);
         user.setPassword(hashedPassword);
         log.info("Password reset for {}", user);
         return save(user);
     }
 
-    public User resetPassword(UUID uuid) throws NotFoundException, ValidationException {
-        final User user = get(uuid);
+    public User resetPassword(UUID userId) throws NotFoundException, ValidationException {
+        final User user = get(userId);
         final Boolean isNewUser = user.getStatus() == UserStatus.CREATED;
         return resetPassword(user, isNewUser);
     }
@@ -125,17 +124,18 @@ public class UserService {
         return save(user);
     }
 
-    public User updateWithoutPassword(UUID id, UserRequest userRequest, User authenticatedUser)
+    public User updateWithoutPassword(UUID userId, UserRequest userRequest, User authenticatedUser)
             throws NotFoundException {
-        final User user = get(id);
+        final User user = get(userId);
         user.updateWithoutPassword(userRequest, authenticatedUser);
-        user.setRoles(roleService.getRolesFromId(userRequest.getRoles()));
+        user.setRoles(roleService.getRolesFromCodes(userRequest.getRoles()));
         user.setLocation(locationService.get(userRequest.getLocationId()));
         return update(user, authenticatedUser);
     }
 
-    public User updatePassword(UUID id, PasswordRequest passwordRequest, User authenticatedUser) throws NotFoundException, ValidationException {
-        final User user = get(id);
+    public User updatePassword(UUID userId, PasswordRequest passwordRequest, User authenticatedUser)
+            throws NotFoundException, ValidationException {
+        final User user = get(userId);
         if(!passwordEncoder.matches(passwordRequest.getOldPassword(), user.getPassword()))
             throw new ValidationException("Le code de sécurité est incorrect");
         final String hashedPassword = passwordEncoder.encode(passwordRequest.getPassword());
@@ -143,9 +143,10 @@ public class UserService {
         return update(user, authenticatedUser);
     }
 
-    public User updateStatus(UUID id, UserStatus status, User authenticatedUser) throws NotFoundException, ValidationException {
+    public User updateStatus(UUID userId, UserStatus status, User authenticatedUser)
+            throws NotFoundException, ValidationException {
         if(status == null) throw new ValidationException("Le statut ne peut pas être vide");
-        final User user = get(id);
+        final User user = get(userId);
         user.setStatus(status);
         return update(user, authenticatedUser);
     }

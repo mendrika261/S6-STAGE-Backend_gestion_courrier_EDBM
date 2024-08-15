@@ -47,27 +47,27 @@ public class RoleService {
         return roleRepository.findAll(specification, pageable);
     }
 
-    public Role get(Long id) throws NotFoundException {
-        return roleRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Le rôle #" + id + " n'existe pas")
+    public Role get(Long roleId) throws NotFoundException {
+        return roleRepository.findById(roleId).orElseThrow(
+                () -> new NotFoundException("Le rôle #" + roleId + " n'existe pas")
         );
     }
 
-    public Role update(Long id, RoleDto roleDto, User author) throws NotFoundException {
-        final Role role = get(id);
+    public Role update(Long roleId, RoleDto roleDto, User author) throws NotFoundException {
+        final Role role = get(roleId);
         role.update(roleDto, author);
         log.info("{} updated {}", author, role);
         return roleRepository.save(role);
     }
 
-    public Role remove(Long id, User user) throws NotFoundException {
-        final Role role = get(id);
+    public Role remove(Long roleId, User user) throws NotFoundException {
+        final Role role = get(roleId);
         role.remove(user);
         log.info("{} removed {}", user, role);
         return roleRepository.save(role);
     }
 
-    public Set<Role> getRolesFromId(List<Long> roles) {
-        return roleRepository.findAllByIdIn(roles);
+    public Set<Role> getRolesFromCodes(List<String> rolesCode) {
+        return roleRepository.findAllByCodeIn(rolesCode);
     }
 }
