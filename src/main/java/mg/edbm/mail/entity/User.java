@@ -49,7 +49,7 @@ public class User implements UserDetails {
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<Role> roles = new LinkedHashSet<>();
 
-    @Column( nullable = false)
+    @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @JoinColumn

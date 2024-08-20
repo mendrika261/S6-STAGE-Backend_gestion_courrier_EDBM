@@ -1,5 +1,6 @@
 package mg.edbm.mail.dto.request.filter;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
@@ -7,6 +8,7 @@ import jakarta.persistence.criteria.Root;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.query.sqm.TerminalPathException;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 
@@ -56,13 +58,25 @@ public class SpecificationImpl<T> implements Specification<T> {
     private Predicate getEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
         if (criteria.getValue() == null)
             return builder.isNull(root.get(criteria.getKey()));
-        return builder.equal(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+        if(root.get(criteria.getKey()).getJavaType() == String.class)
+            return builder.equal(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+        if(root.get(criteria.getKey()).getJavaType().isEnum())
+            return root.get(criteria.getKey()).in(criteria.getValue());
+        if(root.get(criteria.getKey()).getJavaType().isAnnotationPresent(Entity.class))
+            return builder.equal(root.get(criteria.getKey()).get("id"), criteria.getValue());
+        return builder.equal(root.get(criteria.getKey()), criteria.getValue());
     }
 
     private Predicate getNotEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
         if (criteria.getValue() == null)
             return builder.isNotNull(root.get(criteria.getKey()));
-        return builder.notEqual(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+        if(root.get(criteria.getKey()).getJavaType() == String.class)
+            return builder.notEqual(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+        if(root.get(criteria.getKey()).getJavaType().isEnum())
+            return builder.not(root.get(criteria.getKey()).in(criteria.getValue()));
+        if(root.get(criteria.getKey()).getJavaType().isAnnotationPresent(Entity.class))
+            return builder.not(root.get(criteria.getKey()).get("id").in(criteria.getValue()));
+        return builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
     }
 
     private Predicate getGreaterThanPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
@@ -74,11 +88,13 @@ public class SpecificationImpl<T> implements Specification<T> {
     }
 
     private Predicate getLikePredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.like(builder.lower(root.get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase() + "%");
+        final String value = "%"+criteria.getValue().toString().replaceAll("[\\p{Punct}\\s]", "%").toLowerCase()+"%";
+        return builder.like(builder.lower(root.get(criteria.getKey())), value);
     }
 
     private Predicate getNotLikePredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.notLike(builder.lower(root.get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase() + "%");
+        final String value = "%"+criteria.getValue().toString().replaceAll("[\\p{Punct}\\s]", "%").toLowerCase()+"%";
+        return builder.notLike(builder.lower(root.get(criteria.getKey())), value);
     }
 
     private Predicate getGreaterThanOrEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {

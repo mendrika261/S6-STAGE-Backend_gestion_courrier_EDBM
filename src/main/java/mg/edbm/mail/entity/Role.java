@@ -29,6 +29,9 @@ public class Role {
     @Column(nullable = false, unique = true)
     private String code;
 
+    @Column
+    private String color;
+
 
     @JoinColumn
     @ManyToOne(cascade = CascadeType.ALL)
@@ -53,12 +56,14 @@ public class Role {
     public Role(RoleDto roleDto, User author) {
         setName(roleDto.getName());
         setCode(roleDto.getCode());
+        setColor(roleDto.getColor());
         setCreatedBy(author);
     }
 
     public void update(RoleDto roleDto, User author) {
         setName(roleDto.getName());
         setCode(roleDto.getCode());
+        setColor(roleDto.getColor());
         setUpdatedAt(LocalDateTime.now());
         setUpdatedBy(author);
     }

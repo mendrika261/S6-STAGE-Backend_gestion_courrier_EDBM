@@ -39,7 +39,7 @@ public class UserService {
         final Optional<User> user = userRepository.findByEmail(email);
         if(user.isPresent()) {
             final User authenticatedUser = user.get();
-            if(authenticatedUser.isActive()) {
+            if(authenticatedUser.isActive() || authenticatedUser.getStatus().equals(UserStatus.PENDING)) {
                 final boolean isPasswordValid = passwordEncoder.matches(password, authenticatedUser.getPassword());
                 if(isPasswordValid)
                     return authenticatedUser;
@@ -136,11 +136,10 @@ public class UserService {
     public User updatePassword(UUID userId, PasswordRequest passwordRequest, User authenticatedUser)
             throws NotFoundException, ValidationException {
         final User user = get(userId);
-        if(!passwordEncoder.matches(passwordRequest.getOldPassword(), user.getPassword()))
-            throw new ValidationException("Le code de sécurité est incorrect");
         final String hashedPassword = passwordEncoder.encode(passwordRequest.getPassword());
         user.updatePassword(hashedPassword, authenticatedUser);
-        return update(user, authenticatedUser);
+        update(user, authenticatedUser);
+        return updateStatus(userId, UserStatus.ACTIVE, authenticatedUser);
     }
 
     public User updateStatus(UUID userId, UserStatus status, User authenticatedUser)

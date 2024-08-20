@@ -18,11 +18,13 @@ public class RoleDto {
     @Length(min = 1, max = 255, message = "Le code du role doit être compris entre 1 et 255 caractères")
     @Pattern(regexp = "^[a-zA-Z0-9_]*$", message = "Le code du role ne doit contenir que des lettres, des chiffres et des underscores")
     private String code;
+    private String color;
 
     public RoleDto(Role role) {
         setId(role.getId());
         setName(role.getName());
         setCode(role.getCode());
+        setColor(role.getColor());
     }
 
     public void setName(String name) {
