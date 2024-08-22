@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@PreAuthorize("@securityService.isSelf(#id)")
+@PreAuthorize("@securityService.isSelf(#userId)")
 public @interface Self {
 }

@@ -16,6 +16,7 @@ public class UserResponse {
     private UUID id;
     private String lastName;
     private String firstName;
+    private String fullName;
     private String email;
     private String phoneNumber;
     @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -28,6 +29,7 @@ public class UserResponse {
         setId(user.getId());
         setLastName(user.getLastName());
         setFirstName(user.getFirstName());
+        setFullName(user.getFullName());
         setEmail(user.getEmail());
         setPhoneNumber(user.getPhoneNumber());
         setRoles(user.getRoles().stream().map(RoleDto::new).toArray(RoleDto[]::new));

@@ -9,6 +9,7 @@ import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailPriority;
 import mg.edbm.mail.entity.type.MailStatus;
 
+import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -35,6 +36,7 @@ public class MailResponse {
     private UserResponse receiverUser;
     private String noteForMessenger;
     private String description;
+    private LocalDateTime createdAt;
     private Set<FileDto> files;
 
     public MailResponse(Mail mail) {
@@ -44,6 +46,7 @@ public class MailResponse {
         setConfidentiality(mail.getConfidentiality());
         setMailPriority(mail.getPriority());
         setStatus(mail.getStatus());
+        setCreatedAt(mail.getCreatedAt());
 
         if(mail.getSenderLocation() != null)
             setSenderLocation(new LocationDto(mail.getSenderLocation()));

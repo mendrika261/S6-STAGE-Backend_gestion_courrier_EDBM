@@ -8,7 +8,8 @@ import jakarta.persistence.criteria.Root;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.query.sqm.TerminalPathException;
+import mg.edbm.mail.dto.request.ListRequest;
+import mg.edbm.mail.dto.request.type.LogicOperationType;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 
@@ -19,23 +20,31 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class SpecificationImpl<T> implements Specification<T> {
-    private final List<SearchCriteria> criteriaList = new ArrayList<>();
+    private ListRequest listRequest;
 
-    public SpecificationImpl(List<SearchCriteria> criteriaList) {
-        getCriteriaList().addAll(criteriaList);
+    public SpecificationImpl(ListRequest listRequest) {
+        setListRequest(listRequest);
     }
 
     @Override
     public Predicate toPredicate(@NonNull Root<T> root,
                                  @NonNull CriteriaQuery<?> query,
                                  @NonNull CriteriaBuilder builder) {
-        final List<Predicate> predicates = new ArrayList<>();
+        Predicate predicate = builder.conjunction();
+        Predicate basePredicate = builder.conjunction();
 
-        for (final SearchCriteria criteria: getCriteriaList()) {
-            predicates.add(getPredicate(root, criteria, builder));
+        for (final SearchCriteria criteria: getListRequest().getBaseCriteria()) {
+            basePredicate = builder.and(basePredicate, getPredicate(root, criteria, builder));
         }
 
-        return builder.and(predicates.toArray(new Predicate[0]));
+        for (final SearchCriteria criteria: getListRequest().getCriteria()) {
+            if(criteria.getLogicOperationType().equals(LogicOperationType.OR))
+                predicate = builder.or(predicate, getPredicate(root, criteria, builder));
+            else
+                predicate = builder.and(predicate, getPredicate(root, criteria, builder));
+        }
+
+        return builder.and(basePredicate, predicate);
     }
 
     private Predicate getPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {

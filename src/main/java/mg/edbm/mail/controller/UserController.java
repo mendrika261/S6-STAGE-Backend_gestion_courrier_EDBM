@@ -56,6 +56,14 @@ public class UserController {
         return ResponseEntity.ok(mappedUserDtoList);
     }
 
+    @GetMapping("/active")
+    @Secured(SecurityConfig.ROLE_USER)
+    public ResponseEntity<Page<UserResponse>> listActive(@Valid ListRequest listRequest) {
+        final Page<User> users = userService.list(listRequest);
+        final Page<UserResponse> mappedUserDtoList = users.map(UserResponse::new);
+        return ResponseEntity.ok(mappedUserDtoList);
+    }
+
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponse> get(@PathVariable UUID userId) {
         final User user = userService.getUser(userId);

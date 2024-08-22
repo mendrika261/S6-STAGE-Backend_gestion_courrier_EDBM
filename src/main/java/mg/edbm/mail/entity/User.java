@@ -56,6 +56,9 @@ public class User implements UserDetails {
     @ManyToOne(cascade = CascadeType.ALL)
     private User createdBy;
 
+    @Transient
+    private String fullName;
+
     public User(UserRequest userRequest, User authenticatedUser) {
         setEmail(userRequest.getEmail());
         setLastName(userRequest.getLastName());

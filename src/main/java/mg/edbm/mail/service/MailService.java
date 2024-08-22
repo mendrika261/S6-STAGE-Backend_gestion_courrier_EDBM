@@ -32,12 +32,11 @@ public class MailService {
     private final FileRepository fileRepository;
 
     public Page<Mail> getMailByUser(UUID userId, MailType type, ListRequest listRequest) throws NotFoundException {
-        if (type == MailType.INCOMING) {
-            listRequest.addCriteria("receiverUser", OperationType.EQUAL, userService.get(userId));
-        } else {
-            listRequest.addCriteria("senderUser", OperationType.EQUAL, userService.get(userId));
-        }
-        final Specification<Mail> specification = new SpecificationImpl<>(listRequest.getCriteria());
+        if (type == MailType.INCOMING)
+            listRequest.addBaseCriteria("receiverUser", OperationType.EQUAL, userId);
+        else
+            listRequest.addBaseCriteria("senderUser", OperationType.EQUAL, userId);
+        final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
         final Pageable pageable = listRequest.toPageable();
         return mailRepository.findAll(specification, pageable);
     }
@@ -81,8 +80,8 @@ public class MailService {
 
     public Page<File> listFiles(UUID mailId, ListRequest listRequest) throws NotFoundException {
         final Mail mail = get(mailId);
-        listRequest.addCriteria("mail", OperationType.EQUAL, mail);
-        final Specification<File> specification = new SpecificationImpl<>(listRequest.getCriteria());
+        listRequest.addBaseCriteria("mail", OperationType.EQUAL, mail);
+        final Specification<File> specification = new SpecificationImpl<>(listRequest);
         final Pageable pageable = listRequest.toPageable();
         return fileRepository.findAll(specification, pageable);
     }

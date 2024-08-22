@@ -39,9 +39,9 @@ public class LocationService {
     }
 
     public Page<Location> list(ListRequest listRequest) {
-        listRequest.addCriteria(new SearchCriteria("removedAt", OperationType.EQUAL, null));
+        listRequest.addBaseCriteria("removedAt", OperationType.EQUAL, null);
         final Pageable pageable = listRequest.toPageable();
-        final Specification<Location> specification = new SpecificationImpl<>(listRequest.getCriteria());
+        final Specification<Location> specification = new SpecificationImpl<>(listRequest);
         return locationRepository.findAll(specification, pageable);
     }
 

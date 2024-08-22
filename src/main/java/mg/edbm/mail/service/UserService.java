@@ -68,7 +68,7 @@ public class UserService {
 
     public Page<User> list(ListRequest listRequest) {
         final Pageable pageable = listRequest.toPageable();
-        final Specification<User> specification = new SpecificationImpl<>(listRequest.getCriteria());
+        final Specification<User> specification = new SpecificationImpl<>(listRequest);
         return userRepository.findAll(specification, pageable);
     }
 

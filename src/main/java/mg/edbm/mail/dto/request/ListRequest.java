@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 public class ListRequest {
@@ -20,6 +21,7 @@ public class ListRequest {
     @Min(message = "Le nombre d'élément doit être supérieur ou égal à 1", value = 1)
     private Integer limit = 10;
     private HashMap<String, SortType> orders = new HashMap<>();
+    private List<SearchCriteria> baseCriteria = new ArrayList<>();
     private List<SearchCriteria> criteria = new ArrayList<>();
 
     public Pageable toPageable() {
@@ -49,5 +51,13 @@ public class ListRequest {
 
     public void addCriteria(String key, OperationType operation, Object value) {
         addCriteria(new SearchCriteria(key, operation, value));
+    }
+
+    public void addBaseCriteria(SearchCriteria searchCriteria) {
+        getBaseCriteria().add(searchCriteria);
+    }
+
+    public void addBaseCriteria(String key, OperationType operation, Object value) {
+        addBaseCriteria(new SearchCriteria(key, operation, value));
     }
 }

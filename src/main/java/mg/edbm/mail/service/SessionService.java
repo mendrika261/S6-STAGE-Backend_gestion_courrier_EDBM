@@ -40,7 +40,6 @@ public class SessionService {
 
     public void extend(Session session, Token token) {
         session.extend(token);
-        log.info("Session extended: {}", session);
         save(session);
     }
 

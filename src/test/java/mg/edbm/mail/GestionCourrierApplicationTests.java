@@ -1,11 +1,14 @@
 package mg.edbm.mail;
 
+import mg.edbm.mail.exception.ValidationException;
 import mg.edbm.mail.repository.RoleRepository;
 import mg.edbm.mail.repository.UserRepository;
+import mg.edbm.mail.service.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.thymeleaf.context.Context;
 
 @SpringBootTest
 class GestionCourrierApplicationTests {
@@ -16,9 +19,11 @@ class GestionCourrierApplicationTests {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+    @Autowired
+    private EmailService emailService;
 
-	@Test
-	void contextLoads() {
+    @Test
+	void contextLoads() throws ValidationException {
 
 		/*User user = new User();
 		user.setNom("Rakoto");
@@ -34,6 +39,9 @@ class GestionCourrierApplicationTests {
 		roleRepository.saveAndFlush(role);*/
 
 		//System.out.println(passwordEncoder.encode("test"));
+
+        final Context context = new Context();
+        emailService.sendEmail("harenasitrakiniavo10@gmail.com", "Test", "new-user-email", context);
 	}
 
 }

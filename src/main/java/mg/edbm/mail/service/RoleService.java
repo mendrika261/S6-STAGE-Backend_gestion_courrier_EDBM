@@ -5,6 +5,7 @@ import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.RoleDto;
 import mg.edbm.mail.dto.request.filter.SearchCriteria;
+import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.type.OperationType;
 import mg.edbm.mail.entity.Role;
 import mg.edbm.mail.entity.User;
@@ -41,9 +42,9 @@ public class RoleService {
     }
 
     public Page<Role> list(ListRequest listRequest) {
-        listRequest.addCriteria(new SearchCriteria("removedAt", OperationType.EQUAL, null));
+        listRequest.addBaseCriteria("removedAt", OperationType.EQUAL, null);
         final Pageable pageable = listRequest.toPageable();
-        final Specification<Role> specification = new SpecificationImpl<>(listRequest.getCriteria());
+        final Specification<Role> specification = new SpecificationImpl<>(listRequest);
         return roleRepository.findAll(specification, pageable);
     }
 

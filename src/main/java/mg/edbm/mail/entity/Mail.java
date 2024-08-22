@@ -68,8 +68,10 @@ public class Mail {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<File> files = new LinkedHashSet<>();
 
+    @Lob
     private String noteForMessenger;
 
+    @Lob
     private String description;
 
 

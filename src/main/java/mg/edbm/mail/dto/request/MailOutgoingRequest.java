@@ -23,9 +23,9 @@ public class MailOutgoingRequest {
     private String receiver;
     private String receiverUserId;
     private String receiverLocationId;
-    @Length(max = 255, message = "La note pour le coursier ne peut pas dépasser 255 caractères")
+    @Length(max = 1000, message = "La note pour le coursier ne peut pas dépasser 255 caractères")
     private String noteForMessenger;
-    @Length(max = 255, message = "La description du mail ne peut pas dépasser 255 caractères")
+    @Length(max = 10000, message = "La description du mail ne peut pas dépasser 255 caractères")
     private String description;
 
     public void setObject(String object) {
