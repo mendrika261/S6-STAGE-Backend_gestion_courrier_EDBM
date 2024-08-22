@@ -100,10 +100,17 @@ public class UserService {
         return save(user);
     }
 
-    public User resetPassword(UUID userId) throws NotFoundException, ValidationException {
+    public User resetPasswordByUserId(UUID userId) throws NotFoundException, ValidationException {
         final User user = get(userId);
         final Boolean isNewUser = user.getStatus() == UserStatus.CREATED;
         return resetPassword(user, isNewUser);
+    }
+
+    public User resetPasswordByEmail(String email) throws NotFoundException, ValidationException {
+        final User user = userRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException("L'utilisateur avec l'adresse email " + email + " n'existe pas")
+        );
+        return resetPassword(user, false);
     }
 
     public User create(UserRequest userRequest, User authenticatedUser) throws ValidationException, NotFoundException {

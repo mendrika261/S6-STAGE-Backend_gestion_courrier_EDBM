@@ -74,7 +74,7 @@ public class UserController {
     @GetMapping("/{userId}/password")
     @AdminOrSelf
     public ResponseEntity<UserResponse> resetPassword(@PathVariable UUID userId) throws NotFoundException, ValidationException {
-        final User user = userService.resetPassword(userId);
+        final User user = userService.resetPasswordByUserId(userId);
         final UserResponse mappedUserResponse = new UserResponse(user);
         return ResponseEntity.ok(mappedUserResponse);
     }

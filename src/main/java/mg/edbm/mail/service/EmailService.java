@@ -9,6 +9,7 @@ import mg.edbm.mail.exception.ValidationException;
 import mg.edbm.mail.utils.StringCustomUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -26,6 +27,7 @@ public class EmailService {
     @Value("${app.support.email}")
     private final String supportEmail = "";
 
+    @Async
     public void sendEmail(String to, String subject, String templateName, Context context) throws ValidationException {
         context.setVariable("appUrl", appUrl);
         context.setVariable("supportEmail", supportEmail);
@@ -44,6 +46,7 @@ public class EmailService {
         }
     }
 
+    @Async
     public void sendResetPasswordEmail(User user, Boolean isNewUser) throws ValidationException {
         final String templateName = isNewUser ? "new-user-email" : "reset-password-email";
         final Context context = new Context();

@@ -78,7 +78,7 @@ public class SecurityConfig {
                 .addFilterBefore(new TokenRequestFilter(tokenService), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(
                         auth -> {
-                            auth.requestMatchers("/auth", "/error", "/files/**").permitAll();
+                            auth.requestMatchers("/auth", "/auth/password-recovery", "/error", "/files/**").permitAll();
                             auth.anyRequest().authenticated();
                         })
                 .sessionManagement(
