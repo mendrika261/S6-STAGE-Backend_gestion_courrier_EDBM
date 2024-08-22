@@ -334,7 +334,7 @@
                                     <div class="f-fallback">
                                         <h1>Bonjour <span th:text="${fullName}"></span>,</h1>
                                         <p>La gestion des courriers se fait désormais sur cette plateforme.
-                                            Veuillez cliquer sur le bouton ci-dessous pour activer votre compte avec le code de sécurité suivant:</p>
+                                            Veuillez cliquer sur le bouton ci-dessous pour activer votre compte avec les informations suivantes:</p>
                                         <table class="attributes" width="100%" cellpadding="0" cellspacing="0" role="presentation">
                                             <tr>
                                                 <td class="attributes_content">
@@ -342,7 +342,12 @@
                                                         <tr>
                                                             <td class="attributes_item">
                                                                 <span class="f-fallback">
-                                                                  <strong>Code de sécurité :</strong> <span th:text="${password}"></span>
+                                                                  <strong>Adresse électronique :</strong> <span th:text="${email}"></span>
+                                                                </span>
+                                                            </td>
+                                                            <td class="attributes_item">
+                                                                <span class="f-fallback">
+                                                                  <strong>Mot de passe temporaire :</strong> <span th:text="${password}"></span>
                                                                 </span>
                                                             </td>
                                                         </tr>
@@ -356,7 +361,7 @@
                                                     <table width="100%" border="0" cellspacing="0" cellpadding="0" role="presentation">
                                                         <tr>
                                                             <td align="center">
-                                                                <a href="#" class="f-fallback button" style="color: #FFF" target="_blank">Accéder à EDBM Courrier</a>
+                                                                <a th:href="${appUrl}" class="f-fallback button" style="color: #FFF" target="_blank">Accéder à EDBM Courrier</a>
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -370,7 +375,7 @@
                                             <tr>
                                                 <td>
                                                     <p class="f-fallback sub"><strong>P.S.</strong> Pour toute assistance, veuillez contacter le
-                                                        <a href="mailto:edbm@edbm.mg">service informatique</a>
+                                                        <a th:href="${'mailto:'+supportEmail}">service informatique</a>
                                                         de l'EDBM et ne pas répondre directement à cette adresse.</p>
                                                     <p class="f-fallback sub">
                                                         ** Ce courrier électronique contient des informations sensibles. Ne partagez pas ces informations avec des tiers.

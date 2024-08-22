@@ -21,8 +21,14 @@ public class EmailService {
     private final JavaMailSender emailSender;
     @Value("${spring.mail.username}")
     private String from;
+    @Value("${app.url}")
+    private final String appUrl = "";
+    @Value("${app.support.email}")
+    private final String supportEmail = "";
 
     public void sendEmail(String to, String subject, String templateName, Context context) throws ValidationException {
+        context.setVariable("appUrl", appUrl);
+        context.setVariable("supportEmail", supportEmail);
         final String message = templateEngine.process(templateName, context);
         final MimeMessage mimeMessage = emailSender.createMimeMessage();
         try {
