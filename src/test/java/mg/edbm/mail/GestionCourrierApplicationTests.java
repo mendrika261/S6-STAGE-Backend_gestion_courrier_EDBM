@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.thymeleaf.context.Context;
 
+import java.time.LocalDateTime;
+
 @SpringBootTest
 class GestionCourrierApplicationTests {
 
@@ -40,8 +42,10 @@ class GestionCourrierApplicationTests {
 
 		//System.out.println(passwordEncoder.encode("test"));
 
-        final Context context = new Context();
-        emailService.sendEmail("harenasitrakiniavo10@gmail.com", "Test", "new-user-email", context);
+        /*final Context context = new Context();
+        emailService.sendEmail("harenasitrakiniavo10@gmail.com", "Test", "new-user-email", context);*/
+
+        System.out.println(LocalDateTime.parse("2024-08-22T23:28:29.548603"));
 	}
 
 }

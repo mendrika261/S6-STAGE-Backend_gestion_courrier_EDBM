@@ -59,17 +59,19 @@ public class MailService {
             throws NotFoundException {
         final User senderUser = userService.get(userId);
         final Mail mail = new Mail(mailOutgoingRequest, senderUser, authenticatedUser);
-        mail.setReference(getNextReference(MailType.OUTGOING));
-        try {
-            if(mailOutgoingRequest.getReceiverUserId() == null)
-                throw new NotFoundException("Le destinataire n'existe pas");
+        Location location; String receiver;
+        if (mailOutgoingRequest.getReceiverUserId() != null) {
             final User receiverUser = userService.get(UUID.fromString(mailOutgoingRequest.getReceiverUserId()));
             mail.setReceiverUser(receiverUser);
-        } catch (NotFoundException e) {
-            final Location location = locationService.get(Long.valueOf(mailOutgoingRequest.getReceiverLocationId()));
-            mail.setReceiverLocation(location);
-            mail.setReceiver(mailOutgoingRequest.getReceiver());
+            location = receiverUser.getLocation();
+            receiver = receiverUser.getFullName();
+        } else {
+            location = locationService.get(Long.valueOf(mailOutgoingRequest.getReceiverLocationId()));
+            receiver = mailOutgoingRequest.getReceiver();
         }
+        mail.setReference(getNextReference(MailType.OUTGOING));
+        mail.setReceiverLocation(location);
+        mail.setReceiver(receiver);
         return mailRepository.save(mail);
     }
 

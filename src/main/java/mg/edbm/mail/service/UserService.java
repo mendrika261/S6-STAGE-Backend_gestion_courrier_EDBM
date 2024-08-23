@@ -1,12 +1,14 @@
 package mg.edbm.mail.service;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.PasswordRequest;
 import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
+import mg.edbm.mail.dto.request.type.OperationType;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.UserStatus;
 import mg.edbm.mail.exception.AuthenticationException;
@@ -70,6 +72,12 @@ public class UserService {
         final Pageable pageable = listRequest.toPageable();
         final Specification<User> specification = new SpecificationImpl<>(listRequest);
         return userRepository.findAll(specification, pageable);
+    }
+
+    public Page<User> listActiveReceiver(ListRequest listRequest, User currentUser) {
+        listRequest.addBaseCriteria("status", OperationType.EQUAL, UserStatus.ACTIVE);
+        listRequest.addBaseCriteria("id", OperationType.NOT_EQUAL, currentUser.getId());
+        return list(listRequest);
     }
 
     private User save(User user) {

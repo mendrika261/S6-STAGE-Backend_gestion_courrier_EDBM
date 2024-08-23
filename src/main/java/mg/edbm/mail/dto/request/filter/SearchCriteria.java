@@ -18,4 +18,9 @@ public class SearchCriteria {
         setOperation(operation);
         setValue(value);
     }
+
+    @Override
+    public String toString() {
+        return getLogicOperationType() + " " + getKey() + " " + getOperation() + " " + getValue();
+    }
 }

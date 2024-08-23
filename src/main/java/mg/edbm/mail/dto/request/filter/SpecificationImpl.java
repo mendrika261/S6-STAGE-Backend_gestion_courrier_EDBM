@@ -1,10 +1,7 @@
 package mg.edbm.mail.dto.request.filter;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,8 +10,8 @@ import mg.edbm.mail.dto.request.type.LogicOperationType;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,6 +22,7 @@ public class SpecificationImpl<T> implements Specification<T> {
     public SpecificationImpl(ListRequest listRequest) {
         setListRequest(listRequest);
     }
+
 
     @Override
     public Predicate toPredicate(@NonNull Root<T> root,
@@ -64,69 +62,115 @@ public class SpecificationImpl<T> implements Specification<T> {
         };
     }
 
+    private <Y> Path<Y> getPath(Root<T> root, String key) {
+        final String[] keys = key.split("\\.");
+        Path<Y> path = root.get(keys[0]);
+        for (int i = 1; i < keys.length; i++)
+            path = path.get(keys[i]);
+        return path;
+    }
+
+    private Object castType(Class<?> type, Object value) {
+        if(type == Integer.class)
+            return Integer.parseInt(value.toString());
+        if(type == Long.class)
+            return Long.parseLong(value.toString());
+        if(type == Double.class)
+            return Double.parseDouble(value.toString());
+        if(type == Float.class)
+            return Float.parseFloat(value.toString());
+        if(type == Boolean.class)
+            return Boolean.parseBoolean(value.toString());
+        return value.toString().toLowerCase();
+    }
+
     private Predicate getEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        if (criteria.getValue() == null)
-            return builder.isNull(root.get(criteria.getKey()));
-        if(root.get(criteria.getKey()).getJavaType() == String.class)
-            return builder.equal(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
-        if(root.get(criteria.getKey()).getJavaType().isEnum())
-            return root.get(criteria.getKey()).in(criteria.getValue());
-        if(root.get(criteria.getKey()).getJavaType().isAnnotationPresent(Entity.class))
-            return builder.equal(root.get(criteria.getKey()).get("id"), criteria.getValue());
-        return builder.equal(root.get(criteria.getKey()), criteria.getValue());
+        final Path<?> current = getPath(root, criteria.getKey());
+        if(criteria.getValue() == null)
+            return builder.isNull(current);
+        if(current.getJavaType() == LocalDateTime.class || current.getJavaType() == LocalDate.class)
+            return getStartsWithPredicate(root, criteria, builder);
+        if(current.getJavaType() == String.class)
+            return builder.equal(builder.lower((Expression<String>) current), castType(String.class, criteria.getValue()));
+        if(current.getJavaType().isEnum())
+            return current.in(criteria.getValue());
+        if(current.getJavaType().isAnnotationPresent(Entity.class))
+            return builder.equal(current.get("id"), criteria.getValue());
+        return builder.equal(current, castType(current.getJavaType(), criteria.getValue()));
     }
 
     private Predicate getNotEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        if (criteria.getValue() == null)
-            return builder.isNotNull(root.get(criteria.getKey()));
-        if(root.get(criteria.getKey()).getJavaType() == String.class)
-            return builder.notEqual(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
-        if(root.get(criteria.getKey()).getJavaType().isEnum())
-            return builder.not(root.get(criteria.getKey()).in(criteria.getValue()));
-        if(root.get(criteria.getKey()).getJavaType().isAnnotationPresent(Entity.class))
-            return builder.not(root.get(criteria.getKey()).get("id").in(criteria.getValue()));
-        return builder.notEqual(root.get(criteria.getKey()), criteria.getValue());
+        final Path<?> current = getPath(root, criteria.getKey());
+        if(criteria.getValue() == null)
+            return builder.isNotNull(current);
+        if(current.getJavaType() == LocalDateTime.class || current.getJavaType() == LocalDate.class)
+            return builder.not(getStartsWithPredicate(root, criteria, builder));
+        if(current.getJavaType() == String.class)
+            return builder.notEqual(builder.lower((Expression<String>) current), criteria.getValue().toString().toLowerCase());
+        if(current.getJavaType().isEnum())
+            return builder.not(current.in(criteria.getValue()));
+        if(current.getJavaType().isAnnotationPresent(Entity.class))
+            return builder.not(current.get("id").in(criteria.getValue()));
+        return builder.notEqual(current, castType(current.getJavaType(), criteria.getValue()));
     }
 
     private Predicate getGreaterThanPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.greaterThan(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+        return builder.greaterThan(
+                builder.lower(getPath(root, criteria.getKey()).as(String.class)),
+                criteria.getValue().toString().toLowerCase()
+        );
     }
 
     private Predicate getLessThanPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.lessThan(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+        return builder.lessThan(
+                builder.lower(getPath(root, criteria.getKey()).as(String.class)),
+                criteria.getValue().toString().toLowerCase()
+        );
     }
 
     private Predicate getLikePredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
         final String value = "%"+criteria.getValue().toString().replaceAll("[\\p{Punct}\\s]", "%").toLowerCase()+"%";
-        return builder.like(builder.lower(root.get(criteria.getKey())), value);
+        return builder.like(builder.lower(getPath(root, criteria.getKey()).as(String.class)), value);
     }
 
     private Predicate getNotLikePredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
         final String value = "%"+criteria.getValue().toString().replaceAll("[\\p{Punct}\\s]", "%").toLowerCase()+"%";
-        return builder.notLike(builder.lower(root.get(criteria.getKey())), value);
+        return builder.notLike(builder.lower(getPath(root, criteria.getKey()).as(String.class)), value);
     }
 
     private Predicate getGreaterThanOrEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.greaterThanOrEqualTo(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+        return builder.greaterThanOrEqualTo(
+                builder.lower(getPath(root, criteria.getKey()).as(String.class)),
+                criteria.getValue().toString().toLowerCase()
+        );
     }
 
     private Predicate getLessThanOrEqualPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.lessThanOrEqualTo(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase());
+        return builder.lessThanOrEqualTo(
+                builder.lower(getPath(root, criteria.getKey()).as(String.class)),
+                criteria.getValue().toString().toLowerCase()
+        );
     }
 
     private Predicate getStartsWithPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.like(builder.lower(root.get(criteria.getKey())), criteria.getValue().toString().toLowerCase() + "%");
+        return builder.like(
+                builder.lower(getPath(root, criteria.getKey()).as(String.class)),
+                criteria.getValue().toString().toLowerCase() + "%"
+        );
     }
 
     private Predicate getEndsWithPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.like(builder.lower(root.get(criteria.getKey())), "%" + criteria.getValue().toString().toLowerCase());
+        return builder.like(
+                builder.lower(getPath(root, criteria.getKey()).as(String.class)),
+                "%" + criteria.getValue().toString().toLowerCase()
+        );
     }
 
     private Predicate getIsNullPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.isNull(root.get(criteria.getKey()));
+        return builder.isNull(getPath(root, criteria.getKey()));
     }
 
     private Predicate getIsNotNullPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
-        return builder.isNotNull(root.get(criteria.getKey()));
+        return builder.isNotNull(getPath(root, criteria.getKey()));
     }
 }
