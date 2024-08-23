@@ -1,14 +1,17 @@
 package mg.edbm.mail.controller;
 
 import lombok.RequiredArgsConstructor;
+import mg.edbm.mail.config.DatabaseConfig;
 import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.dto.LocationDto;
 import mg.edbm.mail.dto.request.ListRequest;
+import mg.edbm.mail.dto.response.FormResponse;
 import mg.edbm.mail.entity.Location;
 import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.service.LocationService;
 import mg.edbm.mail.service.UserService;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -58,5 +61,13 @@ public class LocationController {
         final Location location = locationService.remove(locationId, userService.getAuthenticatedUser());
         final LocationDto mappedLocationDto = new LocationDto(location);
         return ResponseEntity.ok(mappedLocationDto);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<FormResponse> handleDataIntegrityException(DataIntegrityViolationException ex) {
+        final FormResponse formResponse = new FormResponse();
+        if(ex.getMessage().contains(DatabaseConfig.UNIQUE_ERROR_CONSTRAINT))
+            formResponse.addFieldErrors("name", "Cet emplacement existe déjà");
+        return ResponseEntity.badRequest().body(formResponse);
     }
 }
