@@ -12,6 +12,7 @@ import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -71,6 +72,8 @@ public class SpecificationImpl<T> implements Specification<T> {
     }
 
     private Object castType(Class<?> type, Object value) {
+        if(type == UUID.class)
+            return UUID.fromString(value.toString());
         if(type == Integer.class)
             return Integer.parseInt(value.toString());
         if(type == Long.class)

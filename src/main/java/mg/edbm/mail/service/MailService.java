@@ -1,5 +1,6 @@
 package mg.edbm.mail.service;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.MailOutgoingRequest;
@@ -31,7 +32,7 @@ public class MailService {
     private final LocationService locationService;
     private final FileRepository fileRepository;
 
-    public Page<Mail> getMailByUser(UUID userId, MailType type, ListRequest listRequest) throws NotFoundException {
+    public Page<Mail> getMailsByUser(UUID userId, MailType type, ListRequest listRequest) {
         if (type == MailType.INCOMING)
             listRequest.addBaseCriteria("receiverUser", OperationType.EQUAL, userId);
         else
@@ -92,5 +93,18 @@ public class MailService {
         return mailRepository.findByIdAndSenderUser(mailId, senderUser).orElseThrow(
                 () -> new AccessDeniedException("Vous n'êtes pas autorisé à accéder à ce courrier")
         );
+    }
+
+    public Mail getMailByUser(UUID userId, UUID mailId) throws NotFoundException {
+        final User user = userService.get(userId);
+        return mailRepository.findByIdAndReceiverOrSenderUser(mailId, user).orElseThrow(
+                () -> new NotFoundException("Le courrier n'existe pas")
+        );
+    }
+
+    public Mail updateOutgoingMail(UUID userId, UUID mailId, @Valid MailOutgoingRequest mailOutgoingRequest, User authenticatedUser) throws NotFoundException {
+        final Mail mail = getIfSendBy(mailId, userService.get(userId));
+        mail.update(mailOutgoingRequest, authenticatedUser);
+        return mailRepository.save(mail);
     }
 }

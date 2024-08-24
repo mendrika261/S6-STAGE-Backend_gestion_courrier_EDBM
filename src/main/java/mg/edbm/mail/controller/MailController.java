@@ -8,6 +8,7 @@ import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.entity.File;
 import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
+import mg.edbm.mail.security.Self;
 import mg.edbm.mail.service.FileService;
 import mg.edbm.mail.service.MailService;
 import mg.edbm.mail.service.UserService;
@@ -38,7 +39,7 @@ public class MailController {
     @PostMapping("/{mailId}/files")
     public ResponseEntity<FileDto> uploadFile(@PathVariable UUID mailId, @Valid FileUploadRequest fileUploadRequest)
             throws AuthenticationException, IOException {
-        final File uploadedFile = fileService.uploadFile(mailId, fileUploadRequest, userService.getAuthenticatedUser());
+        final File uploadedFile = fileService.uploadMailFile(mailId, fileUploadRequest, userService.getAuthenticatedUser());
         return ResponseEntity.ok(new FileDto(uploadedFile));
     }
 }

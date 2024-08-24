@@ -8,10 +8,11 @@ import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.FileRepository;
+import mg.edbm.mail.repository.MailRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -29,12 +30,14 @@ public class FileService {
     private final FileRepository fileRepository;
     private final MailService mailService;
     private final FileUploadProperties fileUploadProperties;
+    private final MailRepository mailRepository;
 
     private void deleteStoredFile(File file) throws IOException {
         Files.deleteIfExists(Paths.get(file.getPath()));
     }
 
-    private void storeFile(MultipartFile fileContent, File file) throws IOException {
+    @Async
+    public void storeFile(MultipartFile fileContent, File file) throws IOException {
         final String pathWithName = fileUploadProperties.UPLOAD_DIR + "/" + file.getId();
         Path copyLocation = Paths.get(pathWithName);
         Files.copy(fileContent.getInputStream(), copyLocation);
@@ -42,13 +45,15 @@ public class FileService {
         file.setName(fileContent.getOriginalFilename());
     }
 
-    public File uploadFile(UUID mailId, FileUploadRequest fileUploadRequest, User authenticatedUser) throws IOException {
+    public File uploadMailFile(UUID mailId, FileUploadRequest fileUploadRequest, User authenticatedUser) throws IOException {
         final Mail mail = mailService.getIfSendBy(mailId, authenticatedUser);
 
         final File file = new File(fileUploadRequest.getFile(), mail, authenticatedUser);
         try {
             storeFile(fileUploadRequest.getFile(), file);
-            return fileRepository.save(file);
+            mail.addFile(file);
+            mailRepository.save(mail);
+            return file;
         } catch (IOException e) {
             deleteStoredFile(file);
             throw e;

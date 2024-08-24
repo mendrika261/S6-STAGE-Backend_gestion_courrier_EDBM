@@ -16,4 +16,7 @@ public interface MailRepository extends JpaRepository<Mail, UUID>, JpaSpecificat
     String findLastReference(String prefix);
 
     Optional<Mail> findByIdAndSenderUser(UUID mailId, User senderUser);
+
+    @Query("SELECT m FROM Mail m WHERE m.id = ?1 AND (m.receiverUser = ?2 OR m.senderUser = ?2)")
+    Optional<Mail> findByIdAndReceiverOrSenderUser(UUID mailId, User user);
 }

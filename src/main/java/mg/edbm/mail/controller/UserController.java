@@ -110,7 +110,7 @@ public class UserController {
     @AdminOrSelf
     public ResponseEntity<Page<MailResponse>> getMailByUser(@PathVariable UUID userId, @Valid MailType type, @Valid ListRequest listRequest)
             throws NotFoundException {
-        final Page<Mail> mails = mailService.getMailByUser(userId, type, listRequest);
+        final Page<Mail> mails = mailService.getMailsByUser(userId, type, listRequest);
         final Page<MailResponse> mappedMailDtoList = mails.map(MailResponse::new);
         return ResponseEntity.ok(mappedMailDtoList);
     }
@@ -124,6 +124,28 @@ public class UserController {
         final MailResponse mappedMailResponse = new MailResponse(createdMail);
         return ResponseEntity.ok(mappedMailResponse);
     }
+
+    @GetMapping("{userId}/mails/{mailId}")
+    @AdminOrSelf
+    public ResponseEntity<MailResponse> getMailByUser(@PathVariable UUID userId, @PathVariable UUID mailId)
+            throws NotFoundException {
+        final Mail mail = mailService.getMailByUser(userId, mailId);
+        final MailResponse mappedMailResponse = new MailResponse(mail);
+        return ResponseEntity.ok(mappedMailResponse);
+    }
+
+    @PutMapping("{userId}/mails/{mailId}")
+    @Secured(SecurityConfig.ROLE_USER)
+    @Self
+    public ResponseEntity<MailResponse> updateOutgoingMail(@PathVariable UUID userId,
+                                                           @PathVariable UUID mailId,
+                                                           @Valid MailOutgoingRequest mailOutgoingRequest)
+            throws AuthenticationException, NotFoundException {
+        final Mail updatedMail = mailService.updateOutgoingMail(userId, mailId, mailOutgoingRequest, userService.getAuthenticatedUser());
+        final MailResponse mappedMailResponse = new MailResponse(updatedMail);
+        return ResponseEntity.ok(mappedMailResponse);
+    }
+
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<FormResponse> handleDataIntegrityException(DataIntegrityViolationException ex) {

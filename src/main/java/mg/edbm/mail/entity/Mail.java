@@ -1,6 +1,7 @@
 package mg.edbm.mail.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -90,5 +91,18 @@ public class Mail {
         setDescription(mailOutgoingRequest.getDescription());
         setSenderUser(senderUser);
         setCreatedBy(author);
+    }
+
+    public void update(@Valid MailOutgoingRequest mailOutgoingRequest, User authenticatedUser) {
+        setObject(mailOutgoingRequest.getObject());
+        setConfidentiality(mailOutgoingRequest.getConfidentiality());
+        setPriority(mailOutgoingRequest.getMailPriority());
+        setNoteForMessenger(mailOutgoingRequest.getNoteForMessenger());
+        setDescription(mailOutgoingRequest.getDescription());
+        setCreatedBy(authenticatedUser);
+    }
+
+    public void addFile(File file) {
+        files.add(file);
     }
 }
