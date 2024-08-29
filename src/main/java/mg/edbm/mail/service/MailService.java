@@ -2,6 +2,9 @@ package mg.edbm.mail.service;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
+import mg.edbm.mail.config.properties.FileUploadProperties;
+import mg.edbm.mail.dto.request.FileUploadRequest;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.MailOutgoingRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
@@ -11,6 +14,7 @@ import mg.edbm.mail.entity.File;
 import mg.edbm.mail.entity.Location;
 import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.FileRepository;
 import mg.edbm.mail.repository.MailRepository;
@@ -19,18 +23,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class MailService {
     private static final Integer MAIL_REFERENCE_SEQ_LENGTH = 6;
     private final MailRepository mailRepository;
     private final UserService userService;
     private final LocationService locationService;
     private final FileRepository fileRepository;
+    private final FileService fileService;
+    private final FileUploadProperties fileUploadProperties;
 
     public Page<Mail> getMailsByUser(UUID userId, MailType type, ListRequest listRequest) {
         if (type == MailType.INCOMING)
@@ -89,6 +98,39 @@ public class MailService {
         return fileRepository.findAll(specification, pageable);
     }
 
+    public File uploadMailFile(UUID mailId, FileUploadRequest fileUploadRequest, User authenticatedUser) throws IOException {
+        final Mail mail = getIfSendBy(mailId, authenticatedUser);
+
+        final File file = new File(fileUploadRequest.getFile(), authenticatedUser);
+        file.setPath(fileUploadProperties.UPLOAD_DIR + "/" + file.getId());
+        fileService.storeFile(fileUploadRequest.getFile(), file.getPath());
+        mail.addFile(file);
+        mailRepository.save(mail);
+        return file;
+    }
+
+    public Mail deleteMailFileSendBy(UUID mailId, UUID fileId, User author) throws NotFoundException {
+        final Mail mail = getIfSendBy(mailId, author);
+        final File file = fileRepository.findById(fileId).orElseThrow(
+                () -> new NotFoundException("File with id #" + fileId + " not found"));
+
+        try {
+            mail.removeFile(file);
+            mailRepository.save(mail);
+            fileService.deleteStoredFile(file);
+            fileRepository.delete(file);
+        } catch (IOException e) {
+            log.error("Error while deleting on storage file with id #{}", fileId, e);
+        }
+        return mail;
+    }
+
+    public void deleteAllMailFilesSendBy(UUID mailId, User author) throws NotFoundException {
+        for (File file : getIfSendBy(mailId, author).getFiles()) {
+            deleteMailFileSendBy(mailId, file.getId(), author);
+        }
+    }
+
     public Mail getIfSendBy(UUID mailId, User senderUser) {
         return mailRepository.findByIdAndSenderUser(mailId, senderUser).orElseThrow(
                 () -> new AccessDeniedException("Vous n'êtes pas autorisé à accéder à ce courrier")
@@ -104,7 +146,20 @@ public class MailService {
 
     public Mail updateOutgoingMail(UUID userId, UUID mailId, @Valid MailOutgoingRequest mailOutgoingRequest, User authenticatedUser) throws NotFoundException {
         final Mail mail = getIfSendBy(mailId, userService.get(userId));
-        mail.update(mailOutgoingRequest, authenticatedUser);
+        mail.updateIfAuthorized(mailOutgoingRequest, authenticatedUser);
         return mailRepository.save(mail);
+    }
+
+    public Mail updateMailStatus(UUID userId, UUID mailId, MailStatus mailStatus, User authenticatedUser) throws NotFoundException {
+        final Mail mail = getIfSendBy(mailId, userService.get(userId));
+        mail.updateStatusIfAuthorized(mailStatus, authenticatedUser);
+        return mailRepository.save(mail);
+    }
+
+    public Mail deleteMail(UUID userId, UUID mailId) throws NotFoundException {
+        final Mail mail = getIfSendBy(mailId, userService.get(userId));
+        deleteAllMailFilesSendBy(mailId, userService.get(userId));
+        mailRepository.delete(mail);
+        return mail;
     }
 }

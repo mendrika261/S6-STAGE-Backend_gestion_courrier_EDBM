@@ -3,7 +3,9 @@ package mg.edbm.mail.dto.request;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import mg.edbm.mail.dto.request.validator.ReceiverUserOrNameAndLocation;
+import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailPriority;
 
@@ -11,6 +13,7 @@ import org.hibernate.validator.constraints.Length;
 
 @Data
 @ReceiverUserOrNameAndLocation
+@NoArgsConstructor
 public class MailOutgoingRequest {
     @NotBlank(message = "L'objet du mail est obligatoire")
     @Length(max = 255, message = "L'objet du mail ne peut pas dépasser 255 caractères")

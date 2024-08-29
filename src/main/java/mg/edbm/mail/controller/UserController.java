@@ -14,6 +14,7 @@ import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.dto.response.FormResponse;
 import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.UserStatus;
 import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
@@ -146,6 +147,27 @@ public class UserController {
         return ResponseEntity.ok(mappedMailResponse);
     }
 
+    @PatchMapping("{userId}/mails/{mailId}/status")
+    @Secured(SecurityConfig.ROLE_USER)
+    @Self
+    public ResponseEntity<MailResponse> updateMailStatus(@PathVariable UUID userId,
+                                                         @PathVariable UUID mailId,
+                                                         MailStatus mailStatus)
+            throws AuthenticationException, NotFoundException {
+        final Mail updatedMail = mailService.updateMailStatus(userId, mailId, mailStatus, userService.getAuthenticatedUser());
+        final MailResponse mappedMailResponse = new MailResponse(updatedMail);
+        return ResponseEntity.ok(mappedMailResponse);
+    }
+
+    @DeleteMapping("{userId}/mails/{mailId}")
+    @Secured(SecurityConfig.ROLE_USER)
+    @Self
+    public ResponseEntity<MailResponse> deleteMail(@PathVariable UUID userId, @PathVariable UUID mailId)
+            throws NotFoundException {
+        final Mail deletedMail = mailService.deleteMail(userId, mailId);
+        final MailResponse mappedMailResponse = new MailResponse(deletedMail);
+        return ResponseEntity.ok(mappedMailResponse);
+    }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<FormResponse> handleDataIntegrityException(DataIntegrityViolationException ex) {

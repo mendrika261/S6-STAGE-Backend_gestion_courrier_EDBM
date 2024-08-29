@@ -37,9 +37,9 @@ public class File {
     @Column(nullable = false)
     private String path;
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    /*@ManyToOne(optional = false)
     @JoinColumn(nullable = false)
-    private Mail mail;
+    private Mail mail;*/
 
 
     @Transient
@@ -49,14 +49,13 @@ public class File {
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(nullable = false)
     private User createdBy;
 
-    public File(MultipartFile file, Mail mail, User createdBy) {
+    public File(MultipartFile file, User createdBy) {
         setName(file.getOriginalFilename());
         setType(file.getContentType());
-        setMail(mail);
         setCreatedBy(createdBy);
         setSize(file.getSize());
     }

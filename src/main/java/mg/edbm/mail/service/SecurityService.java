@@ -22,7 +22,6 @@ public class SecurityService {
 
     public boolean isSelf(UUID userId) throws AuthenticationException {
         User authenticatedUser = userService.getAuthenticatedUser();
-        System.out.println(authenticatedUser.getId() + " " + userId);
         return authenticatedUser.getId().equals(userId);
     }
 }
