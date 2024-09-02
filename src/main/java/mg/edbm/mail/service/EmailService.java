@@ -23,9 +23,9 @@ public class EmailService {
     @Value("${spring.mail.username}")
     private String from;
     @Value("${app.url}")
-    private final String appUrl = "";
+    private String appUrl;
     @Value("${app.support.email}")
-    private final String supportEmail = "";
+    private String supportEmail;
 
     @Async
     public void sendEmail(String to, String subject, String templateName, Context context) throws ValidationException {

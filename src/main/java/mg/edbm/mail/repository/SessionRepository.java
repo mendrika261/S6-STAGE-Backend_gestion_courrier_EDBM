@@ -30,4 +30,11 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
         ORDER BY s.createdAt DESC LIMIT 1
     """)
     Optional<Session> findLastSession(User user, String ipAddress, String userAgent);
+
+    @Query("""
+        UPDATE Session s
+        SET s.status = ?3
+        WHERE s.user = ?1 AND s.status = ?2
+    """)
+    void updateAllActiveSessionOf(User user, SessionStatus sessionStatus, SessionStatus newSessionStatus);
 }

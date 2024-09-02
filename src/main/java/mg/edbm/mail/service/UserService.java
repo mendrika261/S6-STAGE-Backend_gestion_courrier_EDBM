@@ -1,9 +1,9 @@
 package mg.edbm.mail.service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.PasswordRequest;
 import mg.edbm.mail.dto.request.UserRequest;
@@ -75,6 +75,7 @@ public class UserService {
     }
 
     public Page<User> listActiveReceiver(ListRequest listRequest, User currentUser) {
+        listRequest.addBaseCriteria("roles.code", OperationType.EQUAL, SecurityConfig.ROLE_USER);
         listRequest.addBaseCriteria("status", OperationType.EQUAL, UserStatus.ACTIVE);
         listRequest.addBaseCriteria("id", OperationType.NOT_EQUAL, currentUser.getId());
         return list(listRequest);
@@ -162,6 +163,7 @@ public class UserService {
         if(status == null) throw new ValidationException("Le statut ne peut pas être vide");
         final User user = get(userId);
         user.setStatus(status);
+        if(status == UserStatus.SUSPENDED) sessionService.invalidateAllActiveSessions(user);
         return update(user, authenticatedUser);
     }
 }

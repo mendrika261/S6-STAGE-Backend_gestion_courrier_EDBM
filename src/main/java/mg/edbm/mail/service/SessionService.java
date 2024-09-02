@@ -8,8 +8,6 @@ import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.SessionStatus;
 import mg.edbm.mail.repository.SessionRepository;
 import mg.edbm.mail.entity.type.Token;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -115,5 +113,9 @@ public class SessionService {
         );
         log.warn("Authentication tentative failed: {}", session);
         save(session);
+    }
+
+    public void invalidateAllActiveSessions(User user) {
+        sessionRepository.updateAllActiveSessionOf(user, SessionStatus.ACTIVE, SessionStatus.FINISHED);
     }
 }
