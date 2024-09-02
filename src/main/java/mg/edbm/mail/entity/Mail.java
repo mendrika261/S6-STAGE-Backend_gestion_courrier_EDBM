@@ -1,7 +1,6 @@
 package mg.edbm.mail.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,14 +9,11 @@ import mg.edbm.mail.dto.request.MailOutgoingRequest;
 import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.MailPriority;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import mg.edbm.mail.entity.type.MouvementStatus;
 import org.springframework.security.access.AccessDeniedException;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -71,7 +67,8 @@ public class Mail {
     private User receiverUser;
 
     @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true)
-    private Set<File> files = new LinkedHashSet<>();
+    @OrderBy("createdAt DESC")
+    private List<File> files = new ArrayList<>();
 
     @Lob
     private String noteForMessenger;
@@ -79,6 +76,9 @@ public class Mail {
     @Lob
     private String description;
 
+    @OneToMany(cascade = {CascadeType.REMOVE, CascadeType.MERGE}, orphanRemoval = true, mappedBy = "mail")
+    @OrderBy("startDate DESC")
+    private List<Mouvement> mouvements = new ArrayList<>();
 
     @Column(nullable = false)
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -135,5 +135,21 @@ public class Mail {
 
     public void removeFile(File file) {
         getFiles().remove(file);
+    }
+
+    public void addMouvement(Mouvement mouvement) {
+        getMouvements().add(mouvement);
+    }
+
+    public Mouvement removeLastMouvement() {
+        return getMouvements().remove(0);
+    }
+
+    public void signMouvementStart(LocalDateTime startDate, User author) {
+        getMouvements().get(0).setStartDate(startDate);
+        getMouvements().get(0).setStatus(MouvementStatus.DELIVERING);
+        setStatus(MailStatus.DELIVERING);
+        setCreatedBy(author);
+        setCreatedAt(startDate);
     }
 }

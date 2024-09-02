@@ -4,6 +4,7 @@ import mg.edbm.mail.entity.Session;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.SessionStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -31,6 +32,7 @@ public interface SessionRepository extends JpaRepository<Session, UUID> {
     """)
     Optional<Session> findLastSession(User user, String ipAddress, String userAgent);
 
+    @Modifying
     @Query("""
         UPDATE Session s
         SET s.status = ?3

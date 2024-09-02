@@ -109,8 +109,7 @@ public class UserController {
 
     @GetMapping("{userId}/mails")
     @AdminOrSelf
-    public ResponseEntity<Page<MailResponse>> getMailByUser(@PathVariable UUID userId, @Valid MailType type, @Valid ListRequest listRequest)
-            throws NotFoundException {
+    public ResponseEntity<Page<MailResponse>> getMailByUser(@PathVariable UUID userId, @Valid MailType type, @Valid ListRequest listRequest) {
         final Page<Mail> mails = mailService.getMailsByUser(userId, type, listRequest);
         final Page<MailResponse> mappedMailDtoList = mails.map(MailResponse::new);
         return ResponseEntity.ok(mappedMailDtoList);

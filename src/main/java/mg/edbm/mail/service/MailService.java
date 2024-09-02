@@ -10,20 +10,18 @@ import mg.edbm.mail.dto.request.MailOutgoingRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import mg.edbm.mail.dto.request.type.MailType;
 import mg.edbm.mail.dto.request.type.OperationType;
-import mg.edbm.mail.entity.File;
-import mg.edbm.mail.entity.Location;
-import mg.edbm.mail.entity.Mail;
-import mg.edbm.mail.entity.User;
+import mg.edbm.mail.dto.request.type.SortType;
+import mg.edbm.mail.entity.*;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.FileRepository;
 import mg.edbm.mail.repository.MailRepository;
+import mg.edbm.mail.repository.MouvementRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -40,6 +38,7 @@ public class MailService {
     private final FileRepository fileRepository;
     private final FileService fileService;
     private final FileUploadProperties fileUploadProperties;
+    private final MouvementRepository mouvementRepository;
 
     public Page<Mail> getMailsByUser(UUID userId, MailType type, ListRequest listRequest) {
         if (type == MailType.INCOMING)
@@ -144,13 +143,15 @@ public class MailService {
         );
     }
 
-    public Mail updateOutgoingMail(UUID userId, UUID mailId, @Valid MailOutgoingRequest mailOutgoingRequest, User authenticatedUser) throws NotFoundException {
+    public Mail updateOutgoingMail(UUID userId, UUID mailId, @Valid MailOutgoingRequest mailOutgoingRequest,
+                                   User authenticatedUser) throws NotFoundException {
         final Mail mail = getIfSendBy(mailId, userService.get(userId));
         mail.updateIfAuthorized(mailOutgoingRequest, authenticatedUser);
         return mailRepository.save(mail);
     }
 
-    public Mail updateMailStatus(UUID userId, UUID mailId, MailStatus mailStatus, User authenticatedUser) throws NotFoundException {
+    public Mail updateMailStatus(UUID userId, UUID mailId, MailStatus mailStatus, User authenticatedUser)
+            throws NotFoundException {
         final Mail mail = getIfSendBy(mailId, userService.get(userId));
         mail.updateStatusIfAuthorized(mailStatus, authenticatedUser);
         return mailRepository.save(mail);
@@ -161,5 +162,19 @@ public class MailService {
         deleteAllMailFilesSendBy(mailId, userService.get(userId));
         mailRepository.delete(mail);
         return mail;
+    }
+
+    public Page<Mail> listWaitingMails(@Valid ListRequest listRequest) {
+        listRequest.addBaseCriteria("status", OperationType.EQUAL, MailStatus.WAITING);
+        listRequest.addOrder("createdAt", SortType.ASC);
+        final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
+        final Pageable pageable = listRequest.toPageable();
+        return mailRepository.findAll(specification, pageable);
+    }
+
+    public Mail signMouvementStart(UUID mailId, LocalDateTime startDate, User author) {
+        final Mail mail = getIfSendBy(mailId, author);
+        mail.signMouvementStart(startDate, author);
+        return mailRepository.save(mail);
     }
 }

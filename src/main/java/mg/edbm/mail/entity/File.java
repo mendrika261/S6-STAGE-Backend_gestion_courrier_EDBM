@@ -37,11 +37,6 @@ public class File {
     @Column(nullable = false)
     private String path;
 
-    /*@ManyToOne(optional = false)
-    @JoinColumn(nullable = false)
-    private Mail mail;*/
-
-
     @Transient
     private Resource resource;
 
