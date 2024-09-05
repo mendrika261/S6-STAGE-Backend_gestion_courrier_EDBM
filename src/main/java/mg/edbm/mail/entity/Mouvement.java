@@ -62,12 +62,21 @@ public class Mouvement {
 
     public Mouvement(Mail mail, User messenger) {
         setMessenger(messenger);
-        setSenderLocation(mail.getSenderLocation());
-        setSender(mail.getSender());
-        setSenderUser(mail.getSenderUser());
+        if(mail.getMouvements().isEmpty()) {
+            setSenderLocation(mail.getSenderLocation());
+            setSender(mail.getSender());
+            setSenderUser(mail.getSenderUser());
+        } else {
+            final Mouvement lastMouvement = mail.getLastMouvement();
+            setSenderLocation(lastMouvement.getReceiverLocation());
+            setSender(lastMouvement.getReceiver());
+            setSenderUser(lastMouvement.getReceiverUser());
+        }
         setReceiverLocation(mail.getReceiverLocation());
         setReceiver(mail.getReceiver());
         setReceiverUser(mail.getReceiverUser());
+        if(getSenderUser() == null)
+            setStatus(MouvementStatus.DELIVERING);
         setMail(mail);
     }
 }

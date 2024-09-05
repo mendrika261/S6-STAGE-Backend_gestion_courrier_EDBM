@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.Mouvement;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.MailRepository;
 import mg.edbm.mail.repository.MouvementRepository;
@@ -14,7 +15,6 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class MouvementService {
-    private final MouvementRepository mouvementRepository;
     private final MailService mailService;
     private final MailRepository mailRepository;
 
@@ -22,6 +22,8 @@ public class MouvementService {
         final Mail mail = mailService.get(mailId);
         final Mouvement mouvement = new Mouvement(mail, messenger);
         mail.addMouvement(mouvement);
+        if(mouvement.getSenderUser() == null)
+            mail.setStatus(MailStatus.DELIVERING);
         mailRepository.save(mail);
         return mouvement;
     }

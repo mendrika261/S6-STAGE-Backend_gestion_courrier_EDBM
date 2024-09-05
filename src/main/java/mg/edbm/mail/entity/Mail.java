@@ -145,11 +145,42 @@ public class Mail {
         return getMouvements().remove(0);
     }
 
-    public void signMouvementStart(LocalDateTime startDate, User author) {
-        getMouvements().get(0).setStartDate(startDate);
-        getMouvements().get(0).setStatus(MouvementStatus.DELIVERING);
+    public void signMouvementStart(LocalDateTime startDate) {
+        getLastMouvement().setStartDate(startDate);
+        getLastMouvement().setStatus(MouvementStatus.DELIVERING);
         setStatus(MailStatus.DELIVERING);
-        setCreatedBy(author);
-        setCreatedAt(startDate);
+    }
+
+    public void deliverMail(LocalDateTime endDate) {
+        if(endDate == null) endDate = LocalDateTime.now();
+        getLastMouvement().setEndDate(endDate);
+
+        /*if(getLastMouvement().getReceiverUser() != null) {
+            setStatus(MailStatus.DELIVERING);
+        } else if(getLastMouvement().getReceiver().equals(getReceiver())
+                && getLastMouvement().getReceiverLocation().equals(getReceiverLocation())) {
+            setStatus(MailStatus.DONE);
+            getLastMouvement().setStatus(MouvementStatus.DONE);
+        } else {
+            setStatus(MailStatus.WAITING);
+            getLastMouvement().setStatus(MouvementStatus.WAITING);
+        }*/
+
+        if(getLastMouvement().getReceiverUser() == null) {
+            getLastMouvement().setStatus(MouvementStatus.DONE);
+        } else {
+            getLastMouvement().setStatus(MouvementStatus.DELIVERING);
+        }
+
+        if(getLastMouvement().getReceiver().equals(getReceiver())
+                && getLastMouvement().getReceiverLocation().equals(getReceiverLocation())) {
+            setStatus(MailStatus.DONE);
+        } else if (getLastMouvement().getStatus().equals(MouvementStatus.DONE)) {
+            setStatus(MailStatus.WAITING);
+        }
+    }
+
+    public Mouvement getLastMouvement() {
+        return getMouvements().get(0);
     }
 }

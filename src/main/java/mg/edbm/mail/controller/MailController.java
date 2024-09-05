@@ -4,7 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.dto.FileDto;
-import mg.edbm.mail.dto.MouvementDto;
+import mg.edbm.mail.dto.request.MouvementRequest;
+import mg.edbm.mail.dto.response.MouvementResponse;
 import mg.edbm.mail.dto.request.FileUploadRequest;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.response.MailResponse;
@@ -69,25 +70,58 @@ public class MailController {
 
     @Secured(SecurityConfig.ROLE_MESSENGER)
     @PostMapping("/{mailId}/mouvements")
-    public ResponseEntity<MouvementDto> createMouvement(@PathVariable UUID mailId)
+    public ResponseEntity<MouvementResponse> createMouvement(@PathVariable UUID mailId)
             throws AuthenticationException, NotFoundException {
         final Mouvement mouvement = mouvementService.createMouvement(mailId, userService.getAuthenticatedUser());
-        return ResponseEntity.ok(new MouvementDto(mouvement));
+        return ResponseEntity.ok(new MouvementResponse(mouvement));
     }
 
     @Secured(SecurityConfig.ROLE_MESSENGER)
     @DeleteMapping("/{mailId}/mouvements")
-    public ResponseEntity<MouvementDto> removeMouvement(@PathVariable UUID mailId)
+    public ResponseEntity<MouvementResponse> removeMouvement(@PathVariable UUID mailId)
             throws NotFoundException, AuthenticationException {
         final Mouvement mouvement = mouvementService.removeLastMouvement(mailId, userService.getAuthenticatedUser());
-        return ResponseEntity.ok(new MouvementDto(mouvement));
+        return ResponseEntity.ok(new MouvementResponse(mouvement));
     }
 
     @Secured(SecurityConfig.ROLE_USER)
     @PatchMapping("/{mailId}/mouvements")
     public ResponseEntity<MailResponse> signMouvement(@PathVariable UUID mailId, LocalDateTime startDate)
-            throws AuthenticationException, NotFoundException {
+            throws AuthenticationException {
         final Mail mail = mailService.signMouvementStart(mailId, startDate, userService.getAuthenticatedUser());
         return ResponseEntity.ok(new MailResponse(mail));
+    }
+
+    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @GetMapping("/delivering")
+    public ResponseEntity<Page<MailResponse>> listDeliveringMails(@Valid ListRequest listRequest) throws AuthenticationException {
+        final Page<Mail> mails = mailService.listDeliveringMails(listRequest, userService.getAuthenticatedUser());
+        final Page<MailResponse> mappedMailResponseList = mails.map(MailResponse::new);
+        return ResponseEntity.ok(mappedMailResponseList);
+    }
+
+    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @PatchMapping("/{mailId}/mouvements/delivered")
+    public ResponseEntity<MailResponse> deliverMail(@PathVariable UUID mailId, LocalDateTime endDate)
+            throws AuthenticationException {
+        final Mail mail = mailService.deliverMail(mailId, endDate, userService.getAuthenticatedUser());
+        return ResponseEntity.ok(new MailResponse(mail));
+    }
+
+    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @DeleteMapping("/{mailId}/mouvements/delivered")
+    public ResponseEntity<MailResponse> cancelDelivery(@PathVariable UUID mailId)
+            throws AuthenticationException {
+        final Mail mail = mailService.cancelDelivery(mailId, userService.getAuthenticatedUser());
+        return ResponseEntity.ok(new MailResponse(mail));
+    }
+
+    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @PutMapping("/{mailId}/mouvements")
+    public ResponseEntity<MouvementResponse> rerouteMouvement(@PathVariable UUID mailId,
+                                                              @Valid MouvementRequest mouvementRequest)
+            throws NotFoundException, AuthenticationException {
+        final Mouvement mouvement = mailService.reroute(mailId, mouvementRequest, userService.getAuthenticatedUser());
+        return ResponseEntity.ok(new MouvementResponse(mouvement));
     }
 }

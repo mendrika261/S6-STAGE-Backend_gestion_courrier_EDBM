@@ -3,6 +3,7 @@ package mg.edbm.mail.dto.request;
 import jakarta.validation.constraints.Min;
 import lombok.Data;
 import mg.edbm.mail.dto.request.filter.SearchCriteria;
+import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.type.OperationType;
 import mg.edbm.mail.dto.request.type.SortType;
 import org.springframework.data.domain.PageRequest;
@@ -59,5 +60,9 @@ public class ListRequest {
 
     public void addBaseCriteria(String key, OperationType operation, Object value) {
         addBaseCriteria(new SearchCriteria(key, operation, value));
+    }
+
+    public void addBaseCriteria(LogicOperationType logicOperationType, String key, OperationType operation, Object value) {
+        addBaseCriteria(new SearchCriteria(logicOperationType, key, operation, value));
     }
 }

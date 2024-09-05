@@ -58,7 +58,6 @@ public class UserController {
     }
 
     @GetMapping("/active")
-    @Secured(SecurityConfig.ROLE_USER)
     public ResponseEntity<Page<UserResponse>> listActiveReceiver(@Valid ListRequest listRequest) throws AuthenticationException {
         final Page<User> users = userService.listActiveReceiver(listRequest, userService.getAuthenticatedUser());
         final Page<UserResponse> mappedUserDtoList = users.map(UserResponse::new);

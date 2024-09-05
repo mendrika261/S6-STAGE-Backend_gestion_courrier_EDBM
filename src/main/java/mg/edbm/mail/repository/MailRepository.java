@@ -2,6 +2,7 @@ package mg.edbm.mail.repository;
 
 import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.entity.type.MouvementStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -19,4 +20,6 @@ public interface MailRepository extends JpaRepository<Mail, UUID>, JpaSpecificat
 
     @Query("SELECT m FROM Mail m WHERE m.id = ?1 AND (m.receiverUser = ?2 OR m.senderUser = ?2)")
     Optional<Mail> findByIdAndReceiverOrSenderUser(UUID mailId, User user);
+
+    Optional<Mail> findByIdAndMouvementsMessengerAndMouvementsStatus(UUID mailId, User messenger, MouvementStatus mouvementStatus);
 }

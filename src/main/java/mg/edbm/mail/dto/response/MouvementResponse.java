@@ -1,17 +1,19 @@
-package mg.edbm.mail.dto;
+package mg.edbm.mail.dto.response;
 
 import lombok.Data;
-import mg.edbm.mail.dto.response.UserResponse;
+import lombok.NoArgsConstructor;
+import mg.edbm.mail.dto.LocationDto;
 import mg.edbm.mail.entity.Mouvement;
 import mg.edbm.mail.entity.type.MouvementStatus;
 
 import java.time.LocalDateTime;
 
 @Data
-public class MouvementDto {
+@NoArgsConstructor
+public class MouvementResponse {
     private Long id;
     private UserResponse messenger;
-    private LocalDateTime startDate = LocalDateTime.now();
+    private LocalDateTime startDate;
     private LocalDateTime endDate;
     private LocationDto senderLocation;
     private String sender;
@@ -21,8 +23,9 @@ public class MouvementDto {
     private UserResponse receiverUser;
     private MouvementStatus status;
     private String description;
+    private String referenceMail;
 
-    public MouvementDto(Mouvement mouvement) {
+    public MouvementResponse(Mouvement mouvement) {
         setId(mouvement.getId());
         setStartDate(mouvement.getStartDate());
         setEndDate(mouvement.getEndDate());
@@ -43,5 +46,7 @@ public class MouvementDto {
 
         if (mouvement.getMessenger() != null)
             setMessenger(new UserResponse(mouvement.getMessenger()));
+
+        setReferenceMail(mouvement.getMail().getReference());
     }
 }

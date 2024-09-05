@@ -4,6 +4,9 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.config.properties.FileUploadProperties;
+import mg.edbm.mail.dto.request.MouvementRequest;
+import mg.edbm.mail.dto.request.type.LogicOperationType;
+import mg.edbm.mail.dto.response.MouvementResponse;
 import mg.edbm.mail.dto.request.FileUploadRequest;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.MailOutgoingRequest;
@@ -13,6 +16,7 @@ import mg.edbm.mail.dto.request.type.OperationType;
 import mg.edbm.mail.dto.request.type.SortType;
 import mg.edbm.mail.entity.*;
 import mg.edbm.mail.entity.type.MailStatus;
+import mg.edbm.mail.entity.type.MouvementStatus;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.FileRepository;
 import mg.edbm.mail.repository.MailRepository;
@@ -165,7 +169,7 @@ public class MailService {
     }
 
     public Page<Mail> listWaitingMails(@Valid ListRequest listRequest) {
-        listRequest.addBaseCriteria("status", OperationType.EQUAL, MailStatus.WAITING);
+        listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.EQUAL, MailStatus.WAITING); // TODO make waiting when done
         listRequest.addOrder("createdAt", SortType.ASC);
         final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
         final Pageable pageable = listRequest.toPageable();
@@ -174,7 +178,52 @@ public class MailService {
 
     public Mail signMouvementStart(UUID mailId, LocalDateTime startDate, User author) {
         final Mail mail = getIfSendBy(mailId, author);
-        mail.signMouvementStart(startDate, author);
+        mail.signMouvementStart(startDate);
+        return mailRepository.save(mail);
+    }
+
+    public Page<Mail> listDeliveringMails(@Valid ListRequest listRequest, User messenger) {
+        listRequest.addBaseCriteria("mouvements.messenger", OperationType.EQUAL, messenger.getId());
+        listRequest.addBaseCriteria("mouvements.status", OperationType.EQUAL, MouvementStatus.DELIVERING);
+        listRequest.addOrder("mouvements.startDate", SortType.ASC);
+        final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
+        final Pageable pageable = listRequest.toPageable();
+        return mailRepository.findAll(specification, pageable);
+    }
+
+    private Mail getIfDeliveringBy(UUID mailId, User messenger) {
+        return mailRepository.findByIdAndMouvementsMessengerAndMouvementsStatus(mailId, messenger, MouvementStatus.DELIVERING).orElseThrow(
+                () -> new AccessDeniedException("Vous n'êtes pas autorisé à accéder à ce courrier")
+        );
+    }
+
+    public Mail deliverMail(UUID mailId, LocalDateTime endDate, User messenger) {
+        final Mail mail = getIfDeliveringBy(mailId, messenger);
+        mail.deliverMail(endDate);
+        return mailRepository.save(mail);
+    }
+
+    public Mouvement reroute(UUID mailId, MouvementRequest mouvementRequest, User messenger) throws NotFoundException {
+        final Mail mail = getIfDeliveringBy(mailId, messenger);
+        final Mouvement mouvement = mail.getLastMouvement();
+        if(mouvementRequest.getReceiverUserId() == null) {
+            mouvement.setReceiverUser(null);
+            mouvement.setReceiver(mouvementRequest.getReceiver());
+            mouvement.setReceiverLocation(locationService.get(mouvementRequest.getReceiverLocationId()));
+        } else {
+            final User user = userService.get(mouvementRequest.getReceiverUserId());
+            mouvement.setReceiverUser(user);
+            mouvement.setReceiver(user.getFullName());
+            mouvement.setReceiverLocation(user.getLocation());
+        }
+        return mouvementRepository.save(mouvement);
+    }
+
+    public Mail cancelDelivery(UUID mailId, User messenger) {
+        final Mail mail = getIfDeliveringBy(mailId, messenger);
+        mail.setStatus(MailStatus.DELIVERING);
+        mail.getLastMouvement().setStatus(MouvementStatus.DELIVERING);
+        mail.getLastMouvement().setEndDate(null);
         return mailRepository.save(mail);
     }
 }

@@ -4,16 +4,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import mg.edbm.mail.dto.FileDto;
 import mg.edbm.mail.dto.LocationDto;
-import mg.edbm.mail.dto.MouvementDto;
 import mg.edbm.mail.entity.Mail;
-import mg.edbm.mail.entity.Mouvement;
 import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailPriority;
 import mg.edbm.mail.entity.type.MailStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -41,7 +38,7 @@ public class MailResponse {
     private String description;
     private LocalDateTime createdAt;
     private List<FileDto> files;
-    private List<MouvementDto> mouvements;
+    private List<MouvementResponse> mouvements;
 
     public MailResponse(Mail mail) {
         setId(mail.getId());
@@ -67,6 +64,6 @@ public class MailResponse {
         setFiles(mail.getFiles().stream().map(FileDto::new).collect(Collectors.toList()));
         setNoteForMessenger(mail.getNoteForMessenger());
         setDescription(mail.getDescription());
-        setMouvements(mail.getMouvements().stream().map(MouvementDto::new).collect(Collectors.toList()));
+        setMouvements(mail.getMouvements().stream().map(MouvementResponse::new).collect(Collectors.toList()));
     }
 }

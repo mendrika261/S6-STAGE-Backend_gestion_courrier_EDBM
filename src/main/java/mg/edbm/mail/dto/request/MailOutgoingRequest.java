@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import mg.edbm.mail.dto.request.validator.ReceiverUserOrNameAndLocation;
-import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailPriority;
 
