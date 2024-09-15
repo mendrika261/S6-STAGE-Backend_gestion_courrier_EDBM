@@ -5,15 +5,20 @@ import jakarta.persistence.criteria.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
+import mg.edbm.mail.dto.request.type.SortType;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+@Slf4j
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,27 +29,51 @@ public class SpecificationImpl<T> implements Specification<T> {
         setListRequest(listRequest);
     }
 
-
     @Override
     public Predicate toPredicate(@NonNull Root<T> root,
                                  @NonNull CriteriaQuery<?> query,
                                  @NonNull CriteriaBuilder builder) {
-        Predicate predicate = builder.conjunction();
         Predicate basePredicate = builder.conjunction();
+        List<Predicate> orPredicates = new ArrayList<>();
+        List<Predicate> andPredicates = new ArrayList<>();
 
-        for (final SearchCriteria criteria: getListRequest().getBaseCriteria()) {
-            basePredicate = builder.and(basePredicate, getPredicate(root, criteria, builder));
+        for (final SearchCriteria criteria : getListRequest().getAllCriteria()) {
+            if (criteria.getLogicOperationType().equals(LogicOperationType.OR)) {
+                if (!andPredicates.isEmpty()) {
+                    orPredicates.add(builder.and(andPredicates.toArray(new Predicate[0])));
+                    andPredicates.clear();
+                }
+            }
+
+            andPredicates.add(getPredicate(root, criteria, builder));
         }
 
-        for (final SearchCriteria criteria: getListRequest().getCriteria()) {
-            if(criteria.getLogicOperationType().equals(LogicOperationType.OR))
-                predicate = builder.or(predicate, getPredicate(root, criteria, builder));
-            else
-                predicate = builder.and(predicate, getPredicate(root, criteria, builder));
+        if (!andPredicates.isEmpty()) {
+            orPredicates.add(builder.and(andPredicates.toArray(new Predicate[0])));
         }
 
-        return builder.and(basePredicate, predicate);
+        if (!orPredicates.isEmpty()) {
+            basePredicate = builder.or(orPredicates.toArray(new Predicate[0]));
+        }
+
+        List<Expression<?>> groupByExpressions = new ArrayList<>();
+        groupByExpressions.add(root.get("id"));
+        for (String field : getListRequest().getOrders().keySet()) {
+            final SortType direction = getListRequest().getOrders().get(field);
+            final Path<?> current = getPath(root, field);
+
+            groupByExpressions.add(current);
+
+            if (direction == SortType.ASC)
+                query.orderBy(builder.asc(current));
+            else if (direction == SortType.DESC)
+                query.orderBy(builder.desc(current));
+        }
+        query.groupBy(groupByExpressions);
+
+        return basePredicate;
     }
+
 
     private Predicate getPredicate(Root<T> root, SearchCriteria criteria, CriteriaBuilder builder) {
         return switch (criteria.getOperation()) {

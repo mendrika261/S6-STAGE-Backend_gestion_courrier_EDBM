@@ -2,17 +2,17 @@ package mg.edbm.mail.dto.request.validator;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import mg.edbm.mail.dto.request.MailOutgoingRequest;
+import mg.edbm.mail.dto.request.MailRequest;
 
-public class ReceiverUserOrNameAndLocationValidator  implements ConstraintValidator<ReceiverUserOrNameAndLocation, MailOutgoingRequest> {
+public class ReceiverUserOrNameAndLocationValidator  implements ConstraintValidator<ReceiverUserOrNameAndLocation, MailRequest> {
     @Override
     public void initialize(ReceiverUserOrNameAndLocation constraintAnnotation) {
     }
 
     @Override
-    public boolean isValid(MailOutgoingRequest mailOutgoingRequest, ConstraintValidatorContext constraintValidatorContext) {
-        final boolean isSystemUser = mailOutgoingRequest.getReceiverUserId() != null;
-        final boolean isOtherUser = mailOutgoingRequest.getReceiver() != null && mailOutgoingRequest.getReceiverLocationId() != null;
+    public boolean isValid(MailRequest mailRequest, ConstraintValidatorContext constraintValidatorContext) {
+        final boolean isSystemUser = mailRequest.getReceiverUserId() != null;
+        final boolean isOtherUser = mailRequest.getReceiver() != null && mailRequest.getReceiverLocationId() != null;
         constraintValidatorContext.disableDefaultConstraintViolation();
         if ((!isSystemUser && !isOtherUser) || (isSystemUser && isOtherUser)) {
             constraintValidatorContext

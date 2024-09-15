@@ -8,6 +8,7 @@ import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.PasswordRequest;
 import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
+import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.type.OperationType;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.UserStatus;
@@ -75,9 +76,10 @@ public class UserService {
     }
 
     public Page<User> listActiveReceiver(ListRequest listRequest, User currentUser) {
-        listRequest.addBaseCriteria("roles.code", OperationType.EQUAL, SecurityConfig.ROLE_USER);
-        listRequest.addBaseCriteria("status", OperationType.EQUAL, UserStatus.ACTIVE);
-        listRequest.addBaseCriteria("id", OperationType.NOT_EQUAL, currentUser.getId());
+        listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.EQUAL, UserStatus.ACTIVE);
+        listRequest.addBaseCriteria(LogicOperationType.AND, "id", OperationType.NOT_EQUAL, currentUser.getId());
+        listRequest.addBaseCriteria(LogicOperationType.AND, "roles.code", OperationType.EQUAL, SecurityConfig.ROLE_USER);
+        listRequest.addBaseCriteria(LogicOperationType.OR, "roles.code", OperationType.EQUAL, SecurityConfig.ROLE_RECEPTIONIST);
         return list(listRequest);
     }
 

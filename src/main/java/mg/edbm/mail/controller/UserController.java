@@ -5,14 +5,16 @@ import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.config.DatabaseConfig;
 import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.dto.response.MailResponse;
-import mg.edbm.mail.dto.request.MailOutgoingRequest;
+import mg.edbm.mail.dto.request.MailRequest;
 import mg.edbm.mail.dto.request.PasswordRequest;
 import mg.edbm.mail.dto.request.type.MailType;
+import mg.edbm.mail.dto.response.MouvementResponse;
 import mg.edbm.mail.dto.response.UserResponse;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.dto.response.FormResponse;
 import mg.edbm.mail.entity.Mail;
+import mg.edbm.mail.entity.Mouvement;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.UserStatus;
@@ -22,6 +24,7 @@ import mg.edbm.mail.exception.ValidationException;
 import mg.edbm.mail.security.AdminOrSelf;
 import mg.edbm.mail.security.Self;
 import mg.edbm.mail.service.MailService;
+import mg.edbm.mail.service.MouvementService;
 import mg.edbm.mail.service.UserService;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -39,6 +42,7 @@ import java.util.UUID;
 public class UserController {
     private final UserService userService;
     private final MailService mailService;
+    private final MouvementService mouvementService;
 
     @PostMapping
     @Secured(SecurityConfig.ROLE_ADMIN)
@@ -114,12 +118,12 @@ public class UserController {
         return ResponseEntity.ok(mappedMailDtoList);
     }
 
-    @PostMapping("{userId}/mails")
-    @Secured(SecurityConfig.ROLE_USER)
     @Self
-    public ResponseEntity<MailResponse> createOutgoingMail(@PathVariable UUID userId, @Valid MailOutgoingRequest mailOutgoingRequest)
+    @PostMapping("{userId}/mails")
+    @Secured({SecurityConfig.ROLE_USER, SecurityConfig.ROLE_RECEPTIONIST})
+    public ResponseEntity<MailResponse> createOutgoingMail(@PathVariable UUID userId, @Valid MailRequest mailRequest)
             throws AuthenticationException, NotFoundException {
-        final Mail createdMail = mailService.createOutgoingMail(userId, mailOutgoingRequest, userService.getAuthenticatedUser());
+        final Mail createdMail = mailService.createMail(userId, mailRequest, userService.getAuthenticatedUser());
         final MailResponse mappedMailResponse = new MailResponse(createdMail);
         return ResponseEntity.ok(mappedMailResponse);
     }
@@ -133,20 +137,20 @@ public class UserController {
         return ResponseEntity.ok(mappedMailResponse);
     }
 
-    @PutMapping("{userId}/mails/{mailId}")
-    @Secured(SecurityConfig.ROLE_USER)
     @Self
+    @PutMapping("{userId}/mails/{mailId}")
+    @Secured({SecurityConfig.ROLE_USER, SecurityConfig.ROLE_RECEPTIONIST})
     public ResponseEntity<MailResponse> updateOutgoingMail(@PathVariable UUID userId,
                                                            @PathVariable UUID mailId,
-                                                           @Valid MailOutgoingRequest mailOutgoingRequest)
+                                                           @Valid MailRequest mailRequest)
             throws AuthenticationException, NotFoundException {
-        final Mail updatedMail = mailService.updateOutgoingMail(userId, mailId, mailOutgoingRequest, userService.getAuthenticatedUser());
+        final Mail updatedMail = mailService.updateMail(userId, mailId, mailRequest, userService.getAuthenticatedUser());
         final MailResponse mappedMailResponse = new MailResponse(updatedMail);
         return ResponseEntity.ok(mappedMailResponse);
     }
 
     @PatchMapping("{userId}/mails/{mailId}/status")
-    @Secured(SecurityConfig.ROLE_USER)
+    @Secured({SecurityConfig.ROLE_USER, SecurityConfig.ROLE_RECEPTIONIST})
     @Self
     public ResponseEntity<MailResponse> updateMailStatus(@PathVariable UUID userId,
                                                          @PathVariable UUID mailId,
@@ -157,14 +161,23 @@ public class UserController {
         return ResponseEntity.ok(mappedMailResponse);
     }
 
-    @DeleteMapping("{userId}/mails/{mailId}")
-    @Secured(SecurityConfig.ROLE_USER)
     @Self
+    @DeleteMapping("{userId}/mails/{mailId}")
+    @Secured({SecurityConfig.ROLE_USER, SecurityConfig.ROLE_RECEPTIONIST})
     public ResponseEntity<MailResponse> deleteMail(@PathVariable UUID userId, @PathVariable UUID mailId)
             throws NotFoundException {
         final Mail deletedMail = mailService.deleteMail(userId, mailId);
         final MailResponse mappedMailResponse = new MailResponse(deletedMail);
         return ResponseEntity.ok(mappedMailResponse);
+    }
+
+    @Self
+    @GetMapping("/{userId}/mails/transit")
+    @Secured({SecurityConfig.ROLE_USER, SecurityConfig.ROLE_MESSENGER, SecurityConfig.ROLE_RECEPTIONIST})
+    public ResponseEntity<Page<MouvementResponse>> listTransitMails(@PathVariable UUID userId, @Valid ListRequest listRequest) {
+        final Page<Mouvement> mouvements = mouvementService.listTransitMails(listRequest, userId);
+        final Page<MouvementResponse> mappedMouvementResponseList = mouvements.map(MouvementResponse::new);
+        return ResponseEntity.ok(mappedMouvementResponseList);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

@@ -22,4 +22,8 @@ public interface MailRepository extends JpaRepository<Mail, UUID>, JpaSpecificat
     Optional<Mail> findByIdAndReceiverOrSenderUser(UUID mailId, User user);
 
     Optional<Mail> findByIdAndMouvementsMessengerAndMouvementsStatus(UUID mailId, User messenger, MouvementStatus mouvementStatus);
+
+    Optional<Mail> findByIdAndMouvementsReceiverUser(UUID mailId, User receiverUser);
+
+    Optional<Mail> findByIdAndMouvementsSenderUser(UUID mailId, User receiverUser);
 }

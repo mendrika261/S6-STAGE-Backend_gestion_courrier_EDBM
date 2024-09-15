@@ -24,6 +24,7 @@ public class MouvementResponse {
     private MouvementStatus status;
     private String description;
     private String referenceMail;
+    private MailResponse mail;
 
     public MouvementResponse(Mouvement mouvement) {
         setId(mouvement.getId());
@@ -48,5 +49,6 @@ public class MouvementResponse {
             setMessenger(new UserResponse(mouvement.getMessenger()));
 
         setReferenceMail(mouvement.getMail().getReference());
+        setMail(new MailResponse(mouvement.getMail(), false));
     }
 }

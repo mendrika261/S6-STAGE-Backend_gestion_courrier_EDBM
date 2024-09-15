@@ -102,6 +102,10 @@ public class User implements UserDetails {
         return getRoles().stream().map(Role::getCode).toArray(String[]::new);
     }
 
+    public boolean hasRole(String roleCode) {
+        return Arrays.asList(getRolesCode()).contains(roleCode);
+    }
+
     @Override
     public Collection<SimpleGrantedAuthority> getAuthorities() {
         return Arrays.stream(getRolesCode()).map(SimpleGrantedAuthority::new).toList();

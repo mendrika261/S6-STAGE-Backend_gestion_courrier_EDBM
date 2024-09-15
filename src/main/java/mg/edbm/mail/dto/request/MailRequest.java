@@ -10,10 +10,12 @@ import mg.edbm.mail.entity.type.MailPriority;
 
 import org.hibernate.validator.constraints.Length;
 
+import java.util.UUID;
+
 @Data
 @ReceiverUserOrNameAndLocation
 @NoArgsConstructor
-public class MailOutgoingRequest {
+public class MailRequest {
     @NotBlank(message = "L'objet du mail est obligatoire")
     @Length(max = 255, message = "L'objet du mail ne peut pas dépasser 255 caractères")
     private String object;
@@ -22,9 +24,12 @@ public class MailOutgoingRequest {
     @NotNull(message = "La priorité du mail est obligatoire")
     private MailPriority mailPriority;
     @Length(max = 255, message = "Le destinataire du mail ne peut pas dépasser 255 caractères")
+    private String sender;
+    private Long senderLocationId;
+    @Length(max = 255, message = "Le destinataire du mail ne peut pas dépasser 255 caractères")
     private String receiver;
-    private String receiverUserId;
-    private String receiverLocationId;
+    private UUID receiverUserId;
+    private Long receiverLocationId;
     @Length(max = 1000, message = "La note pour le coursier ne peut pas dépasser 255 caractères")
     private String noteForMessenger;
     @Length(max = 10000, message = "La description du mail ne peut pas dépasser 255 caractères")
@@ -35,7 +40,11 @@ public class MailOutgoingRequest {
     }
 
     public void setReceiver(String receiver) {
-        this.receiver = receiver.trim();
+        this.receiver = receiver.trim().toLowerCase();
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender.trim().toLowerCase();
     }
 
     public void setNoteForMessenger(String noteForMessenger) {

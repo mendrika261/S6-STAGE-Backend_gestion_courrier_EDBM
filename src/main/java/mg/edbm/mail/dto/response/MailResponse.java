@@ -40,7 +40,7 @@ public class MailResponse {
     private List<FileDto> files;
     private List<MouvementResponse> mouvements;
 
-    public MailResponse(Mail mail) {
+    public MailResponse(Mail mail, boolean withMouvements) {
         setId(mail.getId());
         setReference(mail.getReference());
         setObject(mail.getObject());
@@ -64,6 +64,11 @@ public class MailResponse {
         setFiles(mail.getFiles().stream().map(FileDto::new).collect(Collectors.toList()));
         setNoteForMessenger(mail.getNoteForMessenger());
         setDescription(mail.getDescription());
-        setMouvements(mail.getMouvements().stream().map(MouvementResponse::new).collect(Collectors.toList()));
+        if(withMouvements)
+            setMouvements(mail.getMouvements().stream().map(MouvementResponse::new).collect(Collectors.toList()));
+    }
+
+    public MailResponse(Mail mail) {
+        this(mail, true);
     }
 }

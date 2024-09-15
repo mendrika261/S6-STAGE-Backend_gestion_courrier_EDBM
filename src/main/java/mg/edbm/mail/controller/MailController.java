@@ -84,7 +84,7 @@ public class MailController {
         return ResponseEntity.ok(new MouvementResponse(mouvement));
     }
 
-    @Secured(SecurityConfig.ROLE_USER)
+    @Secured({SecurityConfig.ROLE_USER, SecurityConfig.ROLE_RECEPTIONIST})
     @PatchMapping("/{mailId}/mouvements")
     public ResponseEntity<MailResponse> signMouvement(@PathVariable UUID mailId, LocalDateTime startDate)
             throws AuthenticationException {
@@ -92,7 +92,7 @@ public class MailController {
         return ResponseEntity.ok(new MailResponse(mail));
     }
 
-    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @Secured({SecurityConfig.ROLE_MESSENGER})
     @GetMapping("/delivering")
     public ResponseEntity<Page<MailResponse>> listDeliveringMails(@Valid ListRequest listRequest) throws AuthenticationException {
         final Page<Mail> mails = mailService.listDeliveringMails(listRequest, userService.getAuthenticatedUser());
@@ -100,11 +100,27 @@ public class MailController {
         return ResponseEntity.ok(mappedMailResponseList);
     }
 
-    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @Secured({SecurityConfig.ROLE_MESSENGER})
     @PatchMapping("/{mailId}/mouvements/delivered")
     public ResponseEntity<MailResponse> deliverMail(@PathVariable UUID mailId, LocalDateTime endDate)
             throws AuthenticationException {
         final Mail mail = mailService.deliverMail(mailId, endDate, userService.getAuthenticatedUser());
+        return ResponseEntity.ok(new MailResponse(mail));
+    }
+
+    @Secured({SecurityConfig.ROLE_USER})
+    @PatchMapping("/{mailId}/mouvements/delivered/confirmed")
+    public ResponseEntity<MailResponse> deliverMailConfirmation(@PathVariable UUID mailId, LocalDateTime endDate)
+            throws AuthenticationException {
+        final Mail mail = mailService.confirmDelivery(mailId, endDate, userService.getAuthenticatedUser());
+        return ResponseEntity.ok(new MailResponse(mail));
+    }
+
+    @Secured({SecurityConfig.ROLE_USER})
+    @PatchMapping("/{mailId}/mouvements/started/confirmed")
+    public ResponseEntity<MailResponse> confirmMouvementStart(@PathVariable UUID mailId, LocalDateTime startDate)
+            throws AuthenticationException {
+        final Mail mail = mailService.signMouvementStart(mailId, startDate, userService.getAuthenticatedUser());
         return ResponseEntity.ok(new MailResponse(mail));
     }
 

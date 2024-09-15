@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mg.edbm.mail.config.SecurityConfig;
-import mg.edbm.mail.dto.request.MailOutgoingRequest;
+import mg.edbm.mail.dto.request.MailRequest;
 import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.MailPriority;
@@ -87,25 +87,26 @@ public class Mail {
     @JoinColumn(nullable = false)
     private User createdBy;
 
-    public Mail(MailOutgoingRequest mailOutgoingRequest, User senderUser, User author) {
-        setObject(mailOutgoingRequest.getObject());
-        setConfidentiality(mailOutgoingRequest.getConfidentiality());
-        setPriority(mailOutgoingRequest.getMailPriority());
-        setNoteForMessenger(mailOutgoingRequest.getNoteForMessenger());
-        setDescription(mailOutgoingRequest.getDescription());
+    public Mail(MailRequest mailRequest, User senderUser, User author) {
+        setObject(mailRequest.getObject());
+        setConfidentiality(mailRequest.getConfidentiality());
+        setPriority(mailRequest.getMailPriority());
+        setNoteForMessenger(mailRequest.getNoteForMessenger());
+        setDescription(mailRequest.getDescription());
+
         setSenderUser(senderUser);
         setSenderLocation(senderUser.getLocation());
         setSender(senderUser.getFullName());
         setCreatedBy(author);
     }
 
-    public void updateIfAuthorized(MailOutgoingRequest mailOutgoingRequest, User author) {
+    public void updateIfAuthorized(MailRequest mailRequest, User author) {
         verifyIfEditableBy(author);
-        setObject(mailOutgoingRequest.getObject());
-        setConfidentiality(mailOutgoingRequest.getConfidentiality());
-        setPriority(mailOutgoingRequest.getMailPriority());
-        setNoteForMessenger(mailOutgoingRequest.getNoteForMessenger());
-        setDescription(mailOutgoingRequest.getDescription());
+        setObject(mailRequest.getObject());
+        setConfidentiality(mailRequest.getConfidentiality());
+        setPriority(mailRequest.getMailPriority());
+        setNoteForMessenger(mailRequest.getNoteForMessenger());
+        setDescription(mailRequest.getDescription());
         setCreatedBy(author);
         setCreatedAt(LocalDateTime.now());
     }
@@ -118,9 +119,10 @@ public class Mail {
     }
 
     public void verifyIfEditableBy(User user) {
-        if(user.getRoles().contains(SecurityConfig.ROLE_ADMIN))
+        if(Arrays.stream(user.getRolesCode()).toList().contains(SecurityConfig.ROLE_ADMIN))
             return;
-        if(user.getRoles().contains(SecurityConfig.ROLE_MESSENGER) && getStatus().getCode() < MailStatus.WAITING.getCode())
+        if(Arrays.stream(user.getRolesCode()).toList().contains(SecurityConfig.ROLE_MESSENGER)
+                && getStatus().getCode() < MailStatus.WAITING.getCode())
             throw new AccessDeniedException("Vous n'êtes pas autorisé à modifier ce courrier " +
                     "tant qu'il n'est pas encore en cours de traitement");
         if(getStatus().getCode() > MailStatus.WAITING.getCode())
@@ -141,11 +143,9 @@ public class Mail {
         getMouvements().add(mouvement);
     }
 
-    public Mouvement removeLastMouvement() {
-        return getMouvements().remove(0);
-    }
 
     public void signMouvementStart(LocalDateTime startDate) {
+        if(startDate == null) startDate = LocalDateTime.now();
         getLastMouvement().setStartDate(startDate);
         getLastMouvement().setStatus(MouvementStatus.DELIVERING);
         setStatus(MailStatus.DELIVERING);
@@ -155,32 +155,27 @@ public class Mail {
         if(endDate == null) endDate = LocalDateTime.now();
         getLastMouvement().setEndDate(endDate);
 
-        /*if(getLastMouvement().getReceiverUser() != null) {
-            setStatus(MailStatus.DELIVERING);
-        } else if(getLastMouvement().getReceiver().equals(getReceiver())
-                && getLastMouvement().getReceiverLocation().equals(getReceiverLocation())) {
-            setStatus(MailStatus.DONE);
-            getLastMouvement().setStatus(MouvementStatus.DONE);
-        } else {
-            setStatus(MailStatus.WAITING);
-            getLastMouvement().setStatus(MouvementStatus.WAITING);
-        }*/
-
         if(getLastMouvement().getReceiverUser() == null) {
-            getLastMouvement().setStatus(MouvementStatus.DONE);
+            confirmDelivery(endDate);
         } else {
             getLastMouvement().setStatus(MouvementStatus.DELIVERING);
         }
+    }
 
+    public Mouvement getLastMouvement() {
+        return getMouvements().get(0);
+    }
+
+    public void confirmDelivery(LocalDateTime endDate) {
+        if(endDate == null) endDate = LocalDateTime.now();
+        getLastMouvement().setEndDate(endDate);
+
+        getLastMouvement().setStatus(MouvementStatus.DONE);
         if(getLastMouvement().getReceiver().equals(getReceiver())
                 && getLastMouvement().getReceiverLocation().equals(getReceiverLocation())) {
             setStatus(MailStatus.DONE);
         } else if (getLastMouvement().getStatus().equals(MouvementStatus.DONE)) {
             setStatus(MailStatus.WAITING);
         }
-    }
-
-    public Mouvement getLastMouvement() {
-        return getMouvements().get(0);
     }
 }

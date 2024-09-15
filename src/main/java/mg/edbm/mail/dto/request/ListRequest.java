@@ -13,7 +13,6 @@ import org.springframework.data.domain.Sort;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.UUID;
 
 @Data
 public class ListRequest {
@@ -26,7 +25,7 @@ public class ListRequest {
     private List<SearchCriteria> criteria = new ArrayList<>();
 
     public Pageable toPageable() {
-        return PageRequest.of(getPage() - 1, getLimit(), toSort());
+        return PageRequest.of(getPage() - 1, getLimit());
     }
 
     public Sort toSort() {
@@ -64,5 +63,12 @@ public class ListRequest {
 
     public void addBaseCriteria(LogicOperationType logicOperationType, String key, OperationType operation, Object value) {
         addBaseCriteria(new SearchCriteria(logicOperationType, key, operation, value));
+    }
+
+    public List<SearchCriteria> getAllCriteria() {
+        List<SearchCriteria> allCriteria = new ArrayList<>();
+        allCriteria.addAll(getBaseCriteria());
+        allCriteria.addAll(getCriteria());
+        return allCriteria;
     }
 }
