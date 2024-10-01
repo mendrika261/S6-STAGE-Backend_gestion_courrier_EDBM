@@ -37,10 +37,10 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 public class SecurityConfig {
-    public static final String ROLE_ADMIN = "ADMIN";
-    public static final String ROLE_RECEPTIONIST = "RECEPTIONIST";
-    public static final String ROLE_MESSENGER = "MESSENGER";
-    public static final String ROLE_USER = "USER";
+    public static final String ROLE_ADMIN = "MAIL_ADMIN";
+    public static final String ROLE_RECEPTIONIST = "MAIL_RECEPTIONIST";
+    public static final String ROLE_MESSENGER = "MAIL_MESSENGER";
+    public static final String ROLE_USER = "MAIL_USER";
 
     private final UserRepository userRepository;
     private final ServerProperties serverProperties;

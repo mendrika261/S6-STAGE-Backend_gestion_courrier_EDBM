@@ -14,3 +14,4 @@ CREATE OR REPLACE TRIGGER user_history_trigger
 AFTER INSERT OR UPDATE ON system_user
 FOR EACH ROW
 EXECUTE FUNCTION user_history_trigger_function();
+
