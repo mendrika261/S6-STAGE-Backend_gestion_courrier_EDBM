@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @PasswordMatches
 public class PasswordRequest {
+    private String currentPassword = "";
     @NotBlank(message = "Le mot de passe est obligatoire")
     @Length(min = 8, max = 255, message = "Le mot de passe doit contenir au moins 8 caractères")
     private String password = "";

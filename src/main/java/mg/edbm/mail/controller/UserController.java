@@ -4,14 +4,11 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.config.DatabaseConfig;
 import mg.edbm.mail.config.SecurityConfig;
+import mg.edbm.mail.dto.request.*;
 import mg.edbm.mail.dto.response.MailResponse;
-import mg.edbm.mail.dto.request.MailRequest;
-import mg.edbm.mail.dto.request.PasswordRequest;
 import mg.edbm.mail.dto.request.type.MailType;
 import mg.edbm.mail.dto.response.MouvementResponse;
 import mg.edbm.mail.dto.response.UserResponse;
-import mg.edbm.mail.dto.request.ListRequest;
-import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.dto.response.FormResponse;
 import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.Mouvement;
@@ -84,7 +81,7 @@ public class UserController {
     }
 
     @PutMapping("/{userId}")
-    @AdminOrSelf
+    @Secured(SecurityConfig.ROLE_ADMIN)
     public ResponseEntity<UserResponse> update(@PathVariable UUID userId, @Valid UserRequest userRequest)
             throws NotFoundException, AuthenticationException {
         final User user = userService.updateWithoutPassword(userId, userRequest, userService.getAuthenticatedUser());
@@ -92,8 +89,17 @@ public class UserController {
         return ResponseEntity.ok(mappedUserResponse);
     }
 
+    @PutMapping("/{userId}/profile")
+    @Self
+    public ResponseEntity<UserResponse> update(@PathVariable UUID userId, @Valid UserProfileRequest userProfileRequest)
+            throws NotFoundException, AuthenticationException {
+        final User user = userService.updateWithoutPassword(userId, userProfileRequest, userService.getAuthenticatedUser());
+        final UserResponse mappedUserResponse = new UserResponse(user);
+        return ResponseEntity.ok(mappedUserResponse);
+    }
+
     @PutMapping("/{userId}/password")
-    @AdminOrSelf
+    @Self
     public ResponseEntity<UserResponse> updatePassword(@PathVariable UUID userId, @Valid PasswordRequest passwordRequest)
             throws NotFoundException, AuthenticationException, ValidationException {
         final User user = userService.updatePassword(userId, passwordRequest, userService.getAuthenticatedUser());

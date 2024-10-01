@@ -1,11 +1,13 @@
 package mg.edbm.mail.service;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.PasswordRequest;
+import mg.edbm.mail.dto.request.UserProfileRequest;
 import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
@@ -151,9 +153,20 @@ public class UserService {
         return update(user, authenticatedUser);
     }
 
+    public User updateWithoutPassword(UUID userId, UserProfileRequest userProfileRequest, User authenticatedUser) throws NotFoundException {
+        final User user = get(userId);
+        user.updateWithoutPassword(userProfileRequest, authenticatedUser);
+        user.setLocation(locationService.get(userProfileRequest.getLocationId()));
+        return update(user, authenticatedUser);
+    }
+
     public User updatePassword(UUID userId, PasswordRequest passwordRequest, User authenticatedUser)
             throws NotFoundException, ValidationException {
         final User user = get(userId);
+        if(passwordRequest.getCurrentPassword() != null) {
+            final boolean isPasswordValid = passwordEncoder.matches(passwordRequest.getCurrentPassword(), user.getPassword());
+            if(!isPasswordValid) throw new ValidationException("Votre mot de passe actuel est incorrect");
+        }
         final String hashedPassword = passwordEncoder.encode(passwordRequest.getPassword());
         user.updatePassword(hashedPassword, authenticatedUser);
         update(user, authenticatedUser);

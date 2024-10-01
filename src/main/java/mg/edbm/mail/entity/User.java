@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import mg.edbm.mail.dto.request.UserProfileRequest;
 import mg.edbm.mail.dto.request.UserRequest;
 import mg.edbm.mail.entity.type.UserStatus;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -123,5 +124,12 @@ public class User implements UserDetails {
 
     public String getFullName() {
         return getFirstName() + " " + getLastName();
+    }
+
+    public void updateWithoutPassword(UserProfileRequest userProfileRequest, User authenticatedUser) {
+        setLastName(userProfileRequest.getLastName());
+        setFirstName(userProfileRequest.getFirstName());
+        setPhoneNumber(userProfileRequest.getPhoneNumber());
+        setCreatedBy(authenticatedUser);
     }
 }
