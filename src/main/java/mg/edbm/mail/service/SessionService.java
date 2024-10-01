@@ -3,11 +3,17 @@ package mg.edbm.mail.service;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import mg.edbm.mail.dto.request.ListRequest;
+import mg.edbm.mail.dto.request.filter.SpecificationImpl;
+import mg.edbm.mail.dto.request.type.SortType;
 import mg.edbm.mail.entity.Session;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.SessionStatus;
 import mg.edbm.mail.repository.SessionRepository;
 import mg.edbm.mail.entity.type.Token;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -117,5 +123,19 @@ public class SessionService {
 
     public void invalidateAllActiveSessions(User user) {
         sessionRepository.updateAllActiveSessionOf(user, SessionStatus.ACTIVE, SessionStatus.FINISHED);
+    }
+
+    public Page<Session> list(ListRequest listRequest) {
+        final Pageable pageable = listRequest.toPageable();
+        final Specification<Session> specification = new SpecificationImpl<>(listRequest);
+        return sessionRepository.findAll(specification, pageable);
+    }
+
+    public Long countSessionsByType(SessionStatus status) {
+        return sessionRepository.countSessionByStatus(status);
+    }
+
+    public Long averageQueryCountPerSession() {
+        return sessionRepository.averageQueryCountPerSession();
     }
 }
