@@ -37,6 +37,7 @@ public class MailResponse {
     private String noteForMessenger;
     private String description;
     private LocalDateTime createdAt;
+    private UserResponse createdBy;
     private List<FileDto> files;
     private List<MouvementResponse> mouvements;
 
@@ -48,6 +49,8 @@ public class MailResponse {
         setMailPriority(mail.getPriority());
         setStatus(mail.getStatus());
         setCreatedAt(mail.getCreatedAt());
+        if(mail.getCreatedBy() !=null)
+            setCreatedBy(new UserResponse(mail.getCreatedBy()));
 
         if(mail.getSenderLocation() != null)
             setSenderLocation(new LocationDto(mail.getSenderLocation()));

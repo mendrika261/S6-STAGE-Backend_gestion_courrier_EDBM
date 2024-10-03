@@ -2,6 +2,7 @@ package mg.edbm.mail.service;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mg.edbm.mail.config.properties.NotificationUrlProperties;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
@@ -12,9 +13,12 @@ import mg.edbm.mail.entity.Mouvement;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.MouvementStatus;
+import mg.edbm.mail.entity.type.NotificationType;
+import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.MailRepository;
 import mg.edbm.mail.repository.MouvementRepository;
+import mg.edbm.mail.utils.StringCustomUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,6 +32,8 @@ public class MouvementService {
     private final MailService mailService;
     private final MailRepository mailRepository;
     private final MouvementRepository mouvementRepository;
+    private final NotificationService notificationService;
+    private final NotificationUrlProperties notificationUrlProperties;
 
     public Mouvement createMouvement(UUID mailId, User messenger) throws NotFoundException {
         final Mail mail = mailService.get(mailId);
@@ -35,6 +41,13 @@ public class MouvementService {
         mail.addMouvement(mouvement);
         if(mouvement.getSenderUser() == null)
             mail.setStatus(MailStatus.DELIVERING);
+        else {
+            notificationService.create(NotificationType.DANGER,
+                    "Passation courrier " + mail.getReference(),
+                    "pris par " + StringCustomUtils.titleCase(messenger.getFirstName()),
+                    notificationUrlProperties.MAIL_PREVIEW.replace(":mailId", mail.getId().toString()),
+                    mouvement.getSenderUser());
+        }
         mailRepository.save(mail);
         return mouvement;
     }
@@ -49,9 +62,9 @@ public class MouvementService {
     }
 
     public Page<Mouvement> listTransitMails(@Valid ListRequest listRequest, UUID userId) {
-        listRequest.addBaseCriteria(LogicOperationType.AND, "senderUser", OperationType.EQUAL, userId);
+        listRequest.addBaseCriteria(LogicOperationType.AND, "senderUser.id", OperationType.EQUAL, userId);
         listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.EQUAL, MouvementStatus.WAITING);
-        listRequest.addBaseCriteria(LogicOperationType.OR, "receiverUser", OperationType.EQUAL, userId);
+        listRequest.addBaseCriteria(LogicOperationType.OR, "receiverUser.id", OperationType.EQUAL, userId);
         listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.EQUAL, MouvementStatus.DELIVERING);
         listRequest.addBaseCriteria(LogicOperationType.AND, "endDate", OperationType.IS_NOT_NULL, null);
         final Specification<Mouvement> specification = new SpecificationImpl<>(listRequest);

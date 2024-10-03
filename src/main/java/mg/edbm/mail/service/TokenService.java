@@ -28,7 +28,8 @@ public class TokenService {
 
     public Token generateToken(HttpServletRequest request, User user) {
         final Token token = new Token(
-                request.getRemoteAddr(), request.getHeader("User-Agent"), user,
+                request.getRemoteAddr(),
+                request.getHeader("User-Agent"), user,
                 tokenProperties.TOKEN_DURATION_MINUTES, tokenProperties.TOKEN_LENGTH
         );
         final Optional<Session> sessionOptional = sessionService.getExistingActiveSession(user, request);

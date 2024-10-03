@@ -34,10 +34,32 @@ public class SpecificationImpl<T> implements Specification<T> {
                                  @NonNull CriteriaQuery<?> query,
                                  @NonNull CriteriaBuilder builder) {
         Predicate basePredicate = builder.conjunction();
+        List<Predicate> orBasePredicates = new ArrayList<>();
+        List<Predicate> andBasePredicates = new ArrayList<>();
+
+        for (final SearchCriteria criteria : getListRequest().getBaseCriteria()) {
+            if (criteria.getLogicOperationType().equals(LogicOperationType.OR)) {
+                if (!andBasePredicates.isEmpty()) {
+                    orBasePredicates.add(builder.and(andBasePredicates.toArray(new Predicate[0])));
+                    andBasePredicates.clear();
+                }
+            }
+
+            andBasePredicates.add(getPredicate(root, criteria, builder));
+        }
+
+        if (!andBasePredicates.isEmpty()) {
+            orBasePredicates.add(builder.and(andBasePredicates.toArray(new Predicate[0])));
+        }
+
+        if (!orBasePredicates.isEmpty()) {
+            basePredicate = builder.or(orBasePredicates.toArray(new Predicate[0]));
+        }
+
         List<Predicate> orPredicates = new ArrayList<>();
         List<Predicate> andPredicates = new ArrayList<>();
 
-        for (final SearchCriteria criteria : getListRequest().getAllCriteria()) {
+        for (final SearchCriteria criteria : getListRequest().getCriteria()) {
             if (criteria.getLogicOperationType().equals(LogicOperationType.OR)) {
                 if (!andPredicates.isEmpty()) {
                     orPredicates.add(builder.and(andPredicates.toArray(new Predicate[0])));
@@ -53,7 +75,7 @@ public class SpecificationImpl<T> implements Specification<T> {
         }
 
         if (!orPredicates.isEmpty()) {
-            basePredicate = builder.or(orPredicates.toArray(new Predicate[0]));
+            basePredicate = builder.and(basePredicate, builder.or(orPredicates.toArray(new Predicate[0])));
         }
 
         List<Expression<?>> groupByExpressions = new ArrayList<>();

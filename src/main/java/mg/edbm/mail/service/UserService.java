@@ -78,10 +78,12 @@ public class UserService {
     }
 
     public Page<User> listActiveReceiver(ListRequest listRequest, User currentUser) {
-        listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.EQUAL, UserStatus.ACTIVE);
+        listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.NOT_EQUAL, UserStatus.DISABLE);
         listRequest.addBaseCriteria(LogicOperationType.AND, "id", OperationType.NOT_EQUAL, currentUser.getId());
         listRequest.addBaseCriteria(LogicOperationType.AND, "roles.code", OperationType.EQUAL, SecurityConfig.ROLE_USER);
-        listRequest.addBaseCriteria(LogicOperationType.OR, "roles.code", OperationType.EQUAL, SecurityConfig.ROLE_RECEPTIONIST);
+        listRequest.addBaseCriteria(LogicOperationType.OR, "status", OperationType.NOT_EQUAL, UserStatus.DISABLE);
+        listRequest.addBaseCriteria(LogicOperationType.AND, "id", OperationType.NOT_EQUAL, currentUser.getId());
+        listRequest.addBaseCriteria(LogicOperationType.AND, "roles.code", OperationType.EQUAL, SecurityConfig.ROLE_MESSENGER);
         return list(listRequest);
     }
 
@@ -163,7 +165,8 @@ public class UserService {
     public User updatePassword(UUID userId, PasswordRequest passwordRequest, User authenticatedUser)
             throws NotFoundException, ValidationException {
         final User user = get(userId);
-        if(passwordRequest.getCurrentPassword() != null) {
+        // For welcome page, current password is not required
+        if(passwordRequest.getCurrentPassword() != null && !passwordRequest.getCurrentPassword().isEmpty()) {
             final boolean isPasswordValid = passwordEncoder.matches(passwordRequest.getCurrentPassword(), user.getPassword());
             if(!isPasswordValid) throw new ValidationException("Votre mot de passe actuel est incorrect");
         }

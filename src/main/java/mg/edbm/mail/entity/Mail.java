@@ -122,7 +122,8 @@ public class Mail {
         if(Arrays.stream(user.getRolesCode()).toList().contains(SecurityConfig.ROLE_ADMIN))
             return;
         if(Arrays.stream(user.getRolesCode()).toList().contains(SecurityConfig.ROLE_MESSENGER)
-                && getStatus().getCode() < MailStatus.WAITING.getCode())
+                && getStatus().getCode() < MailStatus.WAITING.getCode()
+                && !getCreatedBy().equals(user))
             throw new AccessDeniedException("Vous n'êtes pas autorisé à modifier ce courrier " +
                     "tant qu'il n'est pas encore en cours de traitement");
         if(getStatus().getCode() > MailStatus.WAITING.getCode())
@@ -177,5 +178,9 @@ public class Mail {
         } else if (getLastMouvement().getStatus().equals(MouvementStatus.DONE)) {
             setStatus(MailStatus.WAITING);
         }
+    }
+
+    public boolean isAtDestination() {
+        return getLastMouvement().getReceiverUser() == getReceiverUser() || getLastMouvement().getReceiver().equals(getReceiver());
     }
 }

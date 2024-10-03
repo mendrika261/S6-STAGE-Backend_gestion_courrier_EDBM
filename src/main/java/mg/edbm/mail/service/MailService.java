@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.config.properties.FileUploadProperties;
+import mg.edbm.mail.config.properties.NotificationUrlProperties;
 import mg.edbm.mail.dto.request.MouvementRequest;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.FileUploadRequest;
@@ -17,10 +18,12 @@ import mg.edbm.mail.dto.request.type.SortType;
 import mg.edbm.mail.entity.*;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.MouvementStatus;
+import mg.edbm.mail.entity.type.NotificationType;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.FileRepository;
 import mg.edbm.mail.repository.MailRepository;
 import mg.edbm.mail.repository.MouvementRepository;
+import mg.edbm.mail.utils.StringCustomUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -43,12 +46,14 @@ public class MailService {
     private final FileService fileService;
     private final FileUploadProperties fileUploadProperties;
     private final MouvementRepository mouvementRepository;
+    private final NotificationService notificationService;
+    private final NotificationUrlProperties notificationUrlProperties;
 
     public Page<Mail> getMailsByUser(UUID userId, MailType type, ListRequest listRequest) {
         if (type == MailType.INCOMING)
-            listRequest.addBaseCriteria("receiverUser", OperationType.EQUAL, userId);
+            listRequest.addBaseCriteria("receiverUser.id", OperationType.EQUAL, userId);
         else
-            listRequest.addBaseCriteria("senderUser", OperationType.EQUAL, userId);
+            listRequest.addBaseCriteria("senderUser.id", OperationType.EQUAL, userId);
         final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
         final Pageable pageable = listRequest.toPageable();
         return mailRepository.findAll(specification, pageable);
@@ -133,7 +138,7 @@ public class MailService {
 
     public Page<File> listFiles(UUID mailId, ListRequest listRequest) throws NotFoundException {
         final Mail mail = get(mailId);
-        listRequest.addBaseCriteria("mail", OperationType.EQUAL, mail);
+        listRequest.addBaseCriteria("mail.id", OperationType.EQUAL, mail.getId());
         final Specification<File> specification = new SpecificationImpl<>(listRequest);
         final Pageable pageable = listRequest.toPageable();
         return fileRepository.findAll(specification, pageable);
@@ -245,7 +250,7 @@ public class MailService {
     }
 
     public Page<Mail> listDeliveringMails(@Valid ListRequest listRequest, User messenger) {
-        listRequest.addBaseCriteria("mouvements.messenger", OperationType.EQUAL, messenger.getId());
+        listRequest.addBaseCriteria("mouvements.messenger.id", OperationType.EQUAL, messenger.getId());
         listRequest.addBaseCriteria("mouvements.status", OperationType.EQUAL, MouvementStatus.DELIVERING);
         listRequest.addOrder("mouvements.startDate", SortType.ASC);
         final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
@@ -268,12 +273,32 @@ public class MailService {
     public Mail deliverMail(UUID mailId, LocalDateTime endDate, User messenger) {
         final Mail mail = getIfMouvementDeliveringBy(mailId, messenger);
         mail.deliverMail(endDate);
+        if(mail.getLastMouvement().getReceiverUser() != null)
+            notificationService.create(NotificationType.DANGER,
+                    "Passation courrier " + mail.getReference(),
+                    "venant de " + StringCustomUtils.titleCase(messenger.getFirstName()),
+                    mail.isAtDestination() ?
+                    notificationUrlProperties.MAIL_PREVIEW.replace(":mailId", mail.getId().toString()):
+                            notificationUrlProperties.MAIL_TRANSIT,
+                    mail.getLastMouvement().getReceiverUser());
+        if(mail.getLastMouvement().getReceiverUser() == null && mail.isAtDestination())
+            notificationService.create(NotificationType.DANGER,
+                    "Courrier livré " + mail.getReference(),
+                    "pour " + StringCustomUtils.titleCase(mail.getReceiver()),
+                    notificationUrlProperties.MAIL_PREVIEW.replace(":mailId", mail.getId().toString()),
+                    mail.getSenderUser());
         return mailRepository.save(mail);
     }
 
     public Mail confirmDelivery(UUID mailId, LocalDateTime endDate, User receiverUser) {
         final Mail mail = getIfMouvementReceivedBy(mailId, receiverUser);
         mail.confirmDelivery(endDate);
+        if(mail.isAtDestination())
+            notificationService.create(NotificationType.DANGER,
+                    "Courrier livré " + mail.getReference(),
+                    "pour " + StringCustomUtils.titleCase(mail.getReceiver()),
+                    notificationUrlProperties.MAIL_PREVIEW.replace(":mailId", mail.getId().toString()),
+                    mail.getSenderUser());
         return mailRepository.save(mail);
     }
 
@@ -298,6 +323,14 @@ public class MailService {
         mail.setStatus(MailStatus.DELIVERING);
         mail.getLastMouvement().setStatus(MouvementStatus.DELIVERING);
         mail.getLastMouvement().setEndDate(null);
+        if(mail.getLastMouvement().getReceiverUser() != null)
+            notificationService.create(NotificationType.INFO,
+                    "Passation courrier annulé " + mail.getReference(),
+                    "venant de " + StringCustomUtils.titleCase(messenger.getFirstName()),
+                    mail.isAtDestination() ?
+                            notificationUrlProperties.MAIL_PREVIEW.replace(":mailId", mail.getId().toString()):
+                            notificationUrlProperties.MAIL_TRANSIT,
+                    mail.getLastMouvement().getReceiverUser());
         return mailRepository.save(mail);
     }
 
