@@ -231,6 +231,7 @@ public class MailService {
 
     public Page<Mail> listWaitingMails(@Valid ListRequest listRequest) {
         listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.EQUAL, MailStatus.WAITING); // TODO make waiting when done
+        listRequest.addOrder("priority", SortType.DESC);
         listRequest.addOrder("createdAt", SortType.ASC);
         final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
         final Pageable pageable = listRequest.toPageable();
@@ -252,6 +253,7 @@ public class MailService {
     public Page<Mail> listDeliveringMails(@Valid ListRequest listRequest, User messenger) {
         listRequest.addBaseCriteria("mouvements.messenger.id", OperationType.EQUAL, messenger.getId());
         listRequest.addBaseCriteria("mouvements.status", OperationType.EQUAL, MouvementStatus.DELIVERING);
+        listRequest.addOrder("priority", SortType.DESC);
         listRequest.addOrder("mouvements.startDate", SortType.ASC);
         final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
         final Pageable pageable = listRequest.toPageable();
