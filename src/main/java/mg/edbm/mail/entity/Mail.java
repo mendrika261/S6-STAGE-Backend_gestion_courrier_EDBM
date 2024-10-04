@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import mg.edbm.mail.config.SecurityConfig;
+import mg.edbm.mail.dto.MapDto;
 import mg.edbm.mail.dto.request.MailRequest;
 import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailStatus;
@@ -182,5 +183,11 @@ public class Mail {
 
     public boolean isAtDestination() {
         return getLastMouvement().getReceiverUser() == getReceiverUser() || getLastMouvement().getReceiver().equals(getReceiver());
+    }
+
+    public void putDirections(MapDto mapDto) {
+        getLastMouvement().setEstimatedDelay(mapDto.getDuration());
+        getLastMouvement().setEstimatedDistance(mapDto.getDistance());
+        getLastMouvement().setCoordinates(mapDto.getCoordinates());
     }
 }

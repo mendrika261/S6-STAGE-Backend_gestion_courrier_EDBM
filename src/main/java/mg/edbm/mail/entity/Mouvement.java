@@ -7,6 +7,8 @@ import lombok.Setter;
 import mg.edbm.mail.entity.type.MouvementStatus;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -60,6 +62,11 @@ public class Mouvement {
     @JoinColumn
     private Mail mail;
 
+    private Double estimatedDelay;
+    private Double estimatedDistance;
+    @Lob
+    private String coordinates;
+
     public Mouvement(Mail mail, User messenger) {
         setMessenger(messenger);
         if(mail.getMouvements().isEmpty()) {
@@ -80,4 +87,27 @@ public class Mouvement {
         setMail(mail);
     }
 
+    public void setCoordinates(List<Double[]> coordinates) {
+        StringBuilder builder = new StringBuilder();
+        for (Double[] coordinate : coordinates) {
+            builder.append(coordinate[0]).append(",").append(coordinate[1]).append(";");
+        }
+        this.coordinates = builder.toString();
+    }
+
+    public List<Double[]> getCoordinatesAsList() {
+        final List<Double[]> coordinates = new ArrayList<>();
+        if (this.getCoordinates() == null || getCoordinates().isEmpty()) {
+            return coordinates;
+        }
+        final String[] split = getCoordinates().split(";");
+        for (String s : split) {
+            final String[] split1 = s.split(",");
+            final Double[] coord = new Double[2];
+            coord[0] = Double.parseDouble(split1[0]);
+            coord[1] = Double.parseDouble(split1[1]);
+            coordinates.add(coord);
+        }
+        return coordinates;
+    }
 }

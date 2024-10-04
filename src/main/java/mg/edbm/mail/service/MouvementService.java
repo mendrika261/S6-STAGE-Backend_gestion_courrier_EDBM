@@ -3,18 +3,17 @@ package mg.edbm.mail.service;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.config.properties.NotificationUrlProperties;
+import mg.edbm.mail.dto.MapDto;
 import mg.edbm.mail.dto.request.ListRequest;
 import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.type.OperationType;
-import mg.edbm.mail.entity.File;
 import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.Mouvement;
 import mg.edbm.mail.entity.User;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.MouvementStatus;
 import mg.edbm.mail.entity.type.NotificationType;
-import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
 import mg.edbm.mail.repository.MailRepository;
 import mg.edbm.mail.repository.MouvementRepository;
@@ -49,6 +48,7 @@ public class MouvementService {
                     mouvement.getSenderUser());
         }
         mailRepository.save(mail);
+        mailService.putDirections(mailId);
         return mouvement;
     }
 

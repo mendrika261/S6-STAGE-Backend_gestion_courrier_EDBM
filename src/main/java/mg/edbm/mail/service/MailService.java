@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.config.properties.FileUploadProperties;
 import mg.edbm.mail.config.properties.NotificationUrlProperties;
+import mg.edbm.mail.dto.MapDto;
 import mg.edbm.mail.dto.request.MouvementRequest;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.FileUploadRequest;
@@ -27,8 +28,10 @@ import mg.edbm.mail.utils.StringCustomUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -48,6 +51,7 @@ public class MailService {
     private final MouvementRepository mouvementRepository;
     private final NotificationService notificationService;
     private final NotificationUrlProperties notificationUrlProperties;
+    private final MapService mapService;
 
     public Page<Mail> getMailsByUser(UUID userId, MailType type, ListRequest listRequest) {
         if (type == MailType.INCOMING)
@@ -194,7 +198,15 @@ public class MailService {
                                    User authenticatedUser) throws NotFoundException {
         final Mail mail = getIfSendBy(mailId, userService.get(userId));
         mail.updateIfAuthorized(mailRequest, authenticatedUser);
-
+        if(mailRequest.getReceiverUserId() == null) {
+            mail.setReceiverUser(null);
+            mail.setReceiverLocation(locationService.get(mailRequest.getReceiverLocationId()));
+            mail.setReceiver(mailRequest.getReceiver());
+        } else {
+            mail.setReceiverUser(userService.get(mailRequest.getReceiverUserId()));
+            mail.setReceiverLocation(mail.getReceiverUser().getLocation());
+            mail.setReceiver(mail.getReceiverUser().getFullName());
+        }
         return mailRepository.save(mail);
     }
 
@@ -304,6 +316,24 @@ public class MailService {
         return mailRepository.save(mail);
     }
 
+    @Async
+    @Transactional
+    public void putDirections(UUID mailId) throws NotFoundException {
+        final Mail mail = get(mailId);
+        final Mouvement mouvement = mail.getLastMouvement();
+        if(mouvement == null || mouvement.getSenderLocation() == null || mouvement.getReceiverLocation() == null)
+            return;
+        final MapDto mapDto = mapService.getDirections(
+                mouvement.getSenderLocation().getLatitude(),
+                mouvement.getSenderLocation().getLongitude(),
+                mouvement.getReceiverLocation().getLatitude(),
+                mouvement.getReceiverLocation().getLongitude());
+        mouvement.setEstimatedDelay(mapDto.getDuration());
+        mouvement.setEstimatedDistance(mapDto.getDistance());
+        mouvement.setCoordinates(mapDto.getCoordinates());
+        mouvementRepository.save(mouvement);
+    }
+
     public Mouvement reroute(UUID mailId, MouvementRequest mouvementRequest, User messenger) throws NotFoundException {
         final Mail mail = getIfMouvementDeliveringBy(mailId, messenger);
         final Mouvement mouvement = mail.getLastMouvement();
@@ -317,6 +347,7 @@ public class MailService {
             mouvement.setReceiver(user.getFullName());
             mouvement.setReceiverLocation(user.getLocation());
         }
+        putDirections(mailId);
         return mouvementRepository.save(mouvement);
     }
 

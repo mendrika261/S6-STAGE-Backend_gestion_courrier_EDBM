@@ -7,6 +7,8 @@ import mg.edbm.mail.entity.Mouvement;
 import mg.edbm.mail.entity.type.MouvementStatus;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -25,6 +27,9 @@ public class MouvementResponse {
     private String description;
     private String referenceMail;
     private MailResponse mail;
+    private Double estimatedDistance;
+    private Double estimatedDelay;
+    private List<Double[]> coordinates = new ArrayList<>();
 
     public MouvementResponse(Mouvement mouvement) {
         setId(mouvement.getId());
@@ -50,5 +55,9 @@ public class MouvementResponse {
 
         setReferenceMail(mouvement.getMail().getReference());
         setMail(new MailResponse(mouvement.getMail(), false));
+
+        setEstimatedDistance(mouvement.getEstimatedDistance());
+        setEstimatedDelay(mouvement.getEstimatedDelay());
+        setCoordinates(mouvement.getCoordinatesAsList());
     }
 }

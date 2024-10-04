@@ -149,7 +149,7 @@ public class SpecificationImpl<T> implements Specification<T> {
         if(current.getJavaType().isEnum())
             return current.in(criteria.getValue());
         if(current.getJavaType().isAnnotationPresent(Entity.class))
-            return builder.equal(current.get("id").as(current.getJavaType()), castType(current.getJavaType(), criteria.getValue()));
+            return builder.equal(current.get("id"), criteria.getValue());
         return builder.equal(current, castType(current.getJavaType(), criteria.getValue()));
     }
 
@@ -164,7 +164,7 @@ public class SpecificationImpl<T> implements Specification<T> {
         if(current.getJavaType().isEnum())
             return builder.not(current.in(criteria.getValue()));
         if(current.getJavaType().isAnnotationPresent(Entity.class))
-            return builder.not(current.get("id").as(current.getJavaType()).in(castType(current.getJavaType(), criteria.getValue())));
+            return builder.not(current.get("id").in(criteria.getValue()));
         return builder.notEqual(current, castType(current.getJavaType(), criteria.getValue()));
     }
 
