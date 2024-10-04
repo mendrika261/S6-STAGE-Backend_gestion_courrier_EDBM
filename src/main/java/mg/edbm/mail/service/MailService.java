@@ -7,6 +7,7 @@ import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.config.properties.FileUploadProperties;
 import mg.edbm.mail.config.properties.NotificationUrlProperties;
 import mg.edbm.mail.dto.MapDto;
+import mg.edbm.mail.dto.MessengerStatsDto;
 import mg.edbm.mail.dto.request.MouvementRequest;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.FileUploadRequest;
@@ -28,6 +29,7 @@ import mg.edbm.mail.utils.StringCustomUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
@@ -366,5 +368,4 @@ public class MailService {
                     mail.getLastMouvement().getReceiverUser());
         return mailRepository.save(mail);
     }
-
 }

@@ -27,8 +27,8 @@ public class MouvementResponse {
     private String description;
     private String referenceMail;
     private MailResponse mail;
-    private Double estimatedDistance;
-    private Double estimatedDelay;
+    private Double estimatedDistance = 0.;
+    private Double estimatedDelay = 0.;
     private List<Double[]> coordinates = new ArrayList<>();
 
     public MouvementResponse(Mouvement mouvement) {
@@ -56,8 +56,10 @@ public class MouvementResponse {
         setReferenceMail(mouvement.getMail().getReference());
         setMail(new MailResponse(mouvement.getMail(), false));
 
-        setEstimatedDistance(mouvement.getEstimatedDistance());
-        setEstimatedDelay(mouvement.getEstimatedDelay());
+        if(mouvement.getEstimatedDistance()!=null)
+            setEstimatedDistance(mouvement.getEstimatedDistance());
+        if(mouvement.getEstimatedDelay()!=null)
+            setEstimatedDelay(mouvement.getEstimatedDelay());
         setCoordinates(mouvement.getCoordinatesAsList());
     }
 }

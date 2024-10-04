@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.config.DatabaseConfig;
 import mg.edbm.mail.config.SecurityConfig;
+import mg.edbm.mail.dto.MessengerStatsDto;
 import mg.edbm.mail.dto.request.*;
 import mg.edbm.mail.dto.response.MailResponse;
 import mg.edbm.mail.dto.request.type.MailType;
@@ -184,6 +185,20 @@ public class UserController {
         final Page<Mouvement> mouvements = mouvementService.listTransitMails(listRequest, userId);
         final Page<MouvementResponse> mappedMouvementResponseList = mouvements.map(MouvementResponse::new);
         return ResponseEntity.ok(mappedMouvementResponseList);
+    }
+
+    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @GetMapping("/messenger/stats")
+    public ResponseEntity<MessengerStatsDto> getMessengerStats() throws AuthenticationException {
+        final MessengerStatsDto messengerStatsDto = mouvementService.getMessengerStats(userService.getAuthenticatedUser());
+        return ResponseEntity.ok(messengerStatsDto);
+    }
+
+    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @GetMapping("/messenger/mails")
+    public ResponseEntity<Page<MouvementResponse>> getMessengerDeliveringMail(ListRequest listRequest) throws AuthenticationException {
+        final Page<Mouvement> mouvements = mouvementService.getMessengerDeliveringMail(listRequest, userService.getAuthenticatedUser());
+        return ResponseEntity.ok(mouvements.map(MouvementResponse::new));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
