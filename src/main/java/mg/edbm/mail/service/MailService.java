@@ -319,7 +319,6 @@ public class MailService {
     }
 
     @Async
-    @Transactional
     public void putDirections(UUID mailId) throws NotFoundException {
         final Mail mail = get(mailId);
         final Mouvement mouvement = mail.getLastMouvement();
@@ -367,5 +366,11 @@ public class MailService {
                             notificationUrlProperties.MAIL_TRANSIT,
                     mail.getLastMouvement().getReceiverUser());
         return mailRepository.save(mail);
+    }
+
+    public Page<Mail> list(ListRequest listRequest) {
+        final Pageable pageable = listRequest.toPageable();
+        final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
+        return mailRepository.findAll(specification, pageable);
     }
 }

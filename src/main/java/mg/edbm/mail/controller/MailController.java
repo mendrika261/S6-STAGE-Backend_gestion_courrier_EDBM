@@ -36,6 +36,13 @@ public class MailController {
     private final UserService userService;
     private final MouvementService mouvementService;
 
+    @GetMapping
+    @Secured(SecurityConfig.ROLE_ADMIN)
+    public ResponseEntity<Page<MailResponse>> list(ListRequest listRequest) {
+        final Page<Mail> mails = mailService.list(listRequest);
+        return ResponseEntity.ok(mails.map(MailResponse::new));
+    }
+
     @GetMapping("/{mailId}/files")
     @Secured(SecurityConfig.ROLE_ADMIN)
     public ResponseEntity<Page<FileDto>> listFiles(@PathVariable UUID mailId, @Valid ListRequest listRequest) throws NotFoundException {
