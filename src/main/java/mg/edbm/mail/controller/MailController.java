@@ -107,7 +107,7 @@ public class MailController {
         return ResponseEntity.ok(mappedMailResponseList);
     }
 
-    @Secured({SecurityConfig.ROLE_MESSENGER})
+    @Secured({SecurityConfig.ROLE_MESSENGER, SecurityConfig.ROLE_ADMIN})
     @PatchMapping("/{mailId}/mouvements/delivered")
     public ResponseEntity<MailResponse> deliverMail(@PathVariable UUID mailId, LocalDateTime endDate)
             throws AuthenticationException {
@@ -131,7 +131,7 @@ public class MailController {
         return ResponseEntity.ok(new MailResponse(mail));
     }
 
-    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @Secured({SecurityConfig.ROLE_MESSENGER, SecurityConfig.ROLE_ADMIN})
     @DeleteMapping("/{mailId}/mouvements/delivered")
     public ResponseEntity<MailResponse> cancelDelivery(@PathVariable UUID mailId)
             throws AuthenticationException {
@@ -139,7 +139,7 @@ public class MailController {
         return ResponseEntity.ok(new MailResponse(mail));
     }
 
-    @Secured(SecurityConfig.ROLE_MESSENGER)
+    @Secured({SecurityConfig.ROLE_MESSENGER, SecurityConfig.ROLE_ADMIN})
     @PutMapping("/{mailId}/mouvements")
     public ResponseEntity<MouvementResponse> rerouteMouvement(@PathVariable UUID mailId,
                                                               @Valid MouvementRequest mouvementRequest)

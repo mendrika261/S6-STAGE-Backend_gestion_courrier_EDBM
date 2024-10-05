@@ -72,9 +72,7 @@ public class MouvementService {
         listRequest.addBaseCriteria(LogicOperationType.OR, "receiverUser.id", OperationType.EQUAL, userId);
         listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.EQUAL, MouvementStatus.DELIVERING);
         listRequest.addBaseCriteria(LogicOperationType.AND, "endDate", OperationType.IS_NOT_NULL, null);
-        final Specification<Mouvement> specification = new SpecificationImpl<>(listRequest);
-        final Pageable pageable = listRequest.toPageable();
-        return mouvementRepository.findAll(specification, pageable);
+        return list(listRequest);
     }
 
     public MessengerStatsDto getMessengerStats(User authenticatedUser) {
@@ -93,6 +91,10 @@ public class MouvementService {
         listRequest.addBaseCriteria(LogicOperationType.AND, "status", OperationType.EQUAL, MouvementStatus.DELIVERING);
         listRequest.addOrder("mail.createdAt", SortType.ASC);
         listRequest.addOrder("mail.priority", SortType.DESC);
+        return list(listRequest);
+    }
+
+    public Page<Mouvement> list(ListRequest listRequest) {
         final Pageable pageable = listRequest.toPageable();
         final Specification<Mouvement> specification = new SpecificationImpl<>(listRequest);
         return mouvementRepository.findAll(specification, pageable);

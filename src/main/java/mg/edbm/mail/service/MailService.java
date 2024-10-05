@@ -191,6 +191,7 @@ public class MailService {
 
     public Mail getMailByUser(UUID userId, UUID mailId) throws NotFoundException {
         final User user = userService.get(userId);
+        if(user.hasRole(SecurityConfig.ROLE_ADMIN)) return get(mailId);
         return mailRepository.findByIdAndReceiverOrSenderUser(mailId, user).orElseThrow(
                 () -> new NotFoundException("Le courrier n'existe pas")
         );
