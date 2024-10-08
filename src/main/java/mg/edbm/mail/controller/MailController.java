@@ -2,6 +2,8 @@ package mg.edbm.mail.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mg.edbm.mail.analysis.AnalysisResult;
+import mg.edbm.mail.analysis.MailAnalysis;
 import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.dto.FileDto;
 import mg.edbm.mail.dto.request.MouvementRequest;
@@ -146,5 +148,15 @@ public class MailController {
             throws NotFoundException, AuthenticationException {
         final Mouvement mouvement = mailService.reroute(mailId, mouvementRequest, userService.getAuthenticatedUser());
         return ResponseEntity.ok(new MouvementResponse(mouvement));
+    }
+
+    @GetMapping("/analysis")
+    public ResponseEntity<MailAnalysis> analyze() {
+        return ResponseEntity.ok(new MailAnalysis());
+    }
+
+    @PostMapping("/analysis")
+    public ResponseEntity<AnalysisResult> analyze(@Valid MailAnalysis mailAnalysis) {
+        return ResponseEntity.ok(mailService.analyzeMail(mailAnalysis));
     }
 }

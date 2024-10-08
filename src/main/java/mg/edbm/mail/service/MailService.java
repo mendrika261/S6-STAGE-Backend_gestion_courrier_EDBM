@@ -1,13 +1,17 @@
 package mg.edbm.mail.service;
 
+import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import mg.edbm.mail.analysis.AnalysisResult;
+import mg.edbm.mail.analysis.ChartData;
+import mg.edbm.mail.analysis.Input;
+import mg.edbm.mail.analysis.MailAnalysis;
 import mg.edbm.mail.config.SecurityConfig;
 import mg.edbm.mail.config.properties.FileUploadProperties;
 import mg.edbm.mail.config.properties.NotificationUrlProperties;
 import mg.edbm.mail.dto.MapDto;
-import mg.edbm.mail.dto.MessengerStatsDto;
 import mg.edbm.mail.dto.request.MouvementRequest;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.FileUploadRequest;
@@ -29,14 +33,15 @@ import mg.edbm.mail.utils.StringCustomUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -54,6 +59,7 @@ public class MailService {
     private final NotificationService notificationService;
     private final NotificationUrlProperties notificationUrlProperties;
     private final MapService mapService;
+    private final JdbcTemplate jdbcTemplate;
 
     public Page<Mail> getMailsByUser(UUID userId, MailType type, ListRequest listRequest) {
         if (type == MailType.INCOMING)
@@ -373,5 +379,115 @@ public class MailService {
         final Pageable pageable = listRequest.toPageable();
         final Specification<Mail> specification = new SpecificationImpl<>(listRequest);
         return mailRepository.findAll(specification, pageable);
+    }
+
+    public String buildQuery(List<Input> columns, List<Input> mesures, List<Input> ordres, Long limit) {
+        final StringBuilder query = new StringBuilder("SELECT ");
+        for (Input column : columns) {
+            query.append(column.getValue()).append(", ");
+        }
+        for (Input mesure : mesures) {
+            query.append(mesure.getValue()).append(", ");
+        }
+        query.deleteCharAt(query.length() - 2);
+        query.append(" FROM mail m left join location ls on m.sender_location_id = ls.id " +
+                "left join location lr on m.receiver_location_id = lr.id " +
+                "left join mouvement mv on m.id = mv.mail_id ");
+
+        query.append("GROUP BY mv.start_date, ");
+        for (Input column : columns) {
+            query.append(column.getValue()).append(", ");
+        }
+        query.deleteCharAt(query.length() - 2);
+
+        query.append("ORDER BY mv.start_date desc, ");
+        if (ordres !=null && !ordres.isEmpty()) {
+            for (Input ordre : ordres) {
+                query.append(ordre.getValue()).append(", ");
+            }
+        }
+        query.deleteCharAt(query.length() - 2);
+
+        if (limit != null) {
+            query.append("LIMIT ").append(limit);
+        } else {
+            query.append("LIMIT 100");
+        }
+
+        return query.toString();
+    }
+
+    public String getChartType(List<String> columns, List<Input> mesures) {
+        // ref: https://www.coursera.org/learn/visualize-data/supplement/XvN2U/data-grows-on-decision-trees
+        if(columns.stream().anyMatch(c -> c.toLowerCase().contains("localisation"))) {
+            return "map";
+        } else if(columns.stream().anyMatch(c -> c.toLowerCase().contains("date"))) {
+            return "line";
+        } else {
+            return "bar";
+        }
+    }
+
+    public List<String> getChartCategories(List<Input> columns, List<List<String>> data) {
+        final List<String> categories = new ArrayList<>();
+        for (int i = 0; i < data.size(); i++) {
+            if(columns.size() == 1) {
+                categories.add(data.get(i).get(0));
+            } else
+                categories.add("Ligne " + i+1);
+        }
+        return categories;
+    }
+
+    public List<ChartData> getChartData(List<Input> columns, List<Input> mesures, List<List<String>> data) {
+        final List<ChartData> chartData = new ArrayList<>();
+        final int columnMesureStart = columns.size();
+        for (int col=columnMesureStart; col<columnMesureStart+mesures.size(); col++) {
+            final List<String> values = new ArrayList<>();
+            final String mesureName = mesures.get(col-columnMesureStart).getName();
+            for (List<String> datum : data) {
+                values.add(datum.get(col));
+            }
+            chartData.add(new ChartData(mesureName, values.toArray(String[]::new)));
+        }
+        return chartData;
+    }
+
+    private AnalysisResult buildResult(String query, List<Input> columns, List<Input> mesures) {
+        final List<String> columnNames = new ArrayList<>();
+        for (Input column : columns) {
+            columnNames.add(column.getName());
+        }
+        for (Input mesure : mesures) {
+            columnNames.add(mesure.getName());
+        }
+        jdbcTemplate.execute("SET lc_time = 'fr_FR'");
+        final List<List<String>> data = jdbcTemplate.query(query, (rs, rowNum) -> {
+            final List<String> row = new ArrayList<>();
+            int end = columnNames.size();
+            for (int i = 1; i <= end; i++) {
+                if(rs.getMetaData().getColumnName(i).contains("latitude")) {
+                    row.set(i - 2, row.get(i - 2) + " LAT" + rs.getString(i));
+                    end += 1;
+                } else if (rs.getMetaData().getColumnName(i).contains("longitude")) {
+                    row.set(i - 3, row.get(i - 3) + "LONG" + rs.getString(i));
+                    end += 1;
+                }
+                else row.add(rs.getString(i));
+            }
+            return row;
+        });
+        return new AnalysisResult(
+                columnNames,
+                data,
+                getChartType(columnNames, mesures),
+                getChartCategories(columns, data),
+                getChartData(columns, mesures, data)
+        );
+    }
+
+    public AnalysisResult analyzeMail(MailAnalysis mailAnalysis) {
+        final String query = buildQuery(mailAnalysis.getColumns(), mailAnalysis.getMeasures(), mailAnalysis.getOrders(), mailAnalysis.getLimit());
+        return buildResult(query, mailAnalysis.getColumns(), mailAnalysis.getMeasures());
     }
 }

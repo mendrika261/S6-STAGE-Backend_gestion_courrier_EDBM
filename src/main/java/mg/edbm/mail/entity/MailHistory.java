@@ -6,6 +6,8 @@ import lombok.Setter;
 import mg.edbm.mail.entity.type.MailConfidentiality;
 import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.MailPriority;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
@@ -23,6 +25,7 @@ public class MailHistory {
 
     @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE) // TODO Check delete cascade
     private Mail mail;
 
 

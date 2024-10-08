@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.util.UUID;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -50,7 +52,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<MessageResponse> handleMethodArgumentTypeMismatchExceptions() {
+    public ResponseEntity<MessageResponse> handleMethodArgumentTypeMismatchExceptions(MethodArgumentTypeMismatchException e) {
+        if(e.getParameter().getParameterType() == UUID.class) return handleNoSuchElementExceptions(e);
         final MessageResponse messageResponse = new MessageResponse("Veuillez vérifier les paramètres de la requête, " +
                 "les valeurs fournies ne sont pas celles attendues");
         return ResponseEntity.badRequest().body(messageResponse);

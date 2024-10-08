@@ -185,9 +185,9 @@ public class Mail {
         return getLastMouvement().getReceiverUser() == getReceiverUser() || getLastMouvement().getReceiver().equals(getReceiver());
     }
 
-    public void putDirections(MapDto mapDto) {
-        getLastMouvement().setEstimatedDelay(mapDto.getDuration());
-        getLastMouvement().setEstimatedDistance(mapDto.getDistance());
-        getLastMouvement().setCoordinates(mapDto.getCoordinates());
+    public void setStatus(MailStatus status) {
+        if(getStatus() == MailStatus.DRAFT && status == MailStatus.WAITING) // if mail was a draft and is now waiting, it means it's being sent now
+            setCreatedAt(LocalDateTime.now());
+        this.status = status;
     }
 }
