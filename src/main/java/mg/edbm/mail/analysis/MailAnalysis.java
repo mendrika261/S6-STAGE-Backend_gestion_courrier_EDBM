@@ -3,6 +3,7 @@ package mg.edbm.mail.analysis;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public class MailAnalysis extends Analysis {
         return List.of(
                 new Input("Date de création", "m.created_at"),
                 new Input("Date de création - Date seulement", "DATE(m.created_at)"),
-                new Input("Date de création - Heure seulement", "m.created_at::time"),
+                new Input("Date de création - Heure seulement", "EXTRACT(hour FROM m.created_at)"),
                 new Input("Date de création - Jour", "extract('day' from m.created_at)"),
                 new Input("Date de création - Mois", "TO_CHAR(m.created_at&comma; 'TMMonth')"),
                 new Input("Date de création - Année", "extract('year' from m.created_at)"),
@@ -38,15 +39,11 @@ public class MailAnalysis extends Analysis {
                 new Input("Localisation du destinataire", "lr.name&comma; lr.latitude&comma; lr.longitude"),
                 new Input("Date de fin", "mv.end_date"),
                 new Input("Date de fin - Date seulement", "DATE(mv.end_date)"),
-                new Input("Date de fin - Heure seulement", "mv.end_date::time"),
+                new Input("Date de fin - Heure seulement", "EXTRACT(hour FROM mv.end_date)"),
                 new Input("Date de fin - Jour", "extract('day' from mv.end_date)"),
                 new Input("Date de fin - Mois", "TO_CHAR(mv.end_date&comma; 'TMMonth')"),
                 new Input("Date de fin - Année", "extract('year' from mv.end_date)"),
-                new Input("Date de fin - Jour de la semaine", "TO_CHAR(mv.end_date&comma; 'TMDay')"),
-                new Input("Durée", "mv.end_date - m.created_at"),
-                new Input("Durée - Jours", "extract('day' from mv.end_date - m.created_at)"),
-                new Input("Durée - Heures", "extract('hour' from mv.end_date - m.created_at)"),
-                new Input("Durée - Minutes", "extract('minute' from mv.end_date - m.created_at)")
+                new Input("Date de fin - Jour de la semaine", "TO_CHAR(mv.end_date&comma; 'TMDay')")
         );
     }
 

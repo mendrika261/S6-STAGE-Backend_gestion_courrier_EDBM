@@ -394,13 +394,13 @@ public class MailService {
                 "left join location lr on m.receiver_location_id = lr.id " +
                 "left join mouvement mv on m.id = mv.mail_id ");
 
-        query.append("GROUP BY mv.start_date, ");
+        query.append(" GROUP BY mv.start_date, ");
         for (Input column : columns) {
             query.append(column.getValue()).append(", ");
         }
         query.deleteCharAt(query.length() - 2);
 
-        query.append("ORDER BY mv.start_date desc, ");
+        query.append(" ORDER BY mv.start_date desc, ");
         if (ordres !=null && !ordres.isEmpty()) {
             for (Input ordre : ordres) {
                 query.append(ordre.getValue()).append(", ");
@@ -409,9 +409,9 @@ public class MailService {
         query.deleteCharAt(query.length() - 2);
 
         if (limit != null) {
-            query.append("LIMIT ").append(limit);
+            query.append(" LIMIT ").append(limit);
         } else {
-            query.append("LIMIT 100");
+            query.append(" LIMIT 100");
         }
 
         return query.toString();
@@ -453,7 +453,7 @@ public class MailService {
         return chartData;
     }
 
-    private AnalysisResult buildResult(String query, List<Input> columns, List<Input> mesures) {
+    public AnalysisResult buildResult(String query, List<Input> columns, List<Input> mesures) {
         final List<String> columnNames = new ArrayList<>();
         for (Input column : columns) {
             columnNames.add(column.getName());

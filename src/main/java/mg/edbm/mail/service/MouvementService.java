@@ -2,6 +2,9 @@ package mg.edbm.mail.service;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import mg.edbm.mail.analysis.AnalysisResult;
+import mg.edbm.mail.analysis.Input;
+import mg.edbm.mail.analysis.MouvementAnalysis;
 import mg.edbm.mail.config.properties.NotificationUrlProperties;
 import mg.edbm.mail.dto.MapDto;
 import mg.edbm.mail.dto.MessengerStatsDto;
@@ -28,6 +31,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -98,5 +103,47 @@ public class MouvementService {
         final Pageable pageable = listRequest.toPageable();
         final Specification<Mouvement> specification = new SpecificationImpl<>(listRequest);
         return mouvementRepository.findAll(specification, pageable);
+    }
+
+    public String buildQuery(List<Input> columns, List<Input> mesures, List<Input> ordres, Long limit) {
+        final StringBuilder query = new StringBuilder("SELECT ");
+        for (Input column : columns) {
+            query.append(column.getValue()).append(", ");
+        }
+        for (Input mesure : mesures) {
+            query.append(mesure.getValue()).append(", ");
+        }
+        query.deleteCharAt(query.length() - 2);
+        query.append(" FROM mouvement m" +
+                "         left join location ls on m.sender_location_id = ls.id" +
+                "         left join location lr on m.receiver_location_id = lr.id" +
+                "         left join system_user u on messenger_id = u.id ");
+
+        query.append("GROUP BY ");
+        for (Input column : columns) {
+            query.append(column.getValue()).append(", ");
+        }
+        query.deleteCharAt(query.length() - 2);
+
+        if (ordres !=null && !ordres.isEmpty()) {
+            query.append(" ORDER BY ");
+            for (Input ordre : ordres) {
+                query.append(ordre.getValue()).append(", ");
+            }
+            query.deleteCharAt(query.length() - 2);
+        }
+
+        if (limit != null) {
+            query.append(" LIMIT ").append(limit);
+        } else {
+            query.append(" LIMIT 100");
+        }
+
+        return query.toString();
+    }
+
+    public AnalysisResult analyzeMouvement(MouvementAnalysis mouvementAnalysis) {
+        final String query = buildQuery(mouvementAnalysis.getColumns(), mouvementAnalysis.getMeasures(), mouvementAnalysis.getOrders(), mouvementAnalysis.getLimit());
+        return mailService.buildResult(query, mouvementAnalysis.getColumns(), mouvementAnalysis.getMeasures());
     }
 }

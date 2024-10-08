@@ -24,7 +24,7 @@ from mail m
 select
     m.start_date,
     m.end_date,
-    m.end_date - m.start_date delay,
+    m.end_date - m.start_date,
     m.sender,
     ls.name,
     ls.latitude,

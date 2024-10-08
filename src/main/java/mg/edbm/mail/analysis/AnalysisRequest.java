@@ -16,4 +16,8 @@ public class AnalysisRequest {
     public MailAnalysis toMailAnalysis() {
         return new MailAnalysis(columns, mesures, orders, limit);
     }
+
+    public MouvementAnalysis toMouvementAnalysis() {
+        return new MouvementAnalysis(columns, mesures, orders, limit);
+    }
 }
