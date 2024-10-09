@@ -43,4 +43,4 @@ UPDATE public.role SET created_by_id = '51161df7-a5c1-41a5-87c5-c18cff313349' WH
 UPDATE public.location SET created_by_id = '51161df7-a5c1-41a5-87c5-c18cff313349' WHERE 1=1;
 
 INSERT INTO public.app(id, authorized_role_prefix, created_at, description, logo_url, name, removed_at, updated_at, url, created_by_id, removed_by_id, updated_by_id)
-VALUES ('51161df7-a5c1-41a5-87c5-c18cff313349', 'MAIL_', now(), 'Application de gestion de courrier', 'https://edbm.mendrika.dev/logo73.png', 'Gestion de courrier', NULL, null, 'https://edbm.mendrika.dev', '51161df7-a5c1-41a5-87c5-c18cff313349', NULL, null);
+VALUES ('51161df7-a5c1-41a5-87c5-c18cff313349', 'MAIL_', now(), 'Application de gestion de courrier', 'http://localhost:3000/logo73.png', 'Gestion de courrier', NULL, null, 'http://localhost:3000', '51161df7-a5c1-41a5-87c5-c18cff313349', NULL, null);

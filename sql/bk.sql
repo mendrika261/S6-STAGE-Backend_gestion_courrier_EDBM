@@ -1,4 +1,4 @@
-select created_at, email, first_name, last_name, phone_number, status from system_user;
+select created_at, email, first_name, last_name, phone_number, status from sys_user;
 
 -- mail
 select
@@ -37,7 +37,7 @@ select
 from mouvement m
          left join location ls on m.sender_location_id = ls.id
          left join location lr on m.receiver_location_id = lr.id
-         left join system_user u on messenger_id = u.id
+         left join sys_user u on messenger_id = u.id
 group by m.start_date,
          m.end_date,
          m.sender,
@@ -69,6 +69,6 @@ select
 from mouvement m
          left join location ls on m.sender_location_id = ls.id
          left join location lr on m.receiver_location_id = lr.id
-         left join system_user u on messenger_id = u.id
+         left join sys_user u on messenger_id = u.id
 group by
     ls.name;

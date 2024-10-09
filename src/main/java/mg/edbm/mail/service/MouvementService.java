@@ -118,7 +118,7 @@ public class MouvementService {
         query.append(" FROM mouvement m" +
                 "         left join location ls on m.sender_location_id = ls.id" +
                 "         left join location lr on m.receiver_location_id = lr.id" +
-                "         left join system_user u on messenger_id = u.id ");
+                "         left join sys_user u on messenger_id = u.id ");
 
         query.append("GROUP BY ");
         for (Input column : columns) {

@@ -72,7 +72,6 @@ public class TokenService {
 
     public Token validateToken(Session session, HttpServletRequest request) throws AuthenticationException {
         final String authorizationHeader = request.getHeader("Authorization");
-        final String ipAddress = request.getRemoteAddr();
         final String userAgent = request.getHeader("User-Agent");
         if (session == null) {
             throw new AuthenticationException(
@@ -87,7 +86,7 @@ public class TokenService {
         if(!session.getStatus().equals(SessionStatus.ACTIVE)) {
             throw new AuthenticationException("Token revoked: " + session, LogType.ERROR);
         }
-        if (!session.getIpAddress().equals(ipAddress) || !session.getUserAgent().equals(userAgent)) {
+        if (!session.getUserAgent().equals(userAgent)) {
             final Session intrusionSession = sessionService.createIntrusionSession(session, request);
             throw new AuthenticationException("Token intrusion: " + intrusionSession);
         }

@@ -16,7 +16,7 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "system_user")
+@Table(name = "sys_user")
 @NoArgsConstructor
 public class User implements UserDetails {
     @Id
