@@ -1,6 +1,5 @@
 package mg.edbm.mail.service;
 
-import jakarta.persistence.Column;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -37,6 +36,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -342,6 +342,7 @@ public class MailService {
         mouvementRepository.save(mouvement);
     }
 
+    @Transactional
     public Mouvement reroute(UUID mailId, MouvementRequest mouvementRequest, User messenger) throws NotFoundException {
         final Mail mail = getIfMouvementDeliveringBy(mailId, messenger);
         final Mouvement mouvement = mail.getLastMouvement();

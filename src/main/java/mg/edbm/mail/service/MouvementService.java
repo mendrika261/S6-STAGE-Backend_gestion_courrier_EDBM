@@ -31,6 +31,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class MouvementService {
     private final NotificationService notificationService;
     private final NotificationUrlProperties notificationUrlProperties;
 
+    @Transactional
     public Mouvement createMouvement(UUID mailId, User messenger) throws NotFoundException {
         final Mail mail = mailService.get(mailId);
         final Mouvement mouvement = new Mouvement(mail, messenger);

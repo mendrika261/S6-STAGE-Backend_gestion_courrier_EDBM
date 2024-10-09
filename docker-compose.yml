@@ -15,5 +15,10 @@ services:
     ports:
       - "8080:8080"
     command: ["java", "-jar", "target/app.jar"]
+    volumes:
+      - uploads:/uploads
     env_file:
       - .env
+
+volumes:
+  uploads:

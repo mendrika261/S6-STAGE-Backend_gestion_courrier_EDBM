@@ -23,9 +23,9 @@ public interface UserRepository extends JpaRepository<User, UUID>, JpaSpecificat
     Optional<User> findById(@NonNull UUID uuid);
 
     @Query(value = "SELECT u.* " +
-            "FROM system_user u " +
+            "FROM sys_user u " +
             "LEFT JOIN mouvement m ON u.id = m.messenger_id AND m.status = 'DELIVERING' " +
-            "JOIN system_user_roles ur ON u.id = ur.user_id " +
+            "JOIN sys_user_roles ur ON u.id = ur.user_id " +
             "JOIN role r ON ur.roles_id = r.id AND r.code = 'MAIL_MESSENGER' " +
             "WHERE u.status = 'ACTIVE'  " +
             "  AND m.messenger_id IS NULL;",
