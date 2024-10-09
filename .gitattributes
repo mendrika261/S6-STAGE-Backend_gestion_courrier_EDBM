@@ -1,1 +1,1 @@
-ors filter=lfs diff=lfs merge=lfs -text
+ors/ filter=lfs diff=lfs merge=lfs -text
