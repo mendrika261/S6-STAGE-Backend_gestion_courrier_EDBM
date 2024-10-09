@@ -1,4 +1,13 @@
 services:
+  ors-map:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    working_dir: "/ors"
+    command: [ "java", "-jar", "ors.jar" ]
+
   spring-app:
     build:
       context: .

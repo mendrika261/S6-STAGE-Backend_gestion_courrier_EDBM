@@ -3,3 +3,4 @@ COPY . .
 RUN apk add --no-cache openjdk17 maven
 RUN mvn clean package -DskipTests
 EXPOSE 8080
+EXPOSE 8082
