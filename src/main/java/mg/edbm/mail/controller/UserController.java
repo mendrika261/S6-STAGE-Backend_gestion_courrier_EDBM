@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import mg.edbm.mail.config.DatabaseConfig;
 import mg.edbm.mail.config.SecurityConfig;
+import mg.edbm.mail.dto.AdminStatsDto;
 import mg.edbm.mail.dto.MessengerStatsDto;
 import mg.edbm.mail.dto.request.*;
 import mg.edbm.mail.dto.response.MailResponse;
@@ -31,7 +32,9 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -199,6 +202,20 @@ public class UserController {
     public ResponseEntity<Page<MouvementResponse>> getMessengerDeliveringMail(ListRequest listRequest) throws AuthenticationException {
         final Page<Mouvement> mouvements = mouvementService.getMessengerDeliveringMail(listRequest, userService.getAuthenticatedUser());
         return ResponseEntity.ok(mouvements.map(MouvementResponse::new));
+    }
+
+    @Secured(SecurityConfig.ROLE_ADMIN)
+    @GetMapping("/admin/stats")
+    public ResponseEntity<AdminStatsDto> getAdminStats() {
+        final AdminStatsDto adminStats = mouvementService.getAdminStats();
+        return ResponseEntity.ok(adminStats);
+    }
+
+    @Secured(SecurityConfig.ROLE_ADMIN)
+    @GetMapping("/messengers/free")
+    public ResponseEntity<List<UserResponse>> listFreeMessengers() {
+        final List<User> users = userService.listFreeMessengers();
+        return ResponseEntity.ok(users.stream().map(UserResponse::new).collect(Collectors.toList()));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)

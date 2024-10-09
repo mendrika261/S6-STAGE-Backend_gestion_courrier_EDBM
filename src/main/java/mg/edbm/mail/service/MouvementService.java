@@ -6,6 +6,7 @@ import mg.edbm.mail.analysis.AnalysisResult;
 import mg.edbm.mail.analysis.Input;
 import mg.edbm.mail.analysis.MouvementAnalysis;
 import mg.edbm.mail.config.properties.NotificationUrlProperties;
+import mg.edbm.mail.dto.AdminStatsDto;
 import mg.edbm.mail.dto.MapDto;
 import mg.edbm.mail.dto.MessengerStatsDto;
 import mg.edbm.mail.dto.request.ListRequest;
@@ -82,8 +83,8 @@ public class MouvementService {
 
     public MessengerStatsDto getMessengerStats(User authenticatedUser) {
         final MessengerStatsDto messengerStatsDto = new MessengerStatsDto();
-        messengerStatsDto.setUrgentCount(mouvementRepository.getUrgentCount(MouvementStatus.WAITING, MailPriority.URGENT));
-        messengerStatsDto.setWaitingCount(mouvementRepository.getWaitingCount(MouvementStatus.WAITING));
+        messengerStatsDto.setUrgentCount(mailRepository.getUrgentCount(MailStatus.WAITING, MailPriority.URGENT));
+        messengerStatsDto.setWaitingCount(mailRepository.getWaitingCount(MailStatus.WAITING));
         messengerStatsDto.setDeliveringCount(mouvementRepository.getDeliveringCount(MouvementStatus.DELIVERING, authenticatedUser));
         messengerStatsDto.setDeliveringTime(mouvementRepository.getDeliveringTime(MouvementStatus.DELIVERING, authenticatedUser));
         messengerStatsDto.setDeliveringDistance(mouvementRepository.getDeliveringDistance(MouvementStatus.DELIVERING, authenticatedUser));
@@ -145,5 +146,20 @@ public class MouvementService {
     public AnalysisResult analyzeMouvement(MouvementAnalysis mouvementAnalysis) {
         final String query = buildQuery(mouvementAnalysis.getColumns(), mouvementAnalysis.getMeasures(), mouvementAnalysis.getOrders(), mouvementAnalysis.getLimit());
         return mailService.buildResult(query, mouvementAnalysis.getColumns(), mouvementAnalysis.getMeasures());
+    }
+
+    public AdminStatsDto getAdminStats() {
+        final AdminStatsDto adminStatsDto = new AdminStatsDto();
+        adminStatsDto.setUrgentCount(mailRepository.getUrgentCount(MailStatus.WAITING, MailPriority.URGENT));
+        adminStatsDto.setWaitingCount(mailRepository.getWaitingCount(MailStatus.WAITING));
+        adminStatsDto.setDeliveringCount(mailRepository.getDeliveringCount(MailStatus.DELIVERING));
+        adminStatsDto.setDeliveringTime(mouvementRepository.getDeliveringTime(MouvementStatus.DELIVERING));
+        adminStatsDto.setDeliveringDistance(mouvementRepository.getDeliveringDistance(MouvementStatus.DELIVERING));
+        adminStatsDto.setFirstDeliveringDatetime(mouvementRepository.getFirstDeliveringDatetime(MouvementStatus.DELIVERING));
+        adminStatsDto.setMailCount(mailRepository.count());
+        adminStatsDto.setWaitingUrgentPercentage((double) adminStatsDto.getUrgentCount() / adminStatsDto.getMailCount() *100);
+        adminStatsDto.setWaitingNormalPercentage((double) (adminStatsDto.getWaitingCount() - adminStatsDto.getUrgentCount()) / adminStatsDto.getMailCount() *100);
+        adminStatsDto.setDeliveringPercentage((double) adminStatsDto.getDeliveringCount() / adminStatsDto.getMailCount() *100);
+        return adminStatsDto;
     }
 }

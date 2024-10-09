@@ -1,7 +1,6 @@
 package mg.edbm.mail.service;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import mg.edbm.mail.config.SecurityConfig;
@@ -13,6 +12,7 @@ import mg.edbm.mail.dto.request.filter.SpecificationImpl;
 import mg.edbm.mail.dto.request.type.LogicOperationType;
 import mg.edbm.mail.dto.request.type.OperationType;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.entity.type.MouvementStatus;
 import mg.edbm.mail.entity.type.UserStatus;
 import mg.edbm.mail.exception.AuthenticationException;
 import mg.edbm.mail.exception.NotFoundException;
@@ -183,5 +183,9 @@ public class UserService {
         user.setStatus(status);
         if(status == UserStatus.SUSPENDED) sessionService.invalidateAllActiveSessions(user);
         return update(user, authenticatedUser);
+    }
+
+    public List<User> listFreeMessengers() {
+        return userRepository.findFreeMessengers();
     }
 }

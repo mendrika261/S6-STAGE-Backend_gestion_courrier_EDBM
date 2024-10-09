@@ -2,12 +2,15 @@ package mg.edbm.mail.repository;
 
 import mg.edbm.mail.entity.Mail;
 import mg.edbm.mail.entity.User;
+import mg.edbm.mail.entity.type.MailPriority;
+import mg.edbm.mail.entity.type.MailStatus;
 import mg.edbm.mail.entity.type.MouvementStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,4 +29,14 @@ public interface MailRepository extends JpaRepository<Mail, UUID>, JpaSpecificat
     Optional<Mail> findByIdAndMouvementsReceiverUser(UUID mailId, User receiverUser);
 
     Optional<Mail> findByIdAndMouvementsSenderUser(UUID mailId, User receiverUser);
+
+
+    @Query("select count(*) from Mail m where m.status = ?1 and m.priority = ?2")
+    Long getUrgentCount(MailStatus status, MailPriority mailPriority);
+
+    @Query("select count(*) from Mail m where m.status = ?1")
+    Long getWaitingCount(MailStatus mailStatus);
+
+    @Query("select count(*) from Mail m where m.status = ?1")
+    Long getDeliveringCount(MailStatus MailStatus);
 }
