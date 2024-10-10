@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum MailType {
-    INCOMING("IN"),
-    OUTGOING("OUT");
+    INCOMING("REC"),
+    OUTGOING("ENV");
     private final String referencePrefix;
 }

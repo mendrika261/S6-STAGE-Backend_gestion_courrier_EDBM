@@ -72,13 +72,13 @@ public class MailService {
     }
 
     private String getNextReference(MailType type) {
-        // --/2021-02-000001 OR --/2021-02-000001
+        // ENV2021/02/000001 OR --/REC2021/02/000001
         final String prefix = type.getReferencePrefix();
         final String year = String.valueOf(LocalDateTime.now().getYear());
         final String month = String.format("%02d", LocalDateTime.now().getMonthValue());
         final String lastReference = mailRepository.findLastReference(prefix);
         if (lastReference == null) {
-            return prefix + year + "-" + month + "-" + String.format("%0"+ MAIL_REFERENCE_SEQ_LENGTH +"d", 1);
+            return prefix + year + "/" + month + "/" + String.format("%0"+ MAIL_REFERENCE_SEQ_LENGTH +"d", 1);
         }
         final String[] parts = lastReference.split("-");
         final int sequence = Integer.parseInt(parts[2]) + 1;
