@@ -22,10 +22,6 @@ public class ServerProperties {
             throw new ConfigurationException("Allowed origins must be defined " +
                     "eg. http://localhost:8080,https://example.com");
         }
-        if (Arrays.stream(ALLOWED_ORIGINS).anyMatch(origin -> !isValidUrl(origin))) {
-            throw new ConfigurationException("Allowed origins must be valid URLs separated with comma " +
-                    "eg. http://localhost:8080,https://example.com");
-        }
         if (ALLOWED_HEADERS == null || ALLOWED_HEADERS.length == 0) {
             throw new ConfigurationException("Allowed headers must be defined" +
                     "eg. Authorization,Content-Type");
