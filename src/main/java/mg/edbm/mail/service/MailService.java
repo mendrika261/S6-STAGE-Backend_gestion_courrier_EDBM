@@ -82,7 +82,7 @@ public class MailService {
         }
         final String[] parts = lastReference.split("-");
         final int sequence = Integer.parseInt(parts[2]) + 1;
-        return prefix + year + "-" + month + "-" + String.format("%0"+ MAIL_REFERENCE_SEQ_LENGTH +"d", sequence);
+        return prefix + year + "/" + month + "/" + String.format("%0"+ MAIL_REFERENCE_SEQ_LENGTH +"d", sequence);
     }
 
     private Mail setReceiverMail(MailRequest mailRequest, Mail mail) throws NotFoundException {
