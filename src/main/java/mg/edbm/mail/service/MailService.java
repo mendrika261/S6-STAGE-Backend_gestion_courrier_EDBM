@@ -80,7 +80,7 @@ public class MailService {
         if (lastReference == null) {
             return prefix + year + "/" + month + "/" + String.format("%0"+ MAIL_REFERENCE_SEQ_LENGTH +"d", 1);
         }
-        final String[] parts = lastReference.split("-");
+        final String[] parts = lastReference.split("/");
         final int sequence = Integer.parseInt(parts[2]) + 1;
         return prefix + year + "/" + month + "/" + String.format("%0"+ MAIL_REFERENCE_SEQ_LENGTH +"d", sequence);
     }
@@ -102,6 +102,7 @@ public class MailService {
         return mailRepository.save(mail);
     }
 
+    @Transactional
     public Mail createIncomingMail(UUID userId, MailRequest mailRequest, User authenticatedUser)
             throws NotFoundException {
         final User senderUser = userService.get(userId);
@@ -121,6 +122,7 @@ public class MailService {
         mouvement.setStatus(MouvementStatus.DONE);
         mouvement.setEndDate(LocalDateTime.now());
         mail.addMouvement(mouvement);
+        putDirections(mail.getId());
         return mailRepository.save(mail);
     }
 
@@ -326,6 +328,7 @@ public class MailService {
     }
 
     @Async
+    @Transactional
     public void putDirections(UUID mailId) throws NotFoundException {
         final Mail mail = get(mailId);
         final Mouvement mouvement = mail.getLastMouvement();
