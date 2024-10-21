@@ -7,6 +7,7 @@ services:
       - "8082:8082"
     working_dir: "/ors"
     command: [ "java", "-jar", "ors.jar" ]
+    restart: unless-stopped
 
   spring-app:
     build:
@@ -19,6 +20,7 @@ services:
       - uploads:/uploads
     env_file: ".env"
     working_dir: "/target"
+    restart: unless-stopped
 
 volumes:
   uploads:
