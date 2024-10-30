@@ -1,0 +1,27 @@
+services:
+  ors-map:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    working_dir: "/ors"
+    command: [ "java", "-jar", "ors.jar" ]
+    restart: unless-stopped
+
+  spring-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8083:8080"
+    command: ["java", "-jar", "app.jar"]
+    volumes:
+      - uploads:/uploads
+    env_file: ".env"
+    working_dir: "/target"
+    restart: unless-stopped
+
+volumes:
+  uploads:
+

@@ -1,0 +1,751 @@
+2024-08-25 00:50:04 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 22.0.2 with PID 44468 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-08-25 00:50:04 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-08-25 00:50:04 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 00:50:04 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-08-25 00:50:04 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-08-25 00:50:04 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-08-25 00:50:04 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-08-25 00:50:04 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 00:50:06 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-08-25 00:50:06 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 33.21 MB, Max: 2 GB, Used - 36.79 MB
+2024-08-25 00:50:06 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/madagascar-latest.osm.pbf' (1 threads) ...
+2024-08-25 00:50:06 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-08-25 00:50:06 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-08-25 00:50:07 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-08-25 00:50:07 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-08-25 00:50:07 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, details:edges:0(0MB), nodes:0(0MB), name:(0MB), geo:0(0MB), bounds:1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308, shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB)
+2024-08-25 00:50:07 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - No custom areas are used, custom_areas.directory not given
+2024-08-25 00:50:07 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - start creating graph from /Users/mendrika/ors/madagascar-latest.osm.pbf
+2024-08-25 00:50:07 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - using CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, memory:totalMB:85, usedMB:60
+2024-08-25 00:50:07 INFO [o.h.o.a.Application                     ] - Started Application in 3.747 seconds (process running for 4.851)
+2024-08-25 00:50:07 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-08-25 00:50:56 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 00:50:56 ERROR [o.h.o.r.RoutingProfileManager           ] - Failed to either read or execute the ors configuration and its parameters: java.lang.RuntimeException: Couldn't process file /Users/mendrika/ors/madagascar-latest.osm.pbf, error: java.net.SocketTimeoutException: Read timed out
+2024-08-25 00:50:56 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 00:51:20 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-08-25 00:52:25 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 22.0.2 with PID 44807 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-08-25 00:52:25 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-08-25 00:52:25 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 00:52:25 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-08-25 00:52:25 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-08-25 00:52:25 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-08-25 00:52:25 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-08-25 00:52:25 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 00:52:27 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-08-25 00:52:27 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 32.50 MB, Max: 2 GB, Used - 37.50 MB
+2024-08-25 00:52:27 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/madagascar-latest.osm.pbf' (1 threads) ...
+2024-08-25 00:52:27 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-08-25 00:52:27 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-08-25 00:52:27 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-08-25 00:52:27 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-08-25 00:52:27 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, details:edges:0(0MB), nodes:0(0MB), name:(0MB), geo:0(0MB), bounds:1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308, shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB)
+2024-08-25 00:52:27 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - No custom areas are used, custom_areas.directory not given
+2024-08-25 00:52:27 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - start creating graph from /Users/mendrika/ors/madagascar-latest.osm.pbf
+2024-08-25 00:52:27 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - using CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, memory:totalMB:85, usedMB:59
+2024-08-25 00:52:28 INFO [o.h.o.a.Application                     ] - Started Application in 3.687 seconds (process running for 4.624)
+2024-08-25 00:52:28 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-08-25 00:53:15 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 00:53:15 ERROR [o.h.o.r.RoutingProfileManager           ] - Failed to either read or execute the ors configuration and its parameters: java.lang.RuntimeException: Couldn't process file /Users/mendrika/ors/madagascar-latest.osm.pbf, error: java.net.SocketTimeoutException: Read timed out
+2024-08-25 00:53:15 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 00:53:22 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-08-25 00:54:48 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 22.0.2 with PID 45094 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-08-25 00:54:48 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-08-25 00:54:48 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 00:54:48 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-08-25 00:54:48 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-08-25 00:54:48 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-08-25 00:54:48 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-08-25 00:54:48 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 00:54:49 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-08-25 00:54:49 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 67 MB, Free - 25.00 MB, Max: 2 GB, Used - 42.00 MB
+2024-08-25 00:54:49 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/./madagascar-latest.osm.pbf' (1 threads) ...
+2024-08-25 00:54:49 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-08-25 00:54:50 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-08-25 00:54:50 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-08-25 00:54:50 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-08-25 00:54:50 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, details:edges:0(0MB), nodes:0(0MB), name:(0MB), geo:0(0MB), bounds:1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308, shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB)
+2024-08-25 00:54:50 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - No custom areas are used, custom_areas.directory not given
+2024-08-25 00:54:50 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - start creating graph from /Users/mendrika/ors/./madagascar-latest.osm.pbf
+2024-08-25 00:54:50 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - using CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, memory:totalMB:85, usedMB:57
+2024-08-25 00:54:51 INFO [o.h.o.a.Application                     ] - Started Application in 3.656 seconds (process running for 4.635)
+2024-08-25 00:54:51 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-08-25 00:55:37 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 00:55:37 ERROR [o.h.o.r.RoutingProfileManager           ] - Failed to either read or execute the ors configuration and its parameters: java.lang.RuntimeException: Couldn't process file /Users/mendrika/ors/./madagascar-latest.osm.pbf, error: java.net.SocketTimeoutException: Read timed out
+2024-08-25 00:55:37 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 00:57:16 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-08-25 01:04:53 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 22.0.2 with PID 46244 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-08-25 01:04:53 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-08-25 01:04:53 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 01:04:53 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-08-25 01:04:53 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-08-25 01:04:53 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-08-25 01:04:53 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-08-25 01:04:53 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 01:04:55 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-08-25 01:04:55 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 74 MB, Free - 36.86 MB, Max: 4 GB, Used - 37.14 MB
+2024-08-25 01:04:55 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-08-25 01:04:55 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-08-25 01:04:55 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-08-25 01:04:55 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-08-25 01:04:56 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-08-25 01:04:56 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, details:edges:0(0MB), nodes:0(0MB), name:(0MB), geo:0(0MB), bounds:1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308, shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB)
+2024-08-25 01:04:56 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - No custom areas are used, custom_areas.directory not given
+2024-08-25 01:04:56 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - start creating graph from /Users/mendrika/ors/mada.osm.pbf
+2024-08-25 01:04:56 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - using CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, memory:totalMB:92, usedMB:51
+2024-08-25 01:04:56 INFO [o.h.o.a.Application                     ] - Started Application in 3.576 seconds (process running for 4.555)
+2024-08-25 01:04:56 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-08-25 01:05:47 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 01:05:47 ERROR [o.h.o.r.RoutingProfileManager           ] - Failed to either read or execute the ors configuration and its parameters: java.lang.RuntimeException: Couldn't process file /Users/mendrika/ors/mada.osm.pbf, error: java.net.SocketTimeoutException: Read timed out
+2024-08-25 01:05:47 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 01:05:56 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-08-25 01:06:34 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 22.0.2 with PID 46467 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-08-25 01:06:34 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-08-25 01:06:34 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 01:06:34 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-08-25 01:06:34 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-08-25 01:06:34 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-08-25 01:06:34 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-08-25 01:06:34 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 01:06:36 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-08-25 01:06:36 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 82 MB, Free - 58.49 MB, Max: 4 GB, Used - 23.51 MB
+2024-08-25 01:06:36 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/madagascar-latest.osm.bz2' (1 threads) ...
+2024-08-25 01:06:36 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-08-25 01:06:36 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-08-25 01:06:36 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-08-25 01:06:36 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-08-25 01:06:36 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, details:edges:0(0MB), nodes:0(0MB), name:(0MB), geo:0(0MB), bounds:1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308, shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB)
+2024-08-25 01:06:36 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - No custom areas are used, custom_areas.directory not given
+2024-08-25 01:06:36 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - start creating graph from /Users/mendrika/ors/madagascar-latest.osm.bz2
+2024-08-25 01:06:36 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - using CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, memory:totalMB:102, usedMB:73
+2024-08-25 01:06:37 INFO [o.h.o.a.Application                     ] - Started Application in 3.854 seconds (process running for 4.83)
+2024-08-25 01:06:37 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-08-25 01:13:07 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 01:13:07 ERROR [o.h.o.r.RoutingProfileManager           ] - Failed to either read or execute the ors configuration and its parameters: java.lang.RuntimeException: Couldn't process file /Users/mendrika/ors/madagascar-latest.osm.bz2, error: java.net.SocketTimeoutException: Read timed out
+2024-08-25 01:13:07 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-08-25 01:14:37 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-08-25 01:14:43 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 22.0.2 with PID 47429 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-08-25 01:14:43 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-08-25 01:14:43 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 01:14:43 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-08-25 01:14:43 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-08-25 01:14:43 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-08-25 01:14:43 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-08-25 01:14:43 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 01:14:44 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-08-25 01:14:44 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 82 MB, Free - 58.15 MB, Max: 4 GB, Used - 23.85 MB
+2024-08-25 01:14:44 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-08-25 01:14:44 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-08-25 01:14:44 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-08-25 01:14:45 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-08-25 01:14:45 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-08-25 01:14:45 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, details:edges:0(0MB), nodes:0(0MB), name:(0MB), geo:0(0MB), bounds:1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308,1.7976931348623157E308,-1.7976931348623157E308, shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB), shortcuts:0 (0MB), nodesCH:-1 (0MB)
+2024-08-25 01:14:45 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - No custom areas are used, custom_areas.directory not given
+2024-08-25 01:14:45 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - start creating graph from /Users/mendrika/ors/mada.osm.pbf
+2024-08-25 01:14:45 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - using CH|car_ors|RAM_STORE|3D|turn_cost|,,,,, memory:totalMB:100, usedMB:72
+2024-08-25 01:14:45 INFO [o.h.o.a.Application                     ] - Started Application in 3.419 seconds (process running for 4.32)
+2024-08-25 01:14:45 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-08-25 01:16:46 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - call cleanUp for '/Users/mendrika/ors/./graphs/car' 
+2024-08-25 01:16:46 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.190431800000006,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:0 (1MB), nodesCH:-1 (1MB), shortcuts:0 (1MB), nodesCH:-1 (1MB), shortcuts:0 (1MB), nodesCH:-1 (1MB)
+2024-08-25 01:16:48 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - nodes: 411 911, edges: 502 513
+2024-08-25 01:16:48 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - Bridge interpolation 0s, tunnel interpolation 0s, ferry interpolation 0s
+2024-08-25 01:16:54 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:1466, usedMB:726
+2024-08-25 01:16:54 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - 1/2 calling CH prepare.doWork for profile 'car_ors_fastest_with_turn_costs' EDGE_BASED ... (totalMB:1466, usedMB:726)
+2024-08-25 01:16:54 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - 2/2 calling CH prepare.doWork for profile 'car_ors_shortest_with_turn_costs' EDGE_BASED ... (totalMB:1466, usedMB:726)
+2024-08-25 01:16:54 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Creating Core graph, totalMB:1466, usedMB:727
+2024-08-25 01:16:54 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Building Core graph, totalMB:1466, usedMB:739
+2024-08-25 01:16:55 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Finished building Core graph, took: 0.5017788s, totalMB:1466, usedMB:1022
+2024-08-25 01:16:55 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Building initial queue of nodes to be contracted: 411911 nodes, totalMB:1466, usedMB:1203
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Finished building queue, took: 0.40146604s, totalMB:1466, usedMB:1226
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    406 841, shortcuts:          0, updates:  0, checked-nodes:          0, t(total):   1.32,  t(period):   0.40, t(lazy):   0.00, t(neighbor):   0.00, t(contr):   0.00, t(other) :   0.92, dijkstra-ratio:   3.52%, meanDegree: 1.22, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1226
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    386 789, shortcuts:          0, updates:  0, checked-nodes:     20 342, t(total):   1.37,  t(period):   0.40, t(lazy):   0.00, t(neighbor):   0.00, t(contr):   0.02, t(other) :   0.94, dijkstra-ratio:   3.41%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1231
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    366 912, shortcuts:          0, updates:  0, checked-nodes:     40 684, t(total):   1.40,  t(period):   0.40, t(lazy):   0.01, t(neighbor):   0.00, t(contr):   0.04, t(other) :   0.95, dijkstra-ratio:   3.33%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1236
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    347 058, shortcuts:          0, updates:  0, checked-nodes:     61 026, t(total):   1.41,  t(period):   0.40, t(lazy):   0.01, t(neighbor):   0.00, t(contr):   0.04, t(other) :   0.96, dijkstra-ratio:   3.29%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1241
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    327 198, shortcuts:          0, updates:  0, checked-nodes:     81 368, t(total):   1.43,  t(period):   0.40, t(lazy):   0.01, t(neighbor):   0.00, t(contr):   0.05, t(other) :   0.96, dijkstra-ratio:   3.26%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1246
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    307 361, shortcuts:          0, updates:  0, checked-nodes:    101 710, t(total):   1.44,  t(period):   0.40, t(lazy):   0.02, t(neighbor):   0.00, t(contr):   0.06, t(other) :   0.97, dijkstra-ratio:   3.23%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1250
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    290 468, shortcuts:        467, updates:  0, checked-nodes:    122 052, t(total):   1.59,  t(period):   0.40, t(lazy):   0.09, t(neighbor):   0.00, t(contr):   0.12, t(other) :   0.97, dijkstra-ratio:   7.46%, meanDegree: 1.86, dijkstras:  1 827 893, mem:        3MB, totalMB:1466, usedMB:1257
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    274 777, shortcuts:      1 051, updates:  0, checked-nodes:    142 394, t(total):   1.70,  t(period):   0.40, t(lazy):   0.16, t(neighbor):   0.00, t(contr):   0.17, t(other) :   0.98, dijkstra-ratio:  10.71%, meanDegree: 1.66, dijkstras:  1 885 265, mem:        3MB, totalMB:1466, usedMB:1263
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    259 258, shortcuts:      6 074, updates:  0, checked-nodes:    162 736, t(total):   1.81,  t(period):   0.40, t(lazy):   0.22, t(neighbor):   0.00, t(contr):   0.20, t(other) :   0.98, dijkstra-ratio:  13.84%, meanDegree: 2.00, dijkstras:  1 945 348, mem:        3MB, totalMB:1466, usedMB:1270
+2024-08-25 01:16:56 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    242 684, shortcuts:     17 887, updates:  0, checked-nodes:    183 078, t(total):   1.95,  t(period):   0.40, t(lazy):   0.30, t(neighbor):   0.00, t(contr):   0.26, t(other) :   0.99, dijkstra-ratio:  17.58%, meanDegree: 1.83, dijkstras:  2 033 233, mem:        3MB, totalMB:1466, usedMB:1278
+2024-08-25 01:16:57 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    225 555, shortcuts:     29 250, updates:  0, checked-nodes:    203 420, t(total):   2.11,  t(period):   0.40, t(lazy):   0.40, t(neighbor):   0.00, t(contr):   0.32, t(other) :   0.99, dijkstra-ratio:  21.83%, meanDegree: 2.02, dijkstras:  2 155 719, mem:        3MB, totalMB:1466, usedMB:1287
+2024-08-25 01:16:57 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    207 619, shortcuts:     40 450, updates:  0, checked-nodes:    223 762, t(total):   2.32,  t(period):   0.40, t(lazy):   0.52, t(neighbor):   0.00, t(contr):   0.40, t(other) :   1.00, dijkstra-ratio:  26.48%, meanDegree: 2.67, dijkstras:  2 326 661, mem:        3MB, totalMB:1466, usedMB:1297
+2024-08-25 01:16:57 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    189 720, shortcuts:     49 918, updates:  0, checked-nodes:    244 104, t(total):   2.53,  t(period):   0.40, t(lazy):   0.65, t(neighbor):   0.00, t(contr):   0.48, t(other) :   1.00, dijkstra-ratio:  30.64%, meanDegree: 1.90, dijkstras:  2 504 307, mem:        3MB, totalMB:1466, usedMB:1308
+2024-08-25 01:16:57 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    172 205, shortcuts:     60 593, updates:  0, checked-nodes:    264 446, t(total):   2.75,  t(period):   0.40, t(lazy):   0.79, t(neighbor):   0.00, t(contr):   0.56, t(other) :   1.00, dijkstra-ratio:  34.13%, meanDegree: 2.59, dijkstras:  2 682 515, mem:        3MB, totalMB:1466, usedMB:1320
+2024-08-25 01:16:57 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    155 154, shortcuts:     74 999, updates:  0, checked-nodes:    284 788, t(total):   2.99,  t(period):   0.40, t(lazy):   0.93, t(neighbor):   0.00, t(contr):   0.65, t(other) :   1.01, dijkstra-ratio:  37.24%, meanDegree: 2.71, dijkstras:  2 868 494, mem:        3MB, totalMB:1466, usedMB:450
+2024-08-25 01:16:58 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    137 963, shortcuts:     92 910, updates:  0, checked-nodes:    305 130, t(total):   3.20,  t(period):   0.40, t(lazy):   1.06, t(neighbor):   0.00, t(contr):   0.73, t(other) :   1.01, dijkstra-ratio:  39.58%, meanDegree: 2.27, dijkstras:  3 048 237, mem:        3MB, totalMB:1466, usedMB:459
+2024-08-25 01:16:58 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    120 881, shortcuts:    112 165, updates:  0, checked-nodes:    325 472, t(total):   3.42,  t(period):   0.40, t(lazy):   1.19, t(neighbor):   0.00, t(contr):   0.81, t(other) :   1.01, dijkstra-ratio:  41.89%, meanDegree: 2.53, dijkstras:  3 233 676, mem:        3MB, totalMB:1466, usedMB:473
+2024-08-25 01:16:58 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    103 976, shortcuts:    131 845, updates:  0, checked-nodes:    345 814, t(total):   3.63,  t(period):   0.40, t(lazy):   1.33, t(neighbor):   0.00, t(contr):   0.89, t(other) :   1.02, dijkstra-ratio:  43.84%, meanDegree: 2.94, dijkstras:  3 419 761, mem:        3MB, totalMB:1466, usedMB:483
+2024-08-25 01:16:58 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     87 240, shortcuts:    154 802, updates:  0, checked-nodes:    366 156, t(total):   3.86,  t(period):   0.40, t(lazy):   1.47, t(neighbor):   0.00, t(contr):   0.97, t(other) :   1.02, dijkstra-ratio:  45.78%, meanDegree: 2.65, dijkstras:  3 608 113, mem:        3MB, totalMB:1466, usedMB:492
+2024-08-25 01:16:58 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     70 575, shortcuts:    177 389, updates:  0, checked-nodes:    386 498, t(total):   4.07,  t(period):   0.40, t(lazy):   1.60, t(neighbor):   0.00, t(contr):   1.04, t(other) :   1.03, dijkstra-ratio:  47.22%, meanDegree: 2.18, dijkstras:  3 792 381, mem:        3MB, totalMB:1466, usedMB:504
+2024-08-25 01:16:59 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     56 110, shortcuts:    205 557, updates:  0, checked-nodes:    406 840, t(total):   4.35,  t(period):   0.40, t(lazy):   1.79, t(neighbor):   0.00, t(contr):   1.13, t(other) :   1.03, dijkstra-ratio:  49.29%, meanDegree: 3.37, dijkstras:  4 015 242, mem:        3MB, totalMB:1466, usedMB:516
+2024-08-25 01:16:59 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     42 992, shortcuts:    243 401, updates:  0, checked-nodes:    427 182, t(total):   4.84,  t(period):   0.40, t(lazy):   2.13, t(neighbor):   0.00, t(contr):   1.27, t(other) :   1.04, dijkstra-ratio:  52.71%, meanDegree: 4.48, dijkstras:  4 358 767, mem:        3MB, totalMB:1466, usedMB:534
+2024-08-25 01:17:00 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     25 816, shortcuts:    287 044, updates:  0, checked-nodes:    447 524, t(total):   5.28,  t(period):   0.40, t(lazy):   2.41, t(neighbor):   0.00, t(contr):   1.43, t(other) :   1.04, dijkstra-ratio:  55.06%, meanDegree: 3.54, dijkstras:  4 761 419, mem:        3MB, totalMB:1466, usedMB:549
+2024-08-25 01:17:00 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:      9 883, shortcuts:    336 891, updates:  0, checked-nodes:    467 866, t(total):   5.72,  t(period):   0.40, t(lazy):   2.69, t(neighbor):   0.00, t(contr):   1.59, t(other) :   1.05, dijkstra-ratio:  57.02%, meanDegree: 3.60, dijkstras:  5 180 150, mem:        3MB, totalMB:1466, usedMB:566
+2024-08-25 01:17:00 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:          0, shortcuts:    393 124, updates:  0, checked-nodes:    476 526, t(total):   6.01,  t(period):   0.40, t(lazy):   2.85, t(neighbor):   0.00, t(contr):   1.66, t(other) :   1.09, dijkstra-ratio:  57.65%, meanDegree: 5.04, dijkstras:  5 430 019, mem:        3MB, totalMB:1466, usedMB:577
+2024-08-25 01:17:00 INFO [o.h.o.r.g.e.c.PrepareCore               ] - new shortcuts: 393 124, initSize:406 841, limited_access|fastest|car_ors, periodic:0, lazy:100, neighbor:0, t(total):   6.01,  t(period):   0.40, t(lazy):   2.85, t(neighbor):   0.00, t(contr):   1.66, t(other) :   1.10, dijkstra-ratio:  57.64%, lazy-overhead: 17%, totalMB:1466, usedMB:577
+2024-08-25 01:17:00 INFO [o.h.o.r.g.e.c.PrepareCore               ] - shortcuts that exceed maximum weight: 0
+2024-08-25 01:17:00 INFO [o.h.o.r.g.e.c.PrepareCore               ] - took: 6s, graph now - num edges: 502 513, num nodes: 411 911, num shortcuts: 393 124
+2024-08-25 01:17:00 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Creating Core graph, totalMB:1466, usedMB:578
+2024-08-25 01:17:00 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Building Core graph, totalMB:1466, usedMB:590
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Finished building Core graph, took: 0.40641767s, totalMB:1466, usedMB:829
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Building initial queue of nodes to be contracted: 411911 nodes, totalMB:1466, usedMB:1001
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - Finished building queue, took: 0.2639272s, totalMB:1466, usedMB:1023
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    406 841, shortcuts:          0, updates:  0, checked-nodes:          0, t(total):   1.01,  t(period):   0.26, t(lazy):   0.00, t(neighbor):   0.00, t(contr):   0.00, t(other) :   0.75, dijkstra-ratio:   4.52%, meanDegree: 1.22, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1023
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    386 789, shortcuts:          0, updates:  0, checked-nodes:     20 342, t(total):   1.03,  t(period):   0.26, t(lazy):   0.00, t(neighbor):   0.00, t(contr):   0.01, t(other) :   0.75, dijkstra-ratio:   4.46%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1027
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    366 912, shortcuts:          0, updates:  0, checked-nodes:     40 684, t(total):   1.04,  t(period):   0.26, t(lazy):   0.01, t(neighbor):   0.00, t(contr):   0.02, t(other) :   0.76, dijkstra-ratio:   4.39%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1031
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    347 058, shortcuts:          0, updates:  0, checked-nodes:     61 026, t(total):   1.06,  t(period):   0.26, t(lazy):   0.01, t(neighbor):   0.00, t(contr):   0.02, t(other) :   0.76, dijkstra-ratio:   4.33%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1035
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    327 198, shortcuts:          0, updates:  0, checked-nodes:     81 368, t(total):   1.07,  t(period):   0.26, t(lazy):   0.01, t(neighbor):   0.00, t(contr):   0.03, t(other) :   0.76, dijkstra-ratio:   4.28%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1039
+2024-08-25 01:17:01 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    307 361, shortcuts:          0, updates:  0, checked-nodes:    101 710, t(total):   1.09,  t(period):   0.26, t(lazy):   0.02, t(neighbor):   0.00, t(contr):   0.04, t(other) :   0.77, dijkstra-ratio:   4.22%, meanDegree: 1.00, dijkstras:  1 780 541, mem:        3MB, totalMB:1466, usedMB:1043
+2024-08-25 01:17:02 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    290 494, shortcuts:        446, updates:  0, checked-nodes:    122 052, t(total):   1.15,  t(period):   0.26, t(lazy):   0.05, t(neighbor):   0.00, t(contr):   0.06, t(other) :   0.77, dijkstra-ratio:   7.38%, meanDegree: 1.86, dijkstras:  1 827 865, mem:        3MB, totalMB:1466, usedMB:1049
+2024-08-25 01:17:02 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    274 856, shortcuts:      1 000, updates:  0, checked-nodes:    142 394, t(total):   1.23,  t(period):   0.26, t(lazy):   0.10, t(neighbor):   0.00, t(contr):   0.08, t(other) :   0.78, dijkstra-ratio:  11.17%, meanDegree: 1.66, dijkstras:  1 885 255, mem:        3MB, totalMB:1466, usedMB:1054
+2024-08-25 01:17:02 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    259 392, shortcuts:      5 965, updates:  0, checked-nodes:    162 736, t(total):   1.31,  t(period):   0.26, t(lazy):   0.16, t(neighbor):   0.00, t(contr):   0.11, t(other) :   0.78, dijkstra-ratio:  14.79%, meanDegree: 1.85, dijkstras:  1 945 290, mem:        3MB, totalMB:1466, usedMB:1060
+2024-08-25 01:17:02 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    242 817, shortcuts:     17 822, updates:  0, checked-nodes:    183 078, t(total):   1.43,  t(period):   0.26, t(lazy):   0.23, t(neighbor):   0.00, t(contr):   0.15, t(other) :   0.78, dijkstra-ratio:  18.95%, meanDegree: 2.00, dijkstras:  2 033 589, mem:        3MB, totalMB:1466, usedMB:1067
+2024-08-25 01:17:02 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    225 627, shortcuts:     29 651, updates:  0, checked-nodes:    203 420, t(total):   1.57,  t(period):   0.26, t(lazy):   0.31, t(neighbor):   0.00, t(contr):   0.21, t(other) :   0.79, dijkstra-ratio:  23.57%, meanDegree: 2.97, dijkstras:  2 159 140, mem:        3MB, totalMB:1466, usedMB:1074
+2024-08-25 01:17:02 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    207 629, shortcuts:     41 248, updates:  0, checked-nodes:    223 762, t(total):   1.75,  t(period):   0.26, t(lazy):   0.42, t(neighbor):   0.00, t(contr):   0.28, t(other) :   0.79, dijkstra-ratio:  28.61%, meanDegree: 2.32, dijkstras:  2 334 398, mem:        3MB, totalMB:1466, usedMB:1083
+2024-08-25 01:17:02 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    189 673, shortcuts:     51 250, updates:  0, checked-nodes:    244 104, t(total):   1.95,  t(period):   0.26, t(lazy):   0.54, t(neighbor):   0.00, t(contr):   0.35, t(other) :   0.79, dijkstra-ratio:  33.17%, meanDegree: 2.90, dijkstras:  2 517 660, mem:        3MB, totalMB:1466, usedMB:1093
+2024-08-25 01:17:03 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    172 074, shortcuts:     62 281, updates:  0, checked-nodes:    264 446, t(total):   2.14,  t(period):   0.26, t(lazy):   0.66, t(neighbor):   0.00, t(contr):   0.42, t(other) :   0.80, dijkstra-ratio:  36.78%, meanDegree: 2.82, dijkstras:  2 700 243, mem:        3MB, totalMB:1466, usedMB:1104
+2024-08-25 01:17:03 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    154 990, shortcuts:     77 048, updates:  0, checked-nodes:    284 788, t(total):   2.36,  t(period):   0.26, t(lazy):   0.79, t(neighbor):   0.00, t(contr):   0.50, t(other) :   0.80, dijkstra-ratio:  40.21%, meanDegree: 2.82, dijkstras:  2 891 705, mem:        3MB, totalMB:1466, usedMB:1112
+2024-08-25 01:17:03 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    137 824, shortcuts:     95 441, updates:  0, checked-nodes:    305 130, t(total):   2.56,  t(period):   0.26, t(lazy):   0.92, t(neighbor):   0.00, t(contr):   0.57, t(other) :   0.80, dijkstra-ratio:  42.96%, meanDegree: 1.76, dijkstras:  3 078 867, mem:        3MB, totalMB:1466, usedMB:1120
+2024-08-25 01:17:03 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    120 800, shortcuts:    115 335, updates:  0, checked-nodes:    325 472, t(total):   2.78,  t(period):   0.26, t(lazy):   1.06, t(neighbor):   0.00, t(contr):   0.65, t(other) :   0.81, dijkstra-ratio:  45.49%, meanDegree: 2.82, dijkstras:  3 275 017, mem:        3MB, totalMB:1466, usedMB:1132
+2024-08-25 01:17:03 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:    103 957, shortcuts:    135 636, updates:  0, checked-nodes:    345 814, t(total):   3.00,  t(period):   0.26, t(lazy):   1.21, t(neighbor):   0.00, t(contr):   0.73, t(other) :   0.81, dijkstra-ratio:  47.67%, meanDegree: 2.23, dijkstras:  3 472 104, mem:        3MB, totalMB:1466, usedMB:1141
+2024-08-25 01:17:04 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     87 395, shortcuts:    159 192, updates:  0, checked-nodes:    366 156, t(total):   3.23,  t(period):   0.26, t(lazy):   1.35, t(neighbor):   0.00, t(contr):   0.80, t(other) :   0.81, dijkstra-ratio:  49.68%, meanDegree: 2.38, dijkstras:  3 673 965, mem:        3MB, totalMB:1466, usedMB:1149
+2024-08-25 01:17:04 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     70 757, shortcuts:    182 644, updates:  0, checked-nodes:    386 498, t(total):   3.44,  t(period):   0.26, t(lazy):   1.49, t(neighbor):   0.00, t(contr):   0.87, t(other) :   0.82, dijkstra-ratio:  51.17%, meanDegree: 2.42, dijkstras:  3 871 500, mem:        3MB, totalMB:1466, usedMB:1159
+2024-08-25 01:17:04 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     56 448, shortcuts:    212 307, updates:  0, checked-nodes:    406 840, t(total):   3.76,  t(period):   0.26, t(lazy):   1.71, t(neighbor):   0.00, t(contr):   0.96, t(other) :   0.82, dijkstra-ratio:  53.54%, meanDegree: 3.12, dijkstras:  4 122 641, mem:        3MB, totalMB:1466, usedMB:1170
+2024-08-25 01:17:05 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     43 382, shortcuts:    252 008, updates:  0, checked-nodes:    427 182, t(total):   4.28,  t(period):   0.26, t(lazy):   2.08, t(neighbor):   0.00, t(contr):   1.11, t(other) :   0.83, dijkstra-ratio:  57.25%, meanDegree: 3.23, dijkstras:  4 510 572, mem:        3MB, totalMB:1466, usedMB:1186
+2024-08-25 01:17:05 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     26 344, shortcuts:    298 150, updates:  0, checked-nodes:    447 524, t(total):   4.76,  t(period):   0.26, t(lazy):   2.39, t(neighbor):   0.00, t(contr):   1.28, t(other) :   0.83, dijkstra-ratio:  59.70%, meanDegree: 2.39, dijkstras:  4 970 879, mem:        3MB, totalMB:1466, usedMB:1201
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:     10 901, shortcuts:    352 097, updates:  0, checked-nodes:    467 866, t(total):   5.28,  t(period):   0.26, t(lazy):   2.73, t(neighbor):   0.00, t(contr):   1.46, t(other) :   0.83, dijkstra-ratio:  61.89%, meanDegree: 4.41, dijkstras:  5 506 002, mem:        3MB, totalMB:1466, usedMB:1215
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.PrepareCore               ] - edge, nodes:          0, shortcuts:    422 160, updates:  0, checked-nodes:    478 470, t(total):   5.71,  t(period):   0.26, t(lazy):   3.01, t(neighbor):   0.00, t(contr):   1.58, t(other) :   0.85, dijkstra-ratio:  63.35%, meanDegree: 6.25, dijkstras:  5 924 228, mem:        3MB, totalMB:1466, usedMB:1228
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.PrepareCore               ] - new shortcuts: 422 160, initSize:406 841, limited_access|shortest|car_ors, periodic:0, lazy:100, neighbor:0, t(total):   5.71,  t(period):   0.26, t(lazy):   3.01, t(neighbor):   0.00, t(contr):   1.58, t(other) :   0.86, dijkstra-ratio:  63.35%, lazy-overhead: 17%, totalMB:1466, usedMB:1228
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.PrepareCore               ] - shortcuts that exceed maximum weight: 0
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.PrepareCore               ] - took: 5s, graph now - num edges: 502 513, num nodes: 411 911, num shortcuts: 422 160
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Finished CH preparation, totalMB:1466, usedMB:1228
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:1466, usedMB:1228
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-08-25 01:17:06 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - 1/4 calling LM prepare.doWork for limited_access|fastest|car_ors ... (totalMB:1466, usedMB:1232)
+2024-08-25 01:17:10 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - LM car_ors_fastest_with_turn_costs_highways finished totalMB:1466, usedMB:526
+2024-08-25 01:17:10 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - 2/4 calling LM prepare.doWork for limited_access|fastest|car_ors ... (totalMB:1466, usedMB:527)
+2024-08-25 01:17:14 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - LM car_ors_fastest_with_turn_costs_allow_all finished totalMB:1466, usedMB:628
+2024-08-25 01:17:14 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - 3/4 calling LM prepare.doWork for limited_access|shortest|car_ors ... (totalMB:1466, usedMB:629)
+2024-08-25 01:17:19 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - LM car_ors_shortest_with_turn_costs_highways finished totalMB:1466, usedMB:813
+2024-08-25 01:17:19 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - 4/4 calling LM prepare.doWork for limited_access|shortest|car_ors ... (totalMB:1466, usedMB:814)
+2024-08-25 01:17:23 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - LM car_ors_shortest_with_turn_costs_allow_all finished totalMB:1466, usedMB:981
+2024-08-25 01:17:23 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:1466, usedMB:982
+2024-08-25 01:17:23 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - flushing graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.190431800000006,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB), totalMB:1466, usedMB:982)
+2024-08-25 01:17:23 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - flushed graph totalMB:1466, usedMB:1120)
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 159.193s.
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-08-25 01:17:23.
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 159.222s.
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 1.43 GB, Free - 344.35 MB, Max: 4 GB, Used - 1.10 GB
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 1.09 GB, Free - 792.09 MB, Max: 4 GB, Used - 327.91 MB
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.3%)
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.3%)
+2024-08-25 01:17:23 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-08-25 17:58:36 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-08-25 17:58:42 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 22.0.2 with PID 49901 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-08-25 17:58:42 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-08-25 17:58:42 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 17:58:42 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-08-25 17:58:42 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-08-25 17:58:42 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-08-25 17:58:42 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-08-25 17:58:42 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-08-25 17:58:44 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-08-25 17:58:44 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 76 MB, Free - 51.44 MB, Max: 2 GB, Used - 25.06 MB
+2024-08-25 17:58:44 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-08-25 17:58:44 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-08-25 17:58:44 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:435, usedMB:314
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:435, usedMB:316
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:435, usedMB:362
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-08-25 17:58:45 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 0.907s.
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-08-25 17:58:45.
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 0.931s.
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 435 MB, Free - 68.08 MB, Max: 2 GB, Used - 366.92 MB
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 549 MB, Free - 222.78 MB, Max: 2 GB, Used - 326.22 MB
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.5%)
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.5%)
+2024-08-25 17:58:45 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-08-25 17:58:45 INFO [o.h.o.a.Application                     ] - Started Application in 3.58 seconds (process running for 4.683)
+2024-08-25 17:58:45 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-08-25 18:37:35 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-03 21:54:35 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 67614 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-03 21:54:35 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-03 21:54:35 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-03 21:54:35 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-03 21:54:35 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-03 21:54:35 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-10-03 21:54:35 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-03 21:54:35 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-03 21:54:37 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-03 21:54:37 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 32.77 MB, Max: 2 GB, Used - 37.23 MB
+2024-10-03 21:54:37 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-10-03 21:54:37 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-10-03 21:54:37 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:329, usedMB:300
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:329, usedMB:302
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:349, usedMB:345
+2024-10-03 21:54:37 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-10-03 21:54:38 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 0.846s.
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-10-03 21:54:38.
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 0.865s.
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 354 MB, Free - 22.78 MB, Max: 2 GB, Used - 331.22 MB
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 547 MB, Free - 221.87 MB, Max: 2 GB, Used - 325.13 MB
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.7%)
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.7%)
+2024-10-03 21:54:38 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-03 21:54:38 INFO [o.h.o.a.Application                     ] - Started Application in 3.22 seconds (process running for 4.381)
+2024-10-03 21:54:38 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-03 22:28:14 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-03 23:23:56 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 71134 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-03 23:23:56 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-03 23:23:56 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-03 23:23:56 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-03 23:23:56 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-03 23:23:56 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-10-03 23:23:56 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-03 23:23:56 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-03 23:23:58 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-03 23:23:58 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 74 MB, Free - 21.55 MB, Max: 2 GB, Used - 52.45 MB
+2024-10-03 23:23:58 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-10-03 23:23:58 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-10-03 23:23:58 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-10-03 23:23:58 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:432, usedMB:316
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:432, usedMB:319
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:432, usedMB:362
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-10-03 23:23:59 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 0.614s.
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-10-03 23:23:59.
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 0.633s.
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 432 MB, Free - 64.84 MB, Max: 2 GB, Used - 367.18 MB
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 552 MB, Free - 226.19 MB, Max: 2 GB, Used - 325.81 MB
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.6%)
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.6%)
+2024-10-03 23:23:59 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-03 23:23:59 INFO [o.h.o.a.Application                     ] - Started Application in 3.356 seconds (process running for 4.457)
+2024-10-03 23:23:59 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-03 23:48:01 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-04 00:01:29 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 77394 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-04 00:01:29 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-04 00:01:29 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 00:01:29 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-04 00:01:29 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-04 00:01:29 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-10-04 00:01:29 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-04 00:01:29 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 00:01:31 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-04 00:01:31 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 32.15 MB, Max: 2 GB, Used - 37.85 MB
+2024-10-04 00:01:31 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-10-04 00:01:31 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-10-04 00:01:31 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:687, usedMB:314
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:687, usedMB:317
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:687, usedMB:363
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-10-04 00:01:32 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 0.884s.
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-10-04 00:01:32.
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 0.906s.
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 687 MB, Free - 317.92 MB, Max: 2 GB, Used - 369.08 MB
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 687 MB, Free - 360.73 MB, Max: 2 GB, Used - 326.27 MB
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.5%)
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.5%)
+2024-10-04 00:01:32 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 00:01:32 INFO [o.h.o.a.Application                     ] - Started Application in 3.82 seconds (process running for 4.865)
+2024-10-04 00:01:32 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-04 00:01:32 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-04 00:13:59 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 78875 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-04 00:13:59 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-04 00:13:59 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 00:13:59 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-04 00:13:59 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-04 00:13:59 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-10-04 00:13:59 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-04 00:13:59 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 00:14:00 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-04 00:14:00 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 72 MB, Free - 43.30 MB, Max: 2 GB, Used - 28.70 MB
+2024-10-04 00:14:00 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-10-04 00:14:00 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-10-04 00:14:00 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:345, usedMB:325
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:345, usedMB:327
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:375, usedMB:370
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-10-04 00:14:01 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 0.841s.
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-10-04 00:14:01.
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 0.866s.
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 380 MB, Free - 50.81 MB, Max: 2 GB, Used - 329.19 MB
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 547 MB, Free - 221.21 MB, Max: 2 GB, Used - 325.79 MB
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.6%)
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.6%)
+2024-10-04 00:14:01 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 00:14:02 INFO [o.h.o.a.Application                     ] - Started Application in 3.968 seconds (process running for 5.016)
+2024-10-04 00:14:02 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-04 11:03:53 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-04 11:38:21 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 4468 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-04 11:38:21 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-04 11:38:21 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 11:38:21 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-04 11:38:21 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-04 11:38:21 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-10-04 11:38:21 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-04 11:38:21 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 11:38:23 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-04 11:38:23 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 74 MB, Free - 21.19 MB, Max: 2 GB, Used - 52.81 MB
+2024-10-04 11:38:23 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-10-04 11:38:23 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-10-04 11:38:23 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:597, usedMB:315
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:597, usedMB:317
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:597, usedMB:363
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-10-04 11:38:24 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 0.584s.
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-10-04 11:38:24.
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 0.606s.
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 597 MB, Free - 229.15 MB, Max: 2 GB, Used - 367.87 MB
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 597 MB, Free - 271.39 MB, Max: 2 GB, Used - 326.11 MB
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.6%)
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.6%)
+2024-10-04 11:38:24 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 11:38:24 INFO [o.h.o.a.Application                     ] - Started Application in 3.344 seconds (process running for 4.72)
+2024-10-04 11:38:24 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-04 15:46:00 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-04 18:42:26 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 33071 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-04 18:42:26 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-04 18:42:26 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 18:42:26 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-04 18:42:26 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-04 18:42:26 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-10-04 18:42:26 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-04 18:42:26 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 18:42:28 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-04 18:42:28 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 74 MB, Free - 21.20 MB, Max: 2 GB, Used - 52.80 MB
+2024-10-04 18:42:28 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-10-04 18:42:28 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-10-04 18:42:28 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:447, usedMB:312
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:447, usedMB:315
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:447, usedMB:361
+2024-10-04 18:42:29 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-10-04 18:42:30 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 1.054s.
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-10-04 18:42:30.
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 1.081s.
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 447 MB, Free - 81.43 MB, Max: 2 GB, Used - 365.57 MB
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 549 MB, Free - 223.37 MB, Max: 2 GB, Used - 325.63 MB
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.6%)
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.6%)
+2024-10-04 18:42:30 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 18:42:30 INFO [o.h.o.a.Application                     ] - Started Application in 4.789 seconds (process running for 5.945)
+2024-10-04 18:42:30 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-04 20:34:14 WARN [.m.m.a.ExceptionHandlerExceptionResolver] - Failure in @ExceptionHandler org.heigit.ors.api.controllers.RoutingAPI#handleReadingBodyException(Exception)
+java.lang.IndexOutOfBoundsException: Index: 0
+	at java.base/java.util.Collections$EmptyList.get(Collections.java:4809) ~[?:?]
+	at org.heigit.ors.api.controllers.RoutingAPI.handleReadingBodyException(RoutingAPI.java:228) ~[!/:8.1.2]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103) ~[?:?]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580) ~[?:?]
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:255) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:188) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:118) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver.doResolveHandlerMethodException(ExceptionHandlerExceptionResolver.java:432) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.handler.AbstractHandlerMethodExceptionResolver.doResolveException(AbstractHandlerMethodExceptionResolver.java:74) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.handler.AbstractHandlerExceptionResolver.resolveException(AbstractHandlerExceptionResolver.java:175) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.handler.HandlerExceptionResolverComposite.resolveException(HandlerExceptionResolverComposite.java:80) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.DispatcherServlet.processHandlerException(DispatcherServlet.java:1357) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.DispatcherServlet.processDispatchResult(DispatcherServlet.java:1160) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1106) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:979) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1014) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:914) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:547) ~[jakarta.servlet-api-6.0.0.jar!/:6.0.0]
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:885) ~[spring-webmvc-6.1.11.jar!/:6.1.11]
+	at jakarta.servlet.http.HttpServlet.service(HttpServlet.java:614) ~[jakarta.servlet-api-6.0.0.jar!/:6.0.0]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:195) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51) ~[tomcat-embed-websocket-10.1.26.jar!/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.springframework.web.filter.ServerHttpObservationFilter.doFilterInternal(ServerHttpObservationFilter.java:113) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:116) ~[spring-web-6.1.11.jar!/:6.1.11]
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:164) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:140) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:483) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:115) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:344) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:389) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:904) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1741) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1190) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63) ~[tomcat-embed-core-10.1.26.jar!/:?]
+	at java.base/java.lang.Thread.run(Thread.java:1575) [?:?]
+2024-10-04 20:34:14 WARN [.w.s.m.s.DefaultHandlerExceptionResolver] - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot construct instance of `org.heigit.ors.api.requests.routing.RouteRequest` (although at least one Creator exists): no String-argument constructor/factory method to deserialize from String value ('coordinates')]
+2024-10-04 21:40:41 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-04 21:40:44 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 53408 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-04 21:40:44 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-04 21:40:44 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 21:40:44 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-04 21:40:44 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-04 21:40:44 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-10-04 21:40:44 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-04 21:40:44 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-04 21:40:46 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-04 21:40:46 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 17.67 MB, Max: 2 GB, Used - 52.33 MB
+2024-10-04 21:40:46 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-10-04 21:40:46 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-10-04 21:40:46 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-10-04 21:40:46 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:435, usedMB:315
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:435, usedMB:317
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:435, usedMB:363
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-10-04 21:40:47 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 0.727s.
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-10-04 21:40:47.
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 0.749s.
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 435 MB, Free - 67.38 MB, Max: 2 GB, Used - 367.64 MB
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 549 MB, Free - 223.17 MB, Max: 2 GB, Used - 325.83 MB
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.6%)
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.6%)
+2024-10-04 21:40:47 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-04 21:40:47 INFO [o.h.o.a.Application                     ] - Started Application in 3.534 seconds (process running for 4.781)
+2024-10-04 21:40:47 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-04 22:50:50 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-09 19:43:14 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 6049 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-09 19:43:14 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-09 19:43:14 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:43:14 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-09 19:43:14 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-09 19:43:14 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Loaded file './ors-config.yml'
+2024-10-09 19:43:14 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-09 19:43:14 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:43:15 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-09 19:43:15 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 17.34 MB, Max: 2 GB, Used - 52.66 MB
+2024-10-09 19:43:15 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Initializing profiles from '/Users/mendrika/ors/mada.osm.pbf' (1 threads) ...
+2024-10-09 19:43:15 INFO [o.h.o.r.RoutingProfileManager           ] - 1 profile configurations submitted as tasks.
+2024-10-09 19:43:15 INFO [o.h.o.r.RoutingProfile                  ] - [1] Profiles: 'driving-car', location: '/Users/mendrika/ors/./graphs/car'.
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Loaded landmark splitting collection from 
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.c.CorePreparationHandler    ] - Creating CH preparations, totalMB:442, usedMB:314
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Creating LM preparations, totalMB:442, usedMB:316
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_highways of size 9137
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_fastest_with_turn_costs_allow_all of size 9137
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_highways of size 9137
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.c.CoreLandmarkStorage       ] - Created core node ID map for car_ors_shortest_with_turn_costs_allow_all of size 9137
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.c.CoreLMPreparationHandler  ] - Finished LM preparation, totalMB:442, usedMB:362
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - version v4.9.1|2024-01-17T09:08:46Z (7,20,5,4,5,7)
+2024-10-09 19:43:16 INFO [o.h.o.r.g.e.ORSGraphHopper              ] - graph CH|car_ors|RAM_STORE|3D|turn_cost|7,20,5,4,5, details:edges:502 513(18MB), nodes:411 911(8MB), name:(2MB), geo:11 823 701(46MB), bounds:43.1904318,50.4840985,-25.6016026,-11.9553745,0.0,2494.0, shortcuts:260 050 (5MB), nodesCH:411 911 (4MB), shortcuts:393 124 (12MB), nodesCH:411 911 (4MB), shortcuts:422 160 (13MB), nodesCH:411 911 (4MB)
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfile                  ] - [1] Edges: 502513 - Nodes: 411911.
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfile                  ] - [1] Total time: 0.624s.
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfile                  ] - [1] Finished at: 2024-10-09 19:43:16.
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - Total time: 0.645s.
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Recycling garbage...
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - Before: Total - 442 MB, Free - 74.72 MB, Max: 2 GB, Used - 367.28 MB
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - After: Total - 549 MB, Free - 222.98 MB, Max: 2 GB, Used - 326.02 MB
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - ====> Memory usage by profiles:
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - [1] 142.03 MB (43.6%)
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - Total: 142.03 MB (43.6%)
+2024-10-09 19:43:16 INFO [o.h.o.r.RoutingProfileManager           ] - ========================================================================
+2024-10-09 19:43:16 INFO [o.h.o.a.Application                     ] - Started Application in 3.172 seconds (process running for 4.29)
+2024-10-09 19:43:16 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-09 19:43:23 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-09 19:56:50 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 6566 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-09 19:56:50 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-09 19:56:50 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:56:50 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-09 19:56:50 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-09 19:56:50 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-09 19:56:50 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:56:51 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-09 19:56:51 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 24.69 MB, Max: 2 GB, Used - 45.31 MB
+2024-10-09 19:56:51 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:56:51 ERROR [o.h.o.r.RoutingProfileManager           ] - No profiles configured. Exiting.
+2024-10-09 19:56:51 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:56:52 INFO [o.h.o.a.Application                     ] - Started Application in 2.916 seconds (process running for 4.051)
+2024-10-09 19:56:52 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-09 19:56:52 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-09 19:57:51 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 6629 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-09 19:57:51 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-09 19:57:51 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:57:51 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-09 19:57:51 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-09 19:57:51 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-09 19:57:51 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:57:53 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-09 19:57:53 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 37.99 MB, Max: 2 GB, Used - 32.01 MB
+2024-10-09 19:57:53 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:57:53 ERROR [o.h.o.r.RoutingProfileManager           ] - No profiles configured. Exiting.
+2024-10-09 19:57:53 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:57:53 INFO [o.h.o.a.Application                     ] - Started Application in 2.839 seconds (process running for 3.788)
+2024-10-09 19:57:53 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-09 19:57:53 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-09 19:58:17 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 6721 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-09 19:58:17 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-09 19:58:17 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:58:17 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-09 19:58:17 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-09 19:58:17 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-09 19:58:17 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:58:19 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-09 19:58:19 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 74 MB, Free - 10.16 MB, Max: 2 GB, Used - 63.84 MB
+2024-10-09 19:58:19 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:58:19 ERROR [o.h.o.r.RoutingProfileManager           ] - No profiles configured. Exiting.
+2024-10-09 19:58:19 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:58:19 INFO [o.h.o.a.Application                     ] - Started Application in 2.838 seconds (process running for 3.789)
+2024-10-09 19:58:19 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-09 19:58:19 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-09 19:59:18 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 6907 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-09 19:59:18 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-09 19:59:18 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:59:18 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-09 19:59:18 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-09 19:59:18 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-09 19:59:18 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:59:19 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-09 19:59:19 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 23.97 MB, Max: 2 GB, Used - 46.03 MB
+2024-10-09 19:59:19 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:59:19 ERROR [o.h.o.r.RoutingProfileManager           ] - No profiles configured. Exiting.
+2024-10-09 19:59:19 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:59:20 INFO [o.h.o.a.Application                     ] - Started Application in 2.832 seconds (process running for 3.906)
+2024-10-09 19:59:20 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-09 19:59:20 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-09 19:59:30 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 6957 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-09 19:59:30 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-09 19:59:30 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:59:30 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-09 19:59:30 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-09 19:59:30 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-09 19:59:30 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:59:32 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-09 19:59:32 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 70 MB, Free - 38.72 MB, Max: 2 GB, Used - 31.28 MB
+2024-10-09 19:59:32 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:59:32 ERROR [o.h.o.r.RoutingProfileManager           ] - No profiles configured. Exiting.
+2024-10-09 19:59:32 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:59:32 INFO [o.h.o.a.Application                     ] - Started Application in 2.91 seconds (process running for 3.881)
+2024-10-09 19:59:33 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-09 19:59:33 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
+2024-10-09 19:59:55 INFO [o.h.o.a.Application                     ] - Starting Application v8.1.2 using Java 23 with PID 7027 (/Users/mendrika/ors/ors.jar started by mendrika in /Users/mendrika/ors)
+2024-10-09 19:59:55 INFO [o.h.o.a.Application                     ] - The following 1 profile is active: "default"
+2024-10-09 19:59:55 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:59:55 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup started.
+2024-10-09 19:59:55 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration file lookup by default locations.
+2024-10-09 19:59:55 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - Configuration lookup finished.
+2024-10-09 19:59:55 INFO [o.h.o.a.ORSEnvironmentPostProcessor     ] - 
+2024-10-09 19:59:57 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Initializing ORS...
+2024-10-09 19:59:57 INFO [o.h.o.r.RoutingProfileManager           ] - Total - 74 MB, Free - 50.86 MB, Max: 2 GB, Used - 23.14 MB
+2024-10-09 19:59:57 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:59:57 ERROR [o.h.o.r.RoutingProfileManager           ] - No profiles configured. Exiting.
+2024-10-09 19:59:57 ERROR [o.h.o.r.RoutingProfileManager           ] - 
+2024-10-09 19:59:57 INFO [o.h.o.a.Application                     ] - Started Application in 2.937 seconds (process running for 3.942)
+2024-10-09 19:59:57 INFO [o.h.o.a.Application                     ] - openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"}
+2024-10-09 19:59:57 INFO [o.h.o.a.s.l.ORSInitContextListener      ] - Shutting down openrouteservice {"build_date":"2024-08-13T08:56:58Z","version":"8.1.2"} and releasing resources.
