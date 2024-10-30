@@ -49,12 +49,12 @@ public class MailAnalysis extends Analysis {
 
     public List<Input> getPossibleMeasures() {
         return List.of(
-                new Input("Nombre de mails", "count(distinct m.id)"),
-                new Input("Moyenne de durée (m)", "EXTRACT(EPOCH FROM avg(mv.end_date - m.created_at)) / 60"),
-                new Input("Durée médiane (m)", "EXTRACT(EPOCH FROM percentile_cont(0.5) within group (order by mv.end_date - m.created_at)) / 60"),
-                new Input("Durée minimale (m)", "EXTRACT(EPOCH FROM min(mv.end_date - m.created_at)) / 60"),
-                new Input("Durée maximale (m)", "EXTRACT(EPOCH FROM max(mv.end_date - m.created_at)) / 60"),
-                new Input("Durée totale (m)", "EXTRACT(EPOCH FROM sum(mv.end_date - m.created_at)) / 60")
+                new Input("Nombre de courriers", "count(m.id)"),
+                new Input("Moyenne de durée (m)", "ROUND(EXTRACT(EPOCH FROM avg(mv.end_date - m.created_at)) / 60, 0)"),
+                new Input("Durée médiane (m)", "ROUND(EXTRACT(EPOCH FROM percentile_cont(0.5) within group (order by mv.end_date - m.created_at)) / 60, 0)"),
+                new Input("Durée minimale (m)", "ROUND(EXTRACT(EPOCH FROM min(mv.end_date - m.created_at)) / 60, 0)"),
+                new Input("Durée maximale (m)", "ROUND(EXTRACT(EPOCH FROM max(mv.end_date - m.created_at)) / 60, 0)"),
+                new Input("Durée totale (m)", "ROUND(EXTRACT(EPOCH FROM sum(mv.end_date - m.created_at)) / 60, 0)")
         );
     }
 

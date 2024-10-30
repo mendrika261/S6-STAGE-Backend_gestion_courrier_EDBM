@@ -122,11 +122,14 @@ public class MouvementService {
                 "         left join location lr on m.receiver_location_id = lr.id" +
                 "         left join sys_user u on messenger_id = u.id ");
 
-        query.append("GROUP BY ");
-        for (Input column : columns) {
-            query.append(column.getValue()).append(", ");
+        if(!columns.isEmpty()) {
+            query.append("GROUP BY ");
+            for (Input column : columns) {
+                query.append(column.getValue()).append(", ");
+            }
+            query.deleteCharAt(query.length() - 2);
         }
-        query.deleteCharAt(query.length() - 2);
+
 
         if (ordres !=null && !ordres.isEmpty()) {
             query.append(" ORDER BY ");

@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Repository
 public interface MailRepository extends JpaRepository<Mail, UUID>, JpaSpecificationExecutor<Mail> {
-    @Query("SELECT m.reference FROM Mail m WHERE m.reference LIKE ?1% ORDER BY m.createdAt DESC LIMIT 1")
+    @Query("SELECT m.reference FROM Mail m WHERE m.reference LIKE ?1% ORDER BY CAST(SUBSTRING(m.reference, LENGTH(m.reference) - 5, 6) AS integer) DESC LIMIT 1")
     String findLastReference(String prefix);
 
     Optional<Mail> findByIdAndSenderUser(UUID mailId, User senderUser);

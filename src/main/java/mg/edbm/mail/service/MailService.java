@@ -77,11 +77,13 @@ public class MailService {
         final String year = String.valueOf(LocalDateTime.now().getYear());
         final String month = String.format("%02d", LocalDateTime.now().getMonthValue());
         final String lastReference = mailRepository.findLastReference(prefix);
+        System.out.println(lastReference);
         if (lastReference == null) {
             return prefix + year + "/" + month + "/" + String.format("%0"+ MAIL_REFERENCE_SEQ_LENGTH +"d", 1);
         }
         final String[] parts = lastReference.split("/");
         final int sequence = Integer.parseInt(parts[2]) + 1;
+        System.out.println(sequence);
         return prefix + year + "/" + month + "/" + String.format("%0"+ MAIL_REFERENCE_SEQ_LENGTH +"d", sequence);
     }
 
@@ -398,13 +400,15 @@ public class MailService {
                 "left join location lr on m.receiver_location_id = lr.id " +
                 "left join mouvement mv on m.id = mv.mail_id ");
 
-        query.append(" GROUP BY mv.start_date, ");
-        for (Input column : columns) {
-            query.append(column.getValue()).append(", ");
+        if(!columns.isEmpty()) {
+            query.append(" GROUP BY ");
+            for (Input column : columns) {
+                query.append(column.getValue()).append(", ");
+            }
+            query.deleteCharAt(query.length() - 2);
         }
-        query.deleteCharAt(query.length() - 2);
 
-        query.append(" ORDER BY mv.start_date desc, ");
+        query.append(" ORDER BY max(mv.start_date) desc, ");
         if (ordres !=null && !ordres.isEmpty()) {
             for (Input ordre : ordres) {
                 query.append(ordre.getValue()).append(", ");
@@ -492,6 +496,7 @@ public class MailService {
 
     public AnalysisResult analyzeMail(MailAnalysis mailAnalysis) {
         final String query = buildQuery(mailAnalysis.getColumns(), mailAnalysis.getMeasures(), mailAnalysis.getOrders(), mailAnalysis.getLimit());
+        System.out.println(query);
         return buildResult(query, mailAnalysis.getColumns(), mailAnalysis.getMeasures());
     }
 }
